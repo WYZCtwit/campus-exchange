@@ -1,0 +1,242 @@
+<!-- 二手书模板详情 (Used Book Template) -->
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Post - Campus Atelier</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "error": "#b31b25",
+                        "outline-variant": "#a5aad7",
+                        "inverse-on-surface": "#959ac6",
+                        "secondary-container": "#5cfd80",
+                        "on-tertiary-fixed-variant": "#645300",
+                        "on-primary-fixed": "#000000",
+                        "primary-fixed": "#769dff",
+                        "surface-container-high": "#dfe0ff",
+                        "surface-tint": "#0053ca",
+                        "secondary-dim": "#005d22",
+                        "on-secondary-fixed": "#004819",
+                        "secondary": "#006a28",
+                        "primary-dim": "#0049b2",
+                        "tertiary-fixed": "#fdd400",
+                        "surface-container": "#e6e6ff",
+                        "on-secondary-fixed-variant": "#006827",
+                        "surface-container-low": "#f0efff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#594a00",
+                        "inverse-surface": "#05092f",
+                        "on-primary": "#f1f2ff",
+                        "on-secondary-container": "#005d22",
+                        "on-surface": "#262c51",
+                        "on-background": "#262c51",
+                        "secondary-fixed": "#5cfd80",
+                        "tertiary": "#6d5a00",
+                        "background": "#f7f5ff",
+                        "outline": "#6f749e",
+                        "on-secondary": "#cfffce",
+                        "inverse-primary": "#5a8cff",
+                        "surface-variant": "#d8daff",
+                        "on-tertiary": "#fff2ce",
+                        "primary-fixed-dim": "#5f8fff",
+                        "on-tertiary-fixed": "#433700",
+                        "error-dim": "#9f0519",
+                        "primary": "#0053ca",
+                        "secondary-fixed-dim": "#4bee74",
+                        "on-surface-variant": "#545981",
+                        "on-primary-fixed-variant": "#002869",
+                        "on-primary-container": "#001f56",
+                        "on-error-container": "#570008",
+                        "tertiary-fixed-dim": "#edc600",
+                        "on-error": "#ffefee",
+                        "error-container": "#fb5151",
+                        "primary-container": "#769dff",
+                        "tertiary-dim": "#5f4e00",
+                        "tertiary-container": "#fdd400"
+                    },
+                    fontFamily: {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    },
+                    borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .glass-effect {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-surface font-body text-on-surface selection:bg-primary-container">
+<!-- Top Navigation Anchor (Shared Component) -->
+<nav class="fixed top-0 w-full z-50 flex items-center justify-between px-6 h-16 w-full bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl shadow-sm shadow-blue-900/5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full overflow-hidden bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-sm">person</span>
+</div>
+<span class="font-headline text-2xl font-bold tracking-tight text-blue-700">Campus Atelier</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-blue-50/50 transition-all active:scale-95 duration-200">
+<span class="material-symbols-outlined text-slate-500">notifications</span>
+</button>
+</div>
+</nav>
+<main class="pt-24 pb-32 px-6 max-w-2xl mx-auto space-y-10">
+<!-- Header Section -->
+<header class="space-y-2">
+<h1 class="font-headline text-3xl font-extrabold tracking-tight text-on-surface">发布中心</h1>
+<p class="text-on-surface-variant font-medium">与校园社区分享你的技能或物品。</p>
+</header>
+<!-- Post Type Toggle -->
+<section class="bg-surface-container-low p-1.5 rounded-lg flex items-center">
+<button class="flex-1 py-3 px-4 rounded-DEFAULT bg-surface-container-lowest shadow-sm text-primary font-bold transition-all duration-300">
+                技能互换
+            </button>
+<button class="flex-1 py-3 px-4 rounded-DEFAULT text-on-surface-variant font-semibold hover:text-on-surface transition-all">
+                校园集市
+            </button>
+</section>
+<!-- Quick Templates -->
+<section class="space-y-4">
+<div class="flex items-center justify-between">
+<h3 class="font-headline font-bold text-on-surface">常用模板</h3>
+<span class="text-xs font-bold text-primary uppercase tracking-wider">快速开始</span>
+</div>
+<div class="flex gap-4 overflow-x-auto no-scrollbar pb-2 -mx-2 px-2">
+<button class="flex-none bg-surface-container-lowest p-4 rounded-lg shadow-sm border border-outline-variant/10 hover:shadow-md transition-shadow text-left w-40 group">
+<div class="w-10 h-10 rounded-full bg-secondary-container/30 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-secondary">description</span>
+</div>
+<span class="block font-bold text-sm text-on-surface leading-tight">期末笔记</span>
+</button>
+<button class="flex-none bg-surface-container-lowest p-4 rounded-lg shadow-sm border border-outline-variant/10 hover:shadow-md transition-shadow text-left w-40 group">
+<div class="w-10 h-10 rounded-full bg-primary-container/30 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary">terminal</span>
+</div>
+<span class="block font-bold text-sm text-on-surface leading-tight">代码Debug</span>
+</button>
+<button class="flex-none bg-surface-container-lowest p-4 rounded-lg shadow-sm border border-outline-variant/10 hover:shadow-md transition-shadow text-left w-40 group">
+<div class="w-10 h-10 rounded-full bg-tertiary-container/30 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-tertiary">photo_camera</span>
+</div>
+<span class="block font-bold text-sm text-on-surface leading-tight">人像摄影</span>
+</button>
+</div>
+</section>
+<!-- Form Fields -->
+<form class="space-y-8">
+<!-- Media Upload Area (Asymmetric Layout) -->
+<div class="grid grid-cols-4 gap-3">
+<div class="col-span-2 row-span-2 aspect-square bg-surface-container-lowest rounded-lg flex flex-col items-center justify-center border-2 border-dashed border-outline-variant/30 hover:border-primary/50 transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-4xl text-outline mb-2 group-hover:text-primary transition-colors">add_a_photo</span>
+<span class="text-xs font-bold text-on-surface-variant">添加封面</span>
+</div>
+<div class="aspect-square bg-surface-container-low rounded-lg flex items-center justify-center cursor-pointer hover:bg-surface-container hover:shadow-inner transition-all">
+<span class="material-symbols-outlined text-outline">add</span>
+</div>
+<div class="aspect-square bg-surface-container-low rounded-lg flex items-center justify-center cursor-pointer hover:bg-surface-container transition-all">
+<span class="material-symbols-outlined text-outline">add</span>
+</div>
+<div class="aspect-square bg-surface-container-low rounded-lg flex items-center justify-center cursor-pointer hover:bg-surface-container transition-all">
+<span class="material-symbols-outlined text-outline">add</span>
+</div>
+<div class="aspect-square bg-surface-container-low rounded-lg flex items-center justify-center cursor-pointer hover:bg-surface-container transition-all">
+<span class="material-symbols-outlined text-outline">add</span>
+</div>
+</div>
+<div class="space-y-6">
+<!-- Title -->
+<div class="space-y-2">
+<label class="text-sm font-bold text-on-surface-variant ml-1">标题</label>
+<input class="w-full bg-surface-container-lowest border-none rounded-sm px-5 py-4 text-on-surface placeholder:text-outline focus:ring-2 focus:ring-primary/30 transition-all font-semibold" placeholder="你想提供什么？" type="text"/>
+</div>
+<!-- Description -->
+<div class="space-y-2">
+<label class="text-sm font-bold text-on-surface-variant ml-1">详情</label>
+<textarea class="w-full bg-surface-container-lowest border-none rounded-sm px-5 py-4 text-on-surface placeholder:text-outline focus:ring-2 focus:ring-primary/30 transition-all" placeholder="请详细描述你的服务或物品..." rows="4"></textarea>
+</div>
+<!-- Trade Preference Section (Specific for Skill Exchange) -->
+<div class="bg-surface-container-low rounded-lg p-6 space-y-6">
+<div class="flex items-center gap-2">
+<div class="w-1.5 h-6 bg-secondary rounded-full"></div>
+<h3 class="font-headline font-bold text-on-surface">交易偏好</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="space-y-2">
+<label class="text-xs font-extrabold text-secondary uppercase tracking-widest ml-1">我能提供</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-secondary text-sm">volunteer_activism</span>
+<input class="w-full bg-surface-container-lowest border-none rounded-sm pl-11 pr-4 py-3 text-sm focus:ring-2 focus:ring-secondary/30" placeholder="例如：Python 辅导" type="text"/>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-xs font-extrabold text-primary uppercase tracking-widest ml-1">我想要</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary text-sm">search_check</span>
+<input class="w-full bg-surface-container-lowest border-none rounded-sm pl-11 pr-4 py-3 text-sm focus:ring-2 focus:ring-primary/30" placeholder="例如：UI 设计帮助" type="text"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Post Button Container -->
+<div class="pt-4">
+<button class="w-full bg-gradient-to-br from-primary to-primary-container text-white font-headline font-bold py-5 rounded-DEFAULT shadow-lg shadow-primary/20 hover:shadow-xl hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300">立即发布</button>
+</div>
+</form>
+</main>
+<!-- Bottom Navigation Shell (Shared Component) -->
+<div class="fixed bottom-0 left-0 w-full h-20 flex justify-around items-center px-4 pb-safe bg-white/70 backdrop-blur-xl z-50">
+<a class="flex flex-col items-center justify-center text-slate-500 px-5 py-2 hover:text-blue-600 active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-manrope text-[10px] font-semibold mt-1">首页</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 px-5 py-2 hover:text-blue-600 active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">swap_horizontal_circle</span>
+<span class="font-manrope text-[10px] font-semibold mt-1">交换</span>
+</a>
+<!-- Active State for Post Page (Assuming Market/Add Context) -->
+<a class="flex flex-col items-center justify-center bg-blue-100 text-blue-800 rounded-2xl px-5 py-2 active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">add_circle</span>
+<span class="font-manrope text-[10px] font-semibold mt-1">发布</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 px-5 py-2 hover:text-blue-600 active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-manrope text-[10px] font-semibold mt-1">我的</span>
+</a>
+</div>
+<!-- Background Decorative Elements -->
+<div class="fixed top-0 left-0 w-full h-full pointer-events-none -z-10 overflow-hidden">
+<div class="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] bg-primary-container/10 blur-[120px] rounded-full"></div>
+<div class="absolute bottom-[-5%] left-[-5%] w-[40%] h-[40%] bg-secondary-container/10 blur-[100px] rounded-full"></div>
+</div>
+</body></html>

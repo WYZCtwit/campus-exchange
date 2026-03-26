@@ -1,0 +1,191 @@
+<!-- 聊天详情 - Alex Chen -->
+<!DOCTYPE html>
+
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Manrope', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        h1, h2, h3 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-container-low": "#f0efff",
+                        "outline-variant": "#a5aad7",
+                        "error-dim": "#9f0519",
+                        "primary": "#0053ca",
+                        "on-primary": "#f1f2ff",
+                        "on-error-container": "#570008",
+                        "primary-container": "#769dff",
+                        "on-secondary-container": "#005d22",
+                        "on-surface-variant": "#545981",
+                        "tertiary": "#6d5a00",
+                        "primary-dim": "#0049b2",
+                        "secondary-fixed": "#5cfd80",
+                        "on-tertiary-container": "#594a00",
+                        "inverse-on-surface": "#959ac6",
+                        "on-surface": "#262c51",
+                        "on-secondary-fixed-variant": "#006827",
+                        "tertiary-fixed": "#fdd400",
+                        "surface-container-highest": "#d8daff",
+                        "inverse-surface": "#05092f",
+                        "on-primary-container": "#001f56",
+                        "on-tertiary-fixed": "#433700",
+                        "on-background": "#262c51",
+                        "tertiary-dim": "#5f4e00",
+                        "primary-fixed-dim": "#5f8fff",
+                        "secondary-fixed-dim": "#4bee74",
+                        "inverse-primary": "#5a8cff",
+                        "on-tertiary": "#fff2ce",
+                        "tertiary-fixed-dim": "#edc600",
+                        "on-secondary": "#cfffce",
+                        "secondary-dim": "#005d22",
+                        "outline": "#6f749e",
+                        "error-container": "#fb5151",
+                        "surface-tint": "#0053ca",
+                        "primary-fixed": "#769dff",
+                        "on-tertiary-fixed-variant": "#645300",
+                        "on-primary-fixed-variant": "#002869",
+                        "surface": "#f7f5ff",
+                        "surface-container": "#e6e6ff",
+                        "secondary-container": "#5cfd80",
+                        "surface-container-high": "#dfe0ff",
+                        "surface-bright": "#f7f5ff",
+                        "error": "#b31b25",
+                        "on-primary-fixed": "#000000",
+                        "on-secondary-fixed": "#004819",
+                        "secondary": "#006a28",
+                        "on-error": "#ffefee",
+                        "tertiary-container": "#fdd400",
+                        "surface-variant": "#d8daff",
+                        "surface-dim": "#cdd1ff",
+                        "surface-container-lowest": "#ffffff",
+                        "background": "#f7f5ff"
+                    },
+                    fontFamily: {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    },
+                    borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-50 bg-[#f7f5ff] dark:bg-slate-950 flex items-center px-6 py-4 w-full">
+<div class="flex items-center gap-4 w-full">
+<button class="text-[#0053ca] dark:text-[#769dff] hover:bg-[#dfe0ff]/50 dark:hover:bg-slate-800 transition-colors active:scale-95 duration-200 p-2 rounded-full">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="font-['Plus_Jakarta_Sans'] font-bold text-lg tracking-tight text-[#262c51] dark:text-[#f0efff]">编辑资料</h1>
+</div>
+</header>
+<main class="max-w-md mx-auto px-6 pt-8 space-y-10">
+<!-- Profile Picture Section -->
+<section class="flex flex-col items-center">
+<div class="relative group">
+<div class="w-32 h-32 rounded-full overflow-hidden border-4 border-surface-container-lowest shadow-lg bg-surface-container">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="Close-up portrait of a young college student with a friendly expression in a bright, modern campus library setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1hKGM_6lVHVji_LmkuBloFaVuTFIu7ZU2s-pPa8pZh7fH-CeLzNEHr6l1DbW6epdNjnqcpKfEUezt3FpNQCt54IRveIFkw5Mj_QR8wH3vRKxnIwLY1RXeqRA4m-WLq4gCCndSWmPbvZ7Ey-Ey4gQMFp2uva2iVWPmhDTkDA6bystwCtKue40TUEhtUG9CEL6ui6KZkD57stGILKmt2K7DPBrcAeL-zhxLYMK7B-1zY8EhYlUK6IlMiUwMBLh8CI1whu3lMpLHlyx2"/>
+</div>
+<button class="absolute bottom-0 right-0 bg-primary text-on-primary p-2.5 rounded-full shadow-md active:scale-90 transition-transform duration-150">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">photo_camera</span>
+</button>
+</div>
+<p class="mt-4 text-on-surface-variant text-sm font-medium">点击图标更换头像</p>
+</section>
+<!-- Form Section -->
+<div class="space-y-8">
+<!-- Bento Card for Basic Info -->
+<div class="bg-surface-container-lowest p-6 rounded-lg space-y-6">
+<!-- Name Field -->
+<div class="space-y-2">
+<label class="block text-sm font-bold text-on-surface ml-1">姓名</label>
+<div class="relative">
+<input class="w-full bg-surface-container-low border-none rounded-sm px-4 py-3 text-on-surface focus:ring-2 focus:ring-primary/30 transition-shadow font-medium" type="text" value="陈学术"/>
+</div>
+</div>
+<!-- Major & Grade (Row) -->
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-2">
+<label class="block text-sm font-bold text-on-surface ml-1">专业</label>
+<input class="w-full bg-surface-container-low border-none rounded-sm px-4 py-3 text-on-surface focus:ring-2 focus:ring-primary/30 transition-shadow font-medium" type="text" value="计算机科学"/>
+</div>
+<div class="space-y-2">
+<label class="block text-sm font-bold text-on-surface ml-1">年级</label>
+<input class="w-full bg-surface-container-low border-none rounded-sm px-4 py-3 text-on-surface focus:ring-2 focus:ring-primary/30 transition-shadow font-medium" type="text" value="大三"/>
+</div>
+</div>
+</div>
+<!-- Bio Section -->
+<div class="bg-surface-container-lowest p-6 rounded-lg space-y-3">
+<label class="block text-sm font-bold text-on-surface ml-1">个人简介</label>
+<textarea class="w-full bg-surface-container-low border-none rounded-sm px-4 py-3 text-on-surface focus:ring-2 focus:ring-primary/30 transition-shadow font-medium resize-none leading-relaxed" rows="4">热爱算法研究与产品设计，正在寻找志同道合的小伙伴一起参加下个学期的开发者大赛。平时喜欢在校园咖啡厅写代码。</textarea>
+<div class="flex justify-end">
+<span class="text-xs text-on-surface-variant">84 / 200</span>
+</div>
+</div>
+<!-- Tags Section (Editorial Touch) -->
+<div class="space-y-3">
+<h3 class="text-sm font-bold text-on-surface ml-1 px-6">校园标签</h3>
+<div class="flex flex-wrap gap-2 px-6">
+<span class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">技术达人</span>
+<span class="bg-surface-container-high text-on-surface-variant px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">图书馆常客</span>
+<span class="bg-tertiary-container text-on-tertiary-container px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">羽毛球爱好者</span>
+<button class="border-2 border-dashed border-outline-variant/30 text-on-surface-variant px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-sm">add</span> 添加
+                    </button>
+</div>
+</div>
+</div>
+<!-- Growth Track Decorative Element -->
+<div class="px-6 py-4">
+<div class="bg-surface-container-low p-5 rounded-lg border-l-4 border-secondary">
+<div class="flex justify-between items-center mb-2">
+<span class="text-xs font-bold text-secondary uppercase tracking-widest">资料完整度</span>
+<span class="text-xs font-bold text-on-surface">85%</span>
+</div>
+<div class="w-full bg-secondary-container/30 h-2 rounded-full overflow-hidden">
+<div class="bg-secondary h-full rounded-full w-[85%]"></div>
+</div>
+<p class="text-[10px] text-on-surface-variant mt-3 italic">完善社交账号链接可获得“社交达人”勋章</p>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-8 py-6 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl z-50 rounded-t-[2rem] shadow-[0_-20px_40px_rgba(38,44,81,0.06)]">
+<!-- Cancel Action -->
+<button class="flex flex-col items-center justify-center text-[#545981] dark:text-[#a5aad7] px-6 py-3 hover:opacity-90 transition-opacity active:scale-98 duration-150">
+<span class="material-symbols-outlined mb-1">close</span>
+<span class="font-['Manrope'] font-semibold text-sm">取消</span>
+</button>
+<!-- Save Action (Active State) -->
+<button class="flex flex-col items-center justify-center bg-gradient-to-br from-[#0053ca] to-[#769dff] text-white rounded-full px-8 py-3 hover:opacity-90 transition-opacity active:scale-98 duration-150">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-['Manrope'] font-semibold text-sm">保存</span>
+</button>
+</nav>
+</body></html>

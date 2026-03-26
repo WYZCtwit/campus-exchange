@@ -1,0 +1,208 @@
+<!-- 消息中心 - 极简电商风 -->
+<!DOCTYPE html>
+
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>二手书转让模板 - 学术工坊</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-fixed": "#769dff",
+                        "on-secondary-container": "#005d22",
+                        "on-tertiary": "#fff2ce",
+                        "surface": "#f7f5ff",
+                        "on-background": "#262c51",
+                        "secondary": "#006a28",
+                        "surface-container-low": "#f0efff",
+                        "on-error": "#ffefee",
+                        "tertiary": "#6d5a00",
+                        "primary": "#0053ca",
+                        "on-primary-fixed": "#000000",
+                        "outline-variant": "#a5aad7",
+                        "error-container": "#fb5151",
+                        "secondary-fixed-dim": "#4bee74",
+                        "secondary-fixed": "#5cfd80",
+                        "surface-container-lowest": "#ffffff",
+                        "outline": "#6f749e",
+                        "surface-bright": "#f7f5ff",
+                        "on-primary": "#f1f2ff",
+                        "primary-dim": "#0049b2",
+                        "surface-container-high": "#dfe0ff",
+                        "error-dim": "#9f0519",
+                        "primary-container": "#769dff",
+                        "on-secondary": "#cfffce",
+                        "on-tertiary-fixed": "#433700",
+                        "surface-variant": "#d8daff",
+                        "on-primary-fixed-variant": "#002869",
+                        "on-surface-variant": "#545981",
+                        "on-secondary-fixed": "#004819",
+                        "inverse-surface": "#05092f",
+                        "on-primary-container": "#001f56",
+                        "tertiary-fixed-dim": "#edc600",
+                        "primary-fixed-dim": "#5f8fff",
+                        "background": "#f7f5ff",
+                        "tertiary-fixed": "#fdd400",
+                        "surface-dim": "#cdd1ff",
+                        "surface-container": "#e6e6ff",
+                        "inverse-primary": "#5a8cff",
+                        "secondary-dim": "#005d22",
+                        "error": "#b31b25",
+                        "on-tertiary-fixed-variant": "#645300",
+                        "on-tertiary-container": "#594a00",
+                        "on-error-container": "#570008",
+                        "tertiary-dim": "#5f4e00",
+                        "on-secondary-fixed-variant": "#006827",
+                        "on-surface": "#262c51",
+                        "tertiary-container": "#fdd400",
+                        "secondary-container": "#5cfd80",
+                        "surface-container-highest": "#d8daff",
+                        "inverse-on-surface": "#959ac6",
+                        "surface-tint": "#0053ca"
+                    },
+                    fontFamily: {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    },
+                    borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Manrope', sans-serif; }
+        h1, h2, h3 { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-50 bg-[#f7f5ff] dark:bg-slate-950 flex items-center justify-between px-6 py-4 w-full">
+<div class="flex items-center gap-4">
+<button class="text-[#0053ca] dark:text-[#769dff] active:scale-95 duration-200">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="text-xl font-bold text-[#262c51] dark:text-[#f0efff] font-['Plus_Jakarta_Sans'] tracking-tight">Sell Textbook</h1>
+</div>
+<button class="text-[#545981] dark:text-slate-400 hover:bg-[#dfe0ff] dark:hover:bg-slate-800 transition-colors p-2 rounded-full active:scale-95 duration-200">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</header>
+<main class="max-w-2xl mx-auto px-6 py-8 space-y-8">
+<!-- Book Cover Section: Organic Editorialism Asymmetry -->
+<section class="relative group">
+<div class="bg-surface-container-low rounded-xl overflow-hidden aspect-[3/4] max-w-xs mx-auto shadow-sm relative z-10">
+<img class="w-full h-full object-cover" data-alt="thick professional calculus textbook titled Early Transcendentals on a clean minimalist library desk with soft overhead studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlXUb1aaRv3docLkr_fC234FbvM7MNgFsKplMOvAzIuiQXNw4Y4YAc5pDKjsItYqNGAXS7ojkUOrv1YS4pvveWqRMLYKAeRejpAOx5RfIbEPnMgKB03KpQsXK9S5HgbxYmXkWJK_QTxBtNjtpvW1BRXz2ndXdBvtlI3BJ-0oCBu1ytnrrqU4e1vcjKLRS3pUFabmmp9WwodeMCPIlYyefOmi2OhhrrSoDikSJm4FQga-w1Re_ARJrmrhHwmxsOPQgS1Hy6EgJO52I_"/>
+<div class="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors"></div>
+</div>
+<!-- Decorative Accent Elements -->
+<div class="absolute -top-4 -right-4 w-32 h-32 bg-secondary-container/20 rounded-full blur-2xl -z-10"></div>
+<div class="absolute -bottom-8 -left-8 w-48 h-48 bg-primary-container/10 rounded-full blur-3xl -z-10"></div>
+<button class="absolute bottom-4 right-1/2 translate-x-1/2 flex items-center gap-2 bg-surface-container-lowest/90 backdrop-blur-md px-4 py-2 rounded-full shadow-lg text-primary text-sm font-bold border border-outline-variant/15 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-sm">photo_camera</span>
+                更换封面
+            </button>
+</section>
+<!-- Book Information Cards: Layered Surface Architecture -->
+<div class="space-y-6">
+<section class="bg-surface-container-lowest rounded-lg p-6 shadow-[0_20px_40px_rgba(38,44,81,0.06)] border border-outline-variant/10">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-primary">book_5</span>
+<h2 class="text-lg font-extrabold tracking-tight">书籍信息</h2>
+</div>
+<div class="space-y-5">
+<div class="group">
+<label class="block text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-1.5 ml-1">书名 Title</label>
+<input class="w-full bg-surface-container-low border-none rounded-sm px-4 py-3 text-on-surface font-semibold focus:ring-2 focus:ring-primary/30 transition-shadow outline-none" type="text" value="Calculus: Early Transcendentals"/>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="group">
+<label class="block text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-1.5 ml-1">作者 Author</label>
+<input class="w-full bg-surface-container-low border-none rounded-sm px-4 py-3 text-on-surface font-medium focus:ring-2 focus:ring-primary/30 transition-shadow outline-none" type="text" value="James Stewart"/>
+</div>
+<div class="group">
+<label class="block text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-1.5 ml-1">ISBN</label>
+<input class="w-full bg-surface-container-low border-none rounded-sm px-4 py-3 text-on-surface font-medium focus:ring-2 focus:ring-primary/30 transition-shadow outline-none" type="text" value="978-1337275347"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Condition Section: Interactive Chips -->
+<section class="bg-surface-container-lowest rounded-lg p-6 shadow-[0_20px_40px_rgba(38,44,81,0.06)] border border-outline-variant/10">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-secondary">verified</span>
+<h2 class="text-lg font-extrabold tracking-tight">品相状况</h2>
+</div>
+<div class="flex flex-wrap gap-3">
+<button class="flex items-center gap-2 bg-gradient-to-br from-primary to-primary-container text-white px-5 py-2.5 rounded-full font-bold shadow-md active:scale-95 transition-all">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                        全新 (Like New)
+                    </button>
+<button class="bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high px-5 py-2.5 rounded-full font-semibold transition-colors">
+                        良好 (Good)
+                    </button>
+<button class="bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high px-5 py-2.5 rounded-full font-semibold transition-colors">
+                        一般 (Fair)
+                    </button>
+<button class="bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high px-5 py-2.5 rounded-full font-semibold transition-colors">
+                        较差 (Poor)
+                    </button>
+</div>
+</section>
+<!-- Price and Location: Bento Style Row -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Price Section -->
+<section class="bg-surface-container-lowest rounded-lg p-6 shadow-[0_20px_40px_rgba(38,44,81,0.06)] border border-outline-variant/10">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-tertiary">payments</span>
+<h2 class="text-lg font-extrabold tracking-tight">转让价格</h2>
+</div>
+<div class="flex items-baseline gap-2 bg-surface-container-low rounded-sm px-4 py-3 group-focus-within:ring-2 ring-primary/30 transition-all">
+<span class="text-xl font-bold text-on-surface">¥</span>
+<input class="bg-transparent border-none p-0 text-2xl font-black text-on-surface w-full focus:ring-0" type="text" value="45.00"/>
+</div>
+</section>
+<!-- Location Section -->
+<section class="bg-surface-container-lowest rounded-lg p-6 shadow-[0_20px_40px_rgba(38,44,81,0.06)] border border-outline-variant/10">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-error">location_on</span>
+<h2 class="text-lg font-extrabold tracking-tight">自提地点</h2>
+</div>
+<button class="w-full flex items-center justify-between bg-surface-container-low rounded-sm px-4 py-3 text-on-surface font-semibold hover:bg-surface-container-high transition-colors text-left group">
+<span class="truncate">图书馆主馆一楼咖啡厅</span>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:translate-x-1 transition-transform">chevron_right</span>
+</button>
+</section>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (The Shell) -->
+<nav class="fixed bottom-0 left-0 w-full p-6 flex justify-around items-center bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl z-50 rounded-t-[2rem] shadow-[0_-20px_40px_rgba(38,44,81,0.06)]">
+<button class="flex flex-row items-center justify-center gap-2 text-[#545981] dark:text-slate-400 px-6 py-3 hover:opacity-90 active:scale-[0.98] transition-transform">
+<span class="material-symbols-outlined">visibility</span>
+<span class="font-['Manrope'] text-sm font-semibold">Preview</span>
+</button>
+<button class="flex flex-row items-center justify-center gap-2 bg-gradient-to-br from-[#0053ca] to-[#769dff] text-white rounded-full px-8 py-3 shadow-lg shadow-primary/20 hover:opacity-90 active:scale-[0.98] transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="font-['Manrope'] text-sm font-semibold">Use Template</span>
+</button>
+</nav>
+<!-- Decorative Canvas Elements -->
+<div class="fixed top-20 right-[-5%] w-[40vw] h-[40vw] rounded-full bg-primary/5 blur-[100px] -z-20"></div>
+<div class="fixed bottom-40 left-[-10%] w-[50vw] h-[50vw] rounded-full bg-secondary/5 blur-[120px] -z-20"></div>
+</body></html>

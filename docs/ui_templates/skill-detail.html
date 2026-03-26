@@ -1,0 +1,254 @@
+<!-- 首页 - 校园集市 (金钱结算) -->
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Skill Detail | Campus Atelier</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "error": "#b31b25",
+                        "outline-variant": "#a5aad7",
+                        "inverse-on-surface": "#959ac6",
+                        "secondary-container": "#5cfd80",
+                        "on-tertiary-fixed-variant": "#645300",
+                        "on-primary-fixed": "#000000",
+                        "primary-fixed": "#769dff",
+                        "surface-container-high": "#dfe0ff",
+                        "surface-tint": "#0053ca",
+                        "secondary-dim": "#005d22",
+                        "on-secondary-fixed": "#004819",
+                        "secondary": "#006a28",
+                        "primary-dim": "#0049b2",
+                        "tertiary-fixed": "#fdd400",
+                        "surface-container": "#e6e6ff",
+                        "on-secondary-fixed-variant": "#006827",
+                        "surface-container-low": "#f0efff",
+                        "surface-container-highest": "#d8daff",
+                        "surface-dim": "#cdd1ff",
+                        "surface": "#f7f5ff",
+                        "surface-bright": "#f7f5ff",
+                        "on-tertiary-container": "#594a00",
+                        "inverse-surface": "#05092f",
+                        "on-primary": "#f1f2ff",
+                        "on-secondary-container": "#005d22",
+                        "on-surface": "#262c51",
+                        "on-background": "#262c51",
+                        "secondary-fixed": "#5cfd80",
+                        "tertiary": "#6d5a00",
+                        "background": "#f7f5ff",
+                        "outline": "#6f749e",
+                        "on-secondary": "#cfffce",
+                        "inverse-primary": "#5a8cff",
+                        "surface-variant": "#d8daff",
+                        "on-tertiary": "#fff2ce",
+                        "primary-fixed-dim": "#5f8fff",
+                        "on-tertiary-fixed": "#433700",
+                        "error-dim": "#9f0519",
+                        "primary": "#0053ca",
+                        "secondary-fixed-dim": "#4bee74",
+                        "on-surface-variant": "#545981",
+                        "on-primary-fixed-variant": "#002869",
+                        "on-primary-container": "#001f56",
+                        "surface-container-lowest": "#ffffff",
+                        "on-error-container": "#570008",
+                        "tertiary-fixed-dim": "#edc600",
+                        "on-error": "#ffefee",
+                        "error-container": "#fb5151",
+                        "primary-container": "#769dff",
+                        "tertiary-dim": "#5f4e00",
+                        "tertiary-container": "#fdd400"
+                    },
+                    fontFamily: {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    },
+                    borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-nav {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: #f7f5ff;
+            color: #262c51;
+        }
+        h1, h2, h3 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="antialiased text-on-surface">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 w-full z-50 bg-white/70 backdrop-blur-xl shadow-sm shadow-blue-900/5 flex items-center justify-between px-6 h-16">
+<div class="flex items-center gap-4">
+<button class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-blue-50/50 transition-all active:scale-95 duration-200">
+<span class="material-symbols-outlined text-blue-700">arrow_back</span>
+</button>
+<span class="font-plus-jakarta text-2xl font-bold tracking-tight text-blue-700">校园工坊</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="professional portrait of a male student with a friendly expression and soft natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfTpAWNpSWeWfDeFEnb2Eh3tSOfcGkm5Alv6I3d4jbIUfos2YzMQssdekuXKtY9USowURw_4hEBCWCE2c9TMJmCNA1cRAsxqxQwZDgV7lqHUQbwhEFpb-2M4_bgW34z8AksuTp9T6Rjix_HFfL-cSqrigcEtAXByV0HrWH4x1vU3Az6cHPdXaE4XFp6xnuM8I0sqD2F8dJiUjwI5zp8TQetheEPmnTPrU4fGp_7rltYRZK1kVbxfytX0X_GV9WAycreNkS7Q8XIlqm"/>
+</div>
+<span class="material-symbols-outlined text-blue-700">notifications</span>
+</div>
+</header>
+<main class="pt-16 pb-32 max-w-4xl mx-auto px-4 sm:px-6">
+<!-- Hero Image Section -->
+<section class="mt-6 mb-8 relative group">
+<div class="w-full aspect-[16/9] rounded-lg overflow-hidden shadow-[0_20px_40px_rgba(38,44,81,0.06)] bg-surface-container-low">
+<img class="w-full h-full object-cover" data-alt="close-up of a laptop screen displaying elegant python code with soft blue and purple desk lighting in the background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9yIyGImOd1Dh5_cFtls66e6bAkeA27cXQ7VxRoX4-Gi8DQS4ERcIIHPRwpejIS5V8cDpq_09tMYQatMgBVsQ_VJpqDaxxbyn8YA2luLnsqUMsZ0oFP2ikL0S9UyY1vJYtCVidyoJ0sLRiPPF75BIEz590OOLvLDSkqMYYnwcJBQkfjZs_nSVCQimgQE5b_m0U17urf3giPVedjuaiKfCjiYnCA994Lo2wbgrVkDF4Z0HGtLFYHfDZqH2c5mSdqQgKcTyv95F1DGW-"/>
+</div>
+<div class="absolute top-4 left-4 flex gap-2">
+<span class="px-4 py-1.5 bg-white/90 backdrop-blur-md rounded-full text-xs font-bold text-primary uppercase tracking-wider shadow-sm">编程</span>
+<span class="px-4 py-1.5 bg-secondary-container/90 backdrop-blur-md rounded-full text-xs font-bold text-on-secondary-container uppercase tracking-wider shadow-sm">高评价</span>
+</div>
+</section>
+<!-- Provider Profile Section -->
+<section class="mb-10 p-6 rounded-lg bg-surface-container-lowest shadow-[0_4px_20px_rgba(38,44,81,0.02)] border border-outline-variant/10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+<div class="flex items-center gap-4">
+<div class="relative">
+<div class="w-16 h-16 rounded-full overflow-hidden border-2 border-primary-container">
+<img class="w-full h-full object-cover" data-alt="close-up of a creative female professional smiling with warm natural outdoor light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD300-yufjEpbgboYEjy6IW_hHV8EAMgd2Cjt0j2U0KAfAwiLGulrNjBCIIjknl5gs0DnPDblOYKVIT5ja0oYOZCE9A1dIlg3f6s4gzjn8ASExPOaO89VOsQW1k1k6EuyYYQiniq9M_5O6B_4JZp8jyKDolh08NhFvf7vYmNSpFCq-gz-tNwJkBPi-k52r334_VH73K-Ia8H7DbGHBh6nQ11qlGDoypdF8lkWf8LnBOFnDPG8QwtpGPDsaD6c3lpwCBh3OzfdCjCkSx"/>
+</div>
+<div class="absolute -bottom-1 -right-1 bg-primary text-white p-1 rounded-full border-2 border-white">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+</div>
+<div>
+<h2 class="text-xl font-bold text-on-surface">Alex Rivera</h2>
+<p class="text-on-surface-variant text-sm flex items-center gap-1"><span class="material-symbols-outlined text-sm text-tertiary" style="font-variation-settings: 'FILL' 1;">star</span> 4.9 (42次交换) • 计算机科学 大四</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="text-center px-4 border-r border-outline-variant/20 last:border-0">
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">效率</p>
+<p class="text-lg font-bold text-secondary">~2h</p>
+</div>
+<div class="text-center px-4 border-r border-outline-variant/20 last:border-0">
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">等级</p>
+<p class="text-lg font-bold text-primary">资深</p>
+</div>
+</div>
+</section>
+<!-- The Exchange Core: Comparison Block -->
+<section class="mb-12 grid grid-cols-1 md:grid-cols-2 gap-6 relative">
+<!-- Connector Icon (Desktop) -->
+<div class="hidden md:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded-full shadow-lg border border-primary-container z-10 items-center justify-center">
+<span class="material-symbols-outlined text-primary">swap_horiz</span>
+</div>
+<!-- Provider Offer -->
+<div class="p-8 rounded-lg bg-primary-container/10 border border-primary/10 flex flex-col items-center text-center">
+<div class="w-14 h-14 rounded-2xl bg-primary text-white flex items-center justify-center mb-6 shadow-md">
+<span class="material-symbols-outlined text-3xl">terminal</span>
+</div>
+<h3 class="text-xs font-extrabold text-primary uppercase tracking-[0.2em] mb-3">我能提供</h3>
+<h4 class="text-2xl font-bold text-on-primary-container mb-4">Python Tutoring</h4>
+<p class="text-on-surface-variant leading-relaxed">
+                    Personalized 1-on-1 sessions covering data structures, automation scripts, and Django web frameworks. Perfect for projects or interview prep.
+                </p>
+</div>
+<!-- Provider Request -->
+<div class="p-8 rounded-lg bg-secondary-container/10 border border-secondary/10 flex flex-col items-center text-center">
+<div class="w-14 h-14 rounded-2xl bg-secondary text-white flex items-center justify-center mb-6 shadow-md">
+<span class="material-symbols-outlined text-3xl">brush</span>
+</div>
+<h3 class="text-xs font-extrabold text-secondary uppercase tracking-[0.2em] mb-3">我想获得</h3>
+<h4 class="text-2xl font-bold text-on-secondary-container mb-4">UI/UX Design guidance</h4>
+<p class="text-on-surface-variant leading-relaxed">
+                    Looking for someone to review my portfolio, explain Figma auto-layouts, and provide critique on visual hierarchy for mobile apps.
+                </p>
+</div>
+</section>
+<!-- Details & Description -->
+<section class="space-y-8">
+<div class="p-8 rounded-lg bg-surface-container-lowest border border-outline-variant/5">
+<h3 class="text-xl font-bold mb-6 flex items-center gap-2"><span class="w-1 h-6 bg-primary rounded-full"></span> 交换详情</h3>
+<div class="space-y-4 text-on-surface-variant">
+<p>I've been working with Python for over 4 years and have TA-ed for CS101. I'm looking to transition my technical skills into a more product-focused role, which is why I'm eager to learn about design principles.</p>
+<ul class="space-y-3">
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-secondary mt-0.5">check_circle</span>
+<span>周末及工作日晚上有空。</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-secondary mt-0.5">check_circle</span>
+<span>可以在主图书馆进行或通过 Zoom 连线。</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-secondary mt-0.5">check_circle</span>
+<span>乐意提供代码审查和指导。</span>
+</li>
+</ul>
+</div>
+</div>
+<!-- Growth Track / Stats -->
+<div class="p-8 rounded-lg bg-surface-container-low">
+<h3 class="text-sm font-bold text-on-surface-variant uppercase tracking-widest mb-6">用户信用分</h3>
+<div class="space-y-6">
+<div>
+<div class="flex justify-between mb-2">
+<span class="text-sm font-bold">可靠度</span>
+<span class="text-sm font-bold text-secondary">98%</span>
+</div>
+<div class="w-full h-2 bg-secondary-container/30 rounded-full">
+<div class="h-full bg-secondary rounded-full" style="width: 98%;"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between mb-2">
+<span class="text-sm font-bold">响应率</span>
+<span class="text-sm font-bold text-primary">85%</span>
+</div>
+<div class="w-full h-2 bg-primary-container/30 rounded-full">
+<div class="h-full bg-primary rounded-full" style="width: 85%;"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Sticky Bottom Action Bar -->
+<!-- Bottom Navigation Bar (Mobile Only Filtered) -->
+<!-- Suppressed for detailed sub-page view to prioritize primary content and action bar -->
+<nav class="fixed bottom-0 left-0 w-full h-20 bg-[#ffffff]/70 backdrop-blur-xl flex justify-around items-center px-6 pb-2 z-50 rounded-t-lg shadow-[0_-10px_30px_rgba(38,44,81,0.04)]">
+<a class="flex flex-col items-center justify-center bg-primary text-white rounded-full p-3 mb-2 scale-110 active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label text-[11px] font-bold uppercase tracking-wider hidden">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="font-label text-[11px] font-bold uppercase tracking-wider hidden">Explore</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+<span class="font-label text-[11px] font-bold uppercase tracking-wider hidden">Post</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label text-[11px] font-bold uppercase tracking-wider hidden">Profile</span>
+</a>
+</nav></body></html>

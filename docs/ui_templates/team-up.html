@@ -1,0 +1,243 @@
+<!-- 编辑资料 (Edit Profile) -->
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "error": "#b31b25",
+              "outline-variant": "#a5aad7",
+              "inverse-on-surface": "#959ac6",
+              "secondary-container": "#5cfd80",
+              "on-tertiary-fixed-variant": "#645300",
+              "on-primary-fixed": "#000000",
+              "primary-fixed": "#769dff",
+              "surface-container-high": "#dfe0ff",
+              "surface-tint": "#0053ca",
+              "secondary-dim": "#005d22",
+              "on-secondary-fixed": "#004819",
+              "secondary": "#006a28",
+              "primary-dim": "#0049b2",
+              "tertiary-fixed": "#fdd400",
+              "surface-container": "#e6e6ff",
+              "on-secondary-fixed-variant": "#006827",
+              "surface-container-low": "#f0efff",
+              "surface-container-highest": "#d8daff",
+              "surface-dim": "#cdd1ff",
+              "surface": "#f7f5ff",
+              "surface-bright": "#f7f5ff",
+              "on-tertiary-container": "#594a00",
+              "inverse-surface": "#05092f",
+              "on-primary": "#f1f2ff",
+              "on-secondary-container": "#005d22",
+              "on-surface": "#262c51",
+              "on-background": "#262c51",
+              "secondary-fixed": "#5cfd80",
+              "tertiary": "#6d5a00",
+              "background": "#f7f5ff",
+              "outline": "#6f749e",
+              "on-secondary": "#cfffce",
+              "inverse-primary": "#5a8cff",
+              "surface-variant": "#d8daff",
+              "on-tertiary": "#fff2ce",
+              "primary-fixed-dim": "#5f8fff",
+              "on-tertiary-fixed": "#433700",
+              "error-dim": "#9f0519",
+              "primary": "#0053ca",
+              "secondary-fixed-dim": "#4bee74",
+              "on-surface-variant": "#545981",
+              "on-primary-fixed-variant": "#002869",
+              "on-primary-container": "#001f56",
+              "surface-container-lowest": "#ffffff",
+              "on-error-container": "#570008",
+              "tertiary-fixed-dim": "#edc600",
+              "on-error": "#ffefee",
+              "error-container": "#fb5151",
+              "primary-container": "#769dff",
+              "tertiary-dim": "#5f4e00",
+              "tertiary-container": "#fdd400"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body { font-family: 'Manrope', sans-serif; }
+        h1, h2, h3 { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .card-shadow {
+            box-shadow: 0 10px 40px -10px rgba(0, 83, 202, 0.08);
+        }
+        .card-hover:hover {
+            box-shadow: 0 20px 50px -12px rgba(0, 83, 202, 0.12);
+            transform: translateY(-2px);
+        }
+        .inner-glow {
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen pb-24">
+<!-- TopAppBar Navigation Shell -->
+<nav class="fixed top-0 w-full z-50 bg-white/70 backdrop-blur-xl shadow-sm shadow-blue-900/5 flex items-center justify-between px-6 h-16">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container overflow-hidden">
+<img alt="Student Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjPpA8dmvMiFAC4EGKRNNSIlbg-ErDyd4NBuAwBYynPtGFeHUa51TQ0uLX5nEXekgKzsuGtiOLB1WrssoW7N394XpkmydErb2lEn3DZoXTAtR8OAsPQnt1ME9Qb-uitgQPBz6Z0Qu5BR5ifx3G0X2cIH1mYm6H425LRiGEaPmxHn76SmYgsjgU_zO3O9F2awVKHQ_l7YqQn63PMahxNbrFZTV0DEKF4_tCwXZx9OKiHK-i1amoLMqOFgTNjG1aUUlkmrpg0ss_en1U"/>
+</div>
+<span class="font-headline text-2xl font-bold tracking-tight text-blue-700">Campus Atelier</span>
+</div>
+<!-- Desktop Nav Items -->
+<div class="hidden md:flex items-center gap-8">
+<a class="text-slate-500 font-medium hover:bg-blue-50/50 transition-all px-3 py-2 rounded-lg" href="#">首页</a>
+<a class="text-blue-700 border-b-2 border-blue-600 font-medium px-3 py-2" href="#">组队广场</a>
+<a class="text-slate-500 font-medium hover:bg-blue-50/50 transition-all px-3 py-2 rounded-lg" href="#">校园集市</a>
+<a class="text-slate-500 font-medium hover:bg-blue-50/50 transition-all px-3 py-2 rounded-lg" href="#">个人中心</a>
+</div>
+<div class="flex items-center">
+<button class="p-2 rounded-full text-blue-700 hover:bg-blue-50/50 active:scale-95 duration-200">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="pt-24 px-6 max-w-5xl mx-auto">
+<!-- Page Header -->
+<header class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h1 class="text-4xl font-extrabold tracking-tighter text-on-surface mb-2">组队广场</h1>
+<p class="text-on-surface-variant font-medium">寻找志同道合的队友，共赴学术、竞赛与活动之约</p>
+</div>
+<div class="flex gap-2">
+<div class="bg-surface-container-low px-4 py-2 rounded-full flex items-center gap-2 text-on-surface-variant text-sm font-semibold cursor-pointer hover:bg-white transition-colors">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+                    筛选
+                </div>
+<div class="bg-surface-container-low px-4 py-2 rounded-full flex items-center gap-2 text-on-surface-variant text-sm font-semibold cursor-pointer hover:bg-white transition-colors">
+<span class="material-symbols-outlined text-sm">sort</span>
+                    最新发布
+                </div>
+</div>
+</header>
+<!-- Horizontal Competition/Activity Feed -->
+<section class="space-y-6">
+<!-- Card 1: ACM -->
+<article class="group bg-surface-container-lowest rounded-xl overflow-hidden flex flex-col md:flex-row card-shadow card-hover transition-all duration-500 border border-slate-100/50">
+<div class="md:w-[40%] relative overflow-hidden">
+<img class="w-full h-64 md:h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdTU28qBBHmkhxiCFAY7JyPeF6BboRUkCiMeH6M5vuPKEDvOJQ9g0Yb-jME8t9GUvwsJfp8ho8zGpwZhtfj7lsBD9SQk4fomuPRLlOZzmDyn522eK2qJcsOIXiHuSu97w4rrPOUu4wnMoE0D5mi3tws6dsqa20n73OmanP_bk6lmwQqBXFLfP-dDlRSGJZ5ccvemngbbJRilKLrZbJ23SVOMueC4iDoi6CE2XiUp_-V6mPZeF5Dbr24Jw4V0Q58TKRLnkxZlO9hyVy"/>
+<div class="absolute inset-0 inner-glow pointer-events-none"></div>
+<div class="absolute top-4 left-4 bg-primary/90 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-widest shadow-lg">工科</div>
+</div>
+<div class="p-8 flex flex-col justify-between flex-1">
+<div>
+<div class="flex items-center mb-3">
+<span class="text-secondary font-bold text-xs flex items-center gap-1.5 bg-secondary/5 px-2.5 py-1 rounded-full">
+<span class="material-symbols-outlined text-[16px]">event_available</span>
+                                报名截止：2024.11.15
+                            </span>
+</div>
+<h2 class="text-2xl font-extrabold text-on-surface mb-5 leading-tight group-hover:text-primary transition-colors">ACM 国际大学生程序设计竞赛</h2>
+<div class="mb-6">
+<h3 class="text-[10px] font-extrabold text-on-surface-variant/60 uppercase tracking-[0.2em] mb-3">寻找队友 (LOOKING FOR)</h3>
+<div class="flex flex-wrap gap-2.5">
+<span class="bg-primary/10 px-4 py-1.5 rounded-lg text-xs font-bold text-primary border border-primary/10">C++ 高手</span>
+<span class="bg-primary/10 px-4 py-1.5 rounded-lg text-xs font-bold text-primary border border-primary/10">算法策略师</span>
+<span class="bg-primary/10 px-4 py-1.5 rounded-lg text-xs font-bold text-primary border border-primary/10">前端开发</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-6 mt-auto border-t border-slate-50">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full ring-2 ring-primary/5 bg-slate-200 overflow-hidden shadow-sm">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpGHuMr8T-ZQSav-MLzFCYD4I0uT0ZVS7Rnbq2nQum2FX6WIL3FrFU_nilnmNw-FrBJ7NEsAT9RhwHN1DxLhS8kc7Evfll3p4KVtOn75_AWOEwzcoiIqaXwZQaM_WpqhBg-cEmg7VStJWfbC2ccs7m3JpBb_ko4xWqvd4kdLPxYg45SnHp1nq6fclZNgwFyqLsYz97640DxVCUjXZCd53Oknu7-volEvAnJGO5wJ9d3boNrpsF-6ezotn18_KvPBNrDXkGX14PYPxC"/>
+</div>
+<div class="text-xs">
+<p class="font-bold text-on-surface">Captain Chen</p>
+<p class="text-on-surface-variant/80 font-medium">计算机科学 '25</p>
+</div>
+</div>
+<button class="px-6 py-3 rounded-lg bg-primary text-on-primary font-bold text-sm shadow-[0_8px_20px_-6px_rgba(0,83,202,0.4)] hover:shadow-[0_12px_24px_-8px_rgba(0,83,202,0.5)] hover:-translate-y-0.5 active:scale-95 active:translate-y-0 transition-all">
+                            立即加入
+                        </button>
+</div>
+</div>
+</article>
+<!-- New Activity Card: Campus Singer Contest -->
+<article class="group bg-surface-container-lowest rounded-xl overflow-hidden flex flex-col md:flex-row card-shadow card-hover transition-all duration-500 border border-slate-100/50">
+<div class="md:w-[40%] relative overflow-hidden">
+<img class="w-full h-64 md:h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJOHHaqEhYz8dD7PBdXU834UXQLah5gwfsBOnP2RwnfyFxvreGWyJCFm_LTPW_G6yalmTZ8t8li6M7plx4-6BDlBQug_0L2W9wP6jWNaBSdLUDTiddEklrRteGIaf5VlYSILp7Ppfywbm2db5VYMjp5H5vAoQOsBPGa3kCJhlYoB1TCInOiKo47-TIF4Z1AoxdXbn9Buhqu18S3Bt7GEoDfnKgx73M15THOooGQvEP8ed2eHc9npi5ASVBxj--uf8JOU3kPjZDB0bX"/>
+<div class="absolute inset-0 inner-glow pointer-events-none"></div>
+<div class="absolute top-4 left-4 bg-error/90 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-widest shadow-lg">艺术</div>
+</div>
+<div class="p-8 flex flex-col justify-between flex-1">
+<div>
+<div class="flex items-center mb-3">
+<span class="text-secondary font-bold text-xs flex items-center gap-1.5 bg-secondary/5 px-2.5 py-1 rounded-full">
+<span class="material-symbols-outlined text-[16px]">event_available</span>
+                                报名截止：2024.11.28
+                            </span>
+</div>
+<h2 class="text-2xl font-extrabold text-on-surface mb-5 leading-tight group-hover:text-error transition-colors">校园十佳歌手大赛 - 组合组队</h2>
+<div class="mb-6">
+<h3 class="text-[10px] font-extrabold text-on-surface-variant/60 uppercase tracking-[0.2em] mb-3">寻找队友 (LOOKING FOR)</h3>
+<div class="flex flex-wrap gap-2.5">
+<span class="bg-error/10 px-4 py-1.5 rounded-lg text-xs font-bold text-error border border-error/10">键盘手/钢琴</span>
+<span class="bg-error/10 px-4 py-1.5 rounded-lg text-xs font-bold text-error border border-error/10">伴唱/和声</span>
+<span class="bg-error/10 px-4 py-1.5 rounded-lg text-xs font-bold text-error border border-error/10">编曲指导</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-6 mt-auto border-t border-slate-50">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full ring-2 ring-error/5 bg-slate-200 overflow-hidden shadow-sm flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-400">account_circle</span>
+</div>
+<div class="text-xs">
+<p class="font-bold text-on-surface">MusicLover_Xiao</p>
+<p class="text-on-surface-variant/80 font-medium">艺术学院 '26</p>
+</div>
+</div>
+<button class="px-6 py-3 rounded-lg bg-error text-on-primary font-bold text-sm shadow-[0_8px_20px_-6px_rgba(179,27,37,0.4)] hover:shadow-[0_12px_24px_-8px_rgba(179,27,37,0.5)] hover:-translate-y-0.5 active:scale-95 active:translate-y-0 transition-all">
+                            立即加入
+                        </button>
+</div>
+</div>
+</article>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full h-20 bg-[#ffffff]/70 backdrop-blur-xl flex justify-around items-center px-6 pb-2 z-50 rounded-t-lg shadow-[0_-10px_30px_rgba(38,44,81,0.04)]">
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label text-[11px] font-bold uppercase tracking-wider hidden">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary text-white rounded-full p-3 mb-2 scale-110 active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="font-label text-[11px] font-bold uppercase tracking-wider hidden">Explore</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+<span class="font-label text-[11px] font-bold uppercase tracking-wider hidden">Post</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label text-[11px] font-bold uppercase tracking-wider hidden">Profile</span>
+</a>
+</nav><!-- Floating Action Button -->
+<button class="fixed right-6 bottom-24 w-14 h-14 bg-gradient-to-br from-primary to-primary-container text-white rounded-full shadow-lg flex items-center justify-center active:scale-90 transition-all duration-300 z-50">
+<span class="material-symbols-outlined text-3xl">add</span>
+</button></body></html>

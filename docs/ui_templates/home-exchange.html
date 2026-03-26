@@ -1,0 +1,249 @@
+<!-- 发布商品 - 校园集市 -->
+<!DOCTYPE html>
+
+<html class="light" lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Scholar Pulse - 技能互换</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-dim": "#0049b2",
+              "inverse-on-surface": "#959ac6",
+              "on-tertiary": "#fff2ce",
+              "surface-tint": "#0053ca",
+              "on-surface": "#262c51",
+              "tertiary-fixed": "#fdd400",
+              "tertiary-container": "#fdd400",
+              "on-secondary-container": "#005d22",
+              "on-primary-container": "#001f56",
+              "on-secondary-fixed": "#004819",
+              "primary-fixed": "#769dff",
+              "surface-container-high": "#dfe0ff",
+              "surface-container-low": "#f0efff",
+              "secondary": "#006a28",
+              "inverse-primary": "#5a8cff",
+              "outline-variant": "#a5aad7",
+              "on-error-container": "#570008",
+              "secondary-fixed-dim": "#4bee74",
+              "on-primary-fixed": "#000000",
+              "surface-dim": "#cdd1ff",
+              "on-primary": "#f1f2ff",
+              "tertiary-fixed-dim": "#edc600",
+              "surface": "#f7f5ff",
+              "background": "#f7f5ff",
+              "on-error": "#ffefee",
+              "secondary-fixed": "#5cfd80",
+              "secondary-container": "#5cfd80",
+              "surface-container-lowest": "#ffffff",
+              "on-secondary": "#cfffce",
+              "error": "#b31b25",
+              "surface-container-highest": "#d8daff",
+              "on-surface-variant": "#545981",
+              "surface-variant": "#d8daff",
+              "error-container": "#fb5151",
+              "primary-container": "#769dff",
+              "tertiary-dim": "#5f4e00",
+              "secondary-dim": "#005d22",
+              "on-secondary-fixed-variant": "#006827",
+              "surface-bright": "#f7f5ff",
+              "on-tertiary-fixed-variant": "#645300",
+              "tertiary": "#6d5a00",
+              "primary": "#0053ca",
+              "on-primary-fixed-variant": "#002869",
+              "on-background": "#262c51",
+              "primary-fixed-dim": "#5f8fff",
+              "inverse-surface": "#05092f",
+              "surface-container": "#e6e6ff",
+              "outline": "#6f749e",
+              "on-tertiary-container": "#594a00",
+              "on-tertiary-fixed": "#433700",
+              "error-dim": "#9f0519"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      body {
+        background-color: #f7f5ff;
+        color: #262c51;
+        font-family: 'Manrope', sans-serif;
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#ffffff]/70 backdrop-blur-xl shadow-[0_20px_40px_rgba(38,44,81,0.06)] flex flex-col pt-4 px-6">
+<div class="flex items-center justify-between w-full mb-4">
+<div class="w-10 h-10 rounded-full bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Portrait of a smiling college student in a sunlit modern campus library setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOrY7wZNSO25mqr7xx4lH4pYi7pGhpO538r6bWvPMYrkqh1mUEtR7-bpOLLHLcW6jN_k1fK7FcF1c8k2fjJW8ET4wp2Y_Cp1TzzaFZVlMMD8ZIa3MbLVm4yrC5FpldJpmpeOr8T8oFhhnkCyQPGkCqNyl2aX5PaRA_oiIpt-2a0mfsymDo8teSiOfJ--EUhO2LbCl0w3AcqLbcQTffeRG99Q7FXCj9N6MAVUY5Bix1xR8glaeOd44Tv-RgpAs4Wubgnumkf8K9VBKa"/>
+</div>
+<h1 class="text-2xl font-black text-primary tracking-tight font-headline">Scholar Pulse</h1>
+<div class="p-2 text-primary active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</div>
+</div>
+<!-- Navigation Tabs (Integrated into Header per request) -->
+<nav class="flex gap-8 px-2 overflow-x-auto no-scrollbar">
+<a class="text-primary border-b-4 border-primary pb-2 font-headline font-bold tracking-tight transition-colors duration-300" href="#">Skill Exchange</a>
+<a class="text-on-surface-variant pb-2 font-headline font-bold tracking-tight hover:text-primary transition-colors duration-300" href="#">Campus Market</a>
+</nav>
+</header>
+<main class="mt-32 px-6 space-y-8 max-w-2xl mx-auto">
+<!-- Hero Section / Context -->
+<section class="space-y-2">
+<h2 class="text-3xl font-headline font-extrabold text-on-surface tracking-tight">发现身边的宝藏技能</h2>
+<p class="text-on-surface-variant font-body">在校园里，每个人都是彼此的老师。</p>
+</section>
+<!-- Skill Exchange Feed -->
+<div class="space-y-6">
+<!-- Skill Card 1 -->
+<div class="group flex bg-surface-container-lowest rounded-lg p-4 gap-4 shadow-[0_20px_40px_rgba(38,44,81,0.04)] hover:shadow-[0_20px_40px_rgba(38,44,81,0.08)] transition-all duration-300 overflow-hidden relative">
+<div class="w-32 h-32 flex-shrink-0 rounded-md overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Close-up of a high-end laptop showing clean Python code with colorful syntax highlighting in a dark room" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPlel69wmZoae5kOP3rda5q5ikArFmG_0gfznm3n1VN7MwtnNu88kT7xrzIie6ZfB6_ZkWhA-3vOuD0Fj1tNCx2cofVMy9rWLI3hIU1ZVF3bP-p1nsV5tH-WpjFdVKUJfYmFEI-fDXPCKNWQEZ87YFUmTkBVN1zwYuoqKnYWv8Gndx4IxAvBNwV-Ni0CV7thR92HT2JmjxuhiZ8y935tF7ExL3m3oaQLhKBBYc7lCkAm_qW6pnLDIeuqXQa_QO5Cp3XVvJ3wuv3Vpa"/>
+</div>
+<div class="flex-grow flex flex-col justify-between py-1">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="text-[10px] font-bold uppercase tracking-widest bg-primary-container text-on-primary-container px-2 py-0.5 rounded-full">Coding</span>
+<span class="text-[10px] font-bold uppercase tracking-widest bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded-full">Design</span>
+</div>
+<h3 class="text-lg font-headline font-bold text-on-surface leading-tight mb-3">Python编程 换 UI设计指导</h3>
+<div class="space-y-1.5">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="auto_awesome">auto_awesome</span>
+<span class="text-xs font-semibold text-on-surface-variant">我能提供: <span class="text-on-surface">爬虫实战、数据分析</span></span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-sm" data-icon="swap_horiz">swap_horiz</span>
+<span class="text-xs font-semibold text-on-surface-variant">我想换取: <span class="text-on-surface">Figma基础、组件库搭建</span></span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between mt-2">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-surface-container-high border-2 border-white shadow-sm overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Student avatar photo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhPBgJr3yttgvuvUcSCyzjYRSs2-5qR5GJ9pJZz5kiX19rajaCI7RHd1jlF2IQW7_CNYgWF2zQsAdi_TRTmX_BjOrpVj9C7rmjeDnHraCZbwtL4w6JTQgt97U9psRcuEo0B_h0gcg8kPazF2zmLEa-sIHJuAlGQNuZOqOYWM8xzX9OyVOVpnaFlllOKjcGHDVQ6h7kC35nzgf6R7i-iPg3kMjLJ0cf2PZRKzyPs7O7lL1ZvVjaSABvMKJ38sgi6xrExm9WW6Oq6LNm"/>
+</div>
+<span class="text-xs font-medium text-on-surface-variant">Zhang.Dev</span>
+</div>
+<span class="text-[10px] text-outline">2小时前</span>
+</div>
+</div>
+</div>
+<!-- Skill Card 2 -->
+<div class="group flex bg-surface-container-lowest rounded-lg p-4 gap-4 shadow-[0_20px_40px_rgba(38,44,81,0.04)] hover:shadow-[0_20px_40px_rgba(38,44,81,0.08)] transition-all duration-300 overflow-hidden relative">
+<div class="w-32 h-32 flex-shrink-0 rounded-md overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Close-up of organized handwritten academic notes with colorful highlights and a cup of fresh coffee on a wooden table" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLPRnsTBvOnplI90r3RopPXkZvRLAk5aFEoZbOJfn2sQOeS2louXD8UIUKgs1uh6heiYLedj8EVza1mXeuDJKcWroTjL5s3Ci4qgOCd87pzjY_QErAi679df72ftQcRQACROzIPG9QsLWxWuoO3BWzKlyPaDxrKOhnetg8m4ma3Z9nGlzKnBHp14aC8sYQRVIn54wB0np8HgdurbdOpU7cAtUrjio_QeIz3VY0HR8cZ6tod9Fq0Rmgka0pZhEcA0jawa7CzoSczw-G"/>
+</div>
+<div class="flex-grow flex flex-col justify-between py-1">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="text-[10px] font-bold uppercase tracking-widest bg-tertiary-container text-on-tertiary-container px-2 py-0.5 rounded-full">Academic</span>
+<span class="text-[10px] font-bold uppercase tracking-widest bg-primary-container text-on-primary-container px-2 py-0.5 rounded-full">Life</span>
+</div>
+<h3 class="text-lg font-headline font-bold text-on-surface leading-tight mb-3">期末笔记 换 冰美式咖啡</h3>
+<div class="space-y-1.5">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="auto_awesome">auto_awesome</span>
+<span class="text-xs font-semibold text-on-surface-variant">我能提供: <span class="text-on-surface">微积分/线性代数精编笔记</span></span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-sm" data-icon="swap_horiz">swap_horiz</span>
+<span class="text-xs font-semibold text-on-surface-variant">我想换取: <span class="text-on-surface">任意咖啡店大杯冰美式</span></span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between mt-2">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-surface-container-high border-2 border-white shadow-sm overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Student avatar photo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWhWypK4EFR10fsUzyFPPTHiVL2KngtrWJaQEzyrjDsygG8xkm3bO6KTa0v9ouzEDEpmk4bvFLtbw5arSBs4BL6EEbMLu8gVnjSyO-evTvROmeDC_ZtM-54ckxNlomD0IoLTCBtRYPQT7cNzwkezhshEsSVIMBgbqwaMB3oSfaZpwsm7ip987eQoBo3_QABdaGGzamJ4qiGXQu84r_KlMPSKInHt1UG1t0j_DkvFWOEt2GNHIt3x5EfTyvnzC_KCJ3oyoXMImxV2nx"/>
+</div>
+<span class="text-xs font-medium text-on-surface-variant">Elena_Studying</span>
+</div>
+<span class="text-[10px] text-outline">5分钟前</span>
+</div>
+</div>
+</div>
+<!-- Skill Card 3 -->
+<div class="group flex bg-surface-container-lowest rounded-lg p-4 gap-4 shadow-[0_20px_40px_rgba(38,44,81,0.04)] hover:shadow-[0_20px_40px_rgba(38,44,81,0.08)] transition-all duration-300 overflow-hidden relative">
+<div class="w-32 h-32 flex-shrink-0 rounded-md overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Acoustic guitar neck with shallow depth of field in a warm cozy bedroom studio" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcAtRdkeXaEdUghQYXWDvOIqaHtiUlJYaQcMlv36Ffc1lwE4R5jq_3MYu3CZYv96ZHHA9MBmBGk7bEuuK2o_px_sUHPlLx5O3TXol9YREqFkQkTc-6svazC361HEg4yWMuZh4PZXEKHZTWpOyjjubdZm1TortPa4mzglZfLfZwvmqeLEW2WGpSPjVEqTiFRyjZnxSQM7GtJ1YMmKTiUSzfp2VeLTZwPkQ4pw2q9JlDI2NHG76lMtcWas_I4TVVOTgBVdQSSczP-fDC"/>
+</div>
+<div class="flex-grow flex flex-col justify-between py-1">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="text-[10px] font-bold uppercase tracking-widest bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded-full">Art</span>
+<span class="text-[10px] font-bold uppercase tracking-widest bg-tertiary-container text-on-tertiary-container px-2 py-0.5 rounded-full">Media</span>
+</div>
+<h3 class="text-lg font-headline font-bold text-on-surface leading-tight mb-3">吉他弹唱 换 摄影后期</h3>
+<div class="space-y-1.5">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="auto_awesome">auto_awesome</span>
+<span class="text-xs font-semibold text-on-surface-variant">我能提供: <span class="text-on-surface">流行吉他弹唱、和弦入门</span></span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-sm" data-icon="swap_horiz">swap_horiz</span>
+<span class="text-xs font-semibold text-on-surface-variant">我想换取: <span class="text-on-surface">Lightroom/PS调色教程</span></span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between mt-2">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-surface-container-high border-2 border-white shadow-sm overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Student avatar photo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2RUIy8datXE58gG5Ls8TxqSsX53JpVIyhoCr1HHaDvcCHoEGBRQwzI4BS2pv-OWisuw5OXK7BzL5jZNTL9LLOynOJspWTeH7S5mGpO9grlGrwYJ_6JY11M8DP9H0T8HwZAIkGvsNQX3jVm7TIEMQ9N4odVIEe20j2KIbl9QQ3UbBRN2Jcvglqieuy8SolClIXKav7eaHY8ex_aU7Dx28SbPrlJKQXPGtl_v1a7TrBvl8wpaNblLeRhRFO0pKEBSYKwb8nS2WtpU9C"/>
+</div>
+<span class="text-xs font-medium text-on-surface-variant">Leo_Vibes</span>
+</div>
+<span class="text-[10px] text-outline">12:30</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Action Button -->
+<button class="fixed right-6 bottom-24 w-14 h-14 bg-gradient-to-br from-primary to-primary-container text-white rounded-full shadow-lg flex items-center justify-center active:scale-90 transition-all duration-300 z-50">
+<span class="material-symbols-outlined text-3xl">add</span>
+</button>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full h-20 bg-[#ffffff]/70 backdrop-blur-xl flex justify-around items-center px-6 pb-2 z-50 rounded-t-lg shadow-[0_-10px_30px_rgba(38,44,81,0.04)]">
+<a class="flex flex-col items-center justify-center bg-primary text-white rounded-full p-3 mb-2 scale-110 active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label text-[11px] font-bold uppercase tracking-wider hidden">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="font-label text-[11px] font-bold uppercase tracking-wider hidden">Explore</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+<span class="font-label text-[11px] font-bold uppercase tracking-wider hidden">Post</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label text-[11px] font-bold uppercase tracking-wider hidden">Profile</span>
+</a>
+</nav>
+</body></html>

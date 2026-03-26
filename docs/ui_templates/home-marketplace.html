@@ -1,0 +1,255 @@
+<!-- 个人中心 - 中文优化版 -->
+<!DOCTYPE html>
+
+<html class="light" lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-dim": "#0049b2",
+              "inverse-on-surface": "#959ac6",
+              "on-tertiary": "#fff2ce",
+              "surface-tint": "#0053ca",
+              "on-surface": "#262c51",
+              "tertiary-fixed": "#fdd400",
+              "tertiary-container": "#fdd400",
+              "on-secondary-container": "#005d22",
+              "on-primary-container": "#001f56",
+              "on-secondary-fixed": "#004819",
+              "primary-fixed": "#769dff",
+              "surface-container-high": "#dfe0ff",
+              "surface-container-low": "#f0efff",
+              "secondary": "#006a28",
+              "inverse-primary": "#5a8cff",
+              "outline-variant": "#a5aad7",
+              "on-error-container": "#570008",
+              "secondary-fixed-dim": "#4bee74",
+              "on-primary-fixed": "#000000",
+              "surface-dim": "#cdd1ff",
+              "on-primary": "#f1f2ff",
+              "tertiary-fixed-dim": "#edc600",
+              "surface": "#f7f5ff",
+              "background": "#f7f5ff",
+              "on-error": "#ffefee",
+              "secondary-fixed": "#5cfd80",
+              "secondary-container": "#5cfd80",
+              "surface-container-lowest": "#ffffff",
+              "on-secondary": "#cfffce",
+              "error": "#b31b25",
+              "surface-container-highest": "#d8daff",
+              "on-surface-variant": "#545981",
+              "surface-variant": "#d8daff",
+              "error-container": "#fb5151",
+              "primary-container": "#769dff",
+              "tertiary-dim": "#5f4e00",
+              "secondary-dim": "#005d22",
+              "on-secondary-fixed-variant": "#006827",
+              "surface-bright": "#f7f5ff",
+              "on-tertiary-fixed-variant": "#645300",
+              "tertiary": "#6d5a00",
+              "primary": "#0053ca",
+              "on-primary-fixed-variant": "#002869",
+              "on-background": "#262c51",
+              "primary-fixed-dim": "#5f8fff",
+              "inverse-surface": "#05092f",
+              "surface-container": "#e6e6ff",
+              "outline": "#6f749e",
+              "on-tertiary-container": "#594a00",
+              "on-tertiary-fixed": "#433700",
+              "error-dim": "#9f0519"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bg-primary-gradient {
+            background: linear-gradient(135deg, #0053ca 0%, #769dff 100%);
+        }
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: #f7f5ff;
+            color: #262c51;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-surface min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="bg-[#ffffff]/70 dark:bg-[#262c51]/70 backdrop-blur-xl shadow-[0_20px_40px_rgba(38,44,81,0.06)] docked full-width top-0 sticky z-50">
+<div class="flex flex-col w-full pt-4 px-6">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-container">
+<img alt="Student Profile Photo" data-alt="close-up portrait of a smiling university student with glasses in a bright sunlit library setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCe8q7indkartYk1Aei5QTqf-d02UX0w2iY2U0jav2xoncDxROyB71srgi2S03kD0XNYaIbV9dBX-EMPEQYL0bnuiMg31WnB3aCTpKshi7TEAhCg4W-lQPHGS4FtkoWSWmb6hgJ4LsWGjLI-2hQXyu23mybbT_cBeg3FhtXRb-HNTmzi9FD25zaol3bwBwVU0nCzl2f8TH-ZZSnlA_8N8eZZ6ItGAiXeeDPRKJNl8lkQvMythitzBHHIW3-dfAR-FZ281I3BujGGtKf"/>
+</div>
+<span class="text-2xl font-black text-[#0053ca] dark:text-[#769dff] font-headline tracking-tight">Scholar Pulse</span>
+</div>
+<button class="active:scale-95 transition-transform text-[#0053ca] dark:text-[#769dff]">
+<span class="material-symbols-outlined text-2xl">notifications</span>
+</button>
+</div>
+<!-- Navigation Tabs (Integrated into TopAppBar based on predicted components) -->
+<nav class="flex gap-8 border-b border-[#f0efff] dark:border-[#545981]/20">
+<a class="text-[#545981] dark:text-[#a5aad7] pb-2 font-['Manrope'] font-semibold text-base hover:text-[#0053ca] transition-colors duration-300" href="#">Skill Exchange</a>
+<a class="text-[#0053ca] border-b-4 border-[#0053ca] pb-2 font-['Manrope'] font-semibold text-base" href="#">Campus Market</a>
+</nav>
+</div>
+</header>
+<main class="max-w-4xl mx-auto px-6 py-8 space-y-8">
+<!-- Hero Search Section (Custom high-end component) -->
+<section class="relative bg-surface-container-lowest rounded-lg p-8 shadow-[0_20px_40px_rgba(38,44,81,0.04)] overflow-hidden">
+<div class="relative z-10 space-y-4">
+<h2 class="text-3xl font-headline font-extrabold text-on-surface tracking-tight">发现校园好物</h2>
+<div class="flex items-center bg-surface-container-low rounded-full px-5 py-3 gap-3 w-full md:max-w-md focus-within:ring-2 ring-primary/30 transition-all">
+<span class="material-symbols-outlined text-on-surface-variant">search</span>
+<input class="bg-transparent border-none focus:ring-0 w-full text-on-surface font-medium placeholder:text-on-surface-variant/60" placeholder="搜索商品或服务..." type="text"/>
+</div>
+</div>
+<!-- Organic Abstract Background Element -->
+<div class="absolute -right-20 -top-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
+<div class="absolute right-10 bottom-0 opacity-10">
+<span class="material-symbols-outlined text-9xl">shopping_bag</span>
+</div>
+</section>
+<!-- Horizontal Market List -->
+<div class="space-y-6">
+<!-- Item 1: iPad Pro -->
+<article class="flex flex-col md:flex-row bg-surface-container-lowest rounded-lg overflow-hidden transition-all hover:translate-y-[-4px] hover:shadow-lg group">
+<div class="md:w-1/3 h-52 md:h-auto relative overflow-hidden">
+<img alt="iPad Pro" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="sleek modern silver tablet with stylus on a minimalist wooden desk with soft cinematic shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5o922PU_ojSPhMgn2EpfJ_9thk6ymc_m_77pzlFfF6UYOqWSntgHgZ-NP5tzR4FodaeEmvmvKNV_28OnyGqHqhgzfUSgv7nyVDGRdCVhXmbrv83dHDyGNqpt1nPZADcI3Ed_s9qYTH91RIcqwOyNqZq_kaw0XtK_FduLx1zz7ddsXcMvvzX4dZiPtiHf9JvbW_KPBiZeVWVJqz3UYzHj81OOMBrAB0kXG9DaPyqQD_fOF-FlbafNmo8sy35YcOe-vsxck2wy9otit"/>
+<div class="absolute top-4 left-4 bg-primary/90 text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full backdrop-blur-md">99新</div>
+</div>
+<div class="md:w-2/3 p-6 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-2">
+<h3 class="text-xl font-headline font-bold text-on-surface">二手 iPad Pro 11寸 (M2)</h3>
+<span class="text-2xl font-black text-primary font-headline">¥4,500</span>
+</div>
+<p class="text-on-surface-variant text-sm leading-relaxed line-clamp-2">自用极品，无划痕，带原装Apple Pencil二代。主要用于考研刷题，现已上岸转让给需要的学弟学妹。</p>
+</div>
+<div class="flex items-center justify-between mt-6">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-sm">person</span>
+</div>
+<span class="text-on-surface font-semibold text-sm">李同学 · 计算机系</span>
+</div>
+<button class="bg-primary-gradient text-on-primary px-6 py-2 rounded-full font-bold text-sm active:scale-95 transition-all">立即联系</button>
+</div>
+</div>
+</article>
+<!-- Item 2: Notes -->
+<article class="flex flex-col md:flex-row bg-surface-container-lowest rounded-lg overflow-hidden transition-all hover:translate-y-[-4px] hover:shadow-lg group">
+<div class="md:w-1/3 h-52 md:h-auto relative overflow-hidden">
+<img alt="Math Notes" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="close-up of neatly organized handwritten mathematical equations in a notebook with highlighter marks and pencils" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnAu8JhD-ld9uJasSUhL4v6rQtZHdPUV0RBgHhJe-miovJNFPjMrgGujhw8P6p0HKpIOoegq4vNMh9zKB4kd9jt1PqoP9Th6fzMlU90MP6uN54XKXAgxexk_wyR3bskbxIXI9LRQ-9laC59jx4uFcfqS2wVz-ERfcJch1KJqnfyO9QByMqFoz_tOmXI4Fi-nq3ljLf3XvKf7pBv62a74A3Me_urR8TiA-R7NLVWOzMaU_HMsYuqKmVFhpuWnY9dBK7g6B1Dj25Q1Vm"/>
+<div class="absolute top-4 left-4 bg-secondary/90 text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full backdrop-blur-md">学霸推荐</div>
+</div>
+<div class="md:w-2/3 p-6 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-2">
+<h3 class="text-xl font-headline font-bold text-on-surface">考研数学一真题手写笔记</h3>
+<span class="text-2xl font-black text-primary font-headline">¥120</span>
+</div>
+<p class="text-on-surface-variant text-sm leading-relaxed line-clamp-2">涵盖2010-2023年所有真题解析，包含独家解题思路和易错点整理。电子版/纸质版均可提供。</p>
+</div>
+<div class="flex items-center justify-between mt-6">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-sm">verified</span>
+</div>
+<span class="text-on-surface font-semibold text-sm">王学姐 · 数学系</span>
+</div>
+<button class="bg-primary-gradient text-on-primary px-6 py-2 rounded-full font-bold text-sm active:scale-95 transition-all">购买笔记</button>
+</div>
+</div>
+</article>
+<!-- Item 3: Computer Repair -->
+<article class="flex flex-col md:flex-row bg-surface-container-lowest rounded-lg overflow-hidden transition-all hover:translate-y-[-4px] hover:shadow-lg group border-l-4 border-secondary">
+<div class="md:w-1/3 h-52 md:h-auto relative overflow-hidden">
+<img alt="PC Repair" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="technician hands carefully repairing a laptop motherboard with precision tools and focused lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCciudyPnO98LNywTk48B7j1RNkKFvZ5XaddFJTQ_PrjKd75ki2JDGh11b8ZrpRgBer_5E-M77Vq1YPjpDBJn7rUwDBHWGmK_A3F7EMmiIANJVwbOfKIQeY5KGvXZK6LMJBIfawNSUy9JtiyYdEut8MSHQDY9U5pXHAxaDKBz_oXJSXr9Z1Y6eRj6WjeHRurqLnVsUeAumUdRw7bs4ra6p7fwON8cA6SA60jw1Ljn7qUdr2-Wp_unSGw5WZLNxQtut1041i-sL06YfK"/>
+<div class="absolute top-4 left-4 bg-tertiary-container text-on-tertiary-container text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full backdrop-blur-md">专业服务</div>
+</div>
+<div class="md:w-2/3 p-6 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-2">
+<h3 class="text-xl font-headline font-bold text-on-surface">上门代修电脑 / 清灰安装系统</h3>
+<span class="text-2xl font-black text-primary font-headline">¥50</span>
+</div>
+<p class="text-on-surface-variant text-sm leading-relaxed line-clamp-2">承接各类笔记本清灰、系统重装、软件安装。宿舍上门服务，修不好不收钱，童叟无欺。</p>
+</div>
+<div class="flex items-center justify-between mt-6">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-sm">build</span>
+</div>
+<span class="text-on-surface font-semibold text-sm">张同学 · 自动化</span>
+</div>
+<div class="flex gap-2">
+<button class="bg-secondary-container text-on-secondary-container px-6 py-2 rounded-full font-bold text-sm active:scale-95 transition-all">咨询服务</button>
+</div>
+</div>
+</div>
+</article>
+</div>
+<!-- Featured Categories Grid -->
+<section class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12">
+<div class="bg-surface-container-high p-6 rounded-lg flex flex-col items-center justify-center text-center space-y-2 hover:bg-primary-container/20 transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-primary text-3xl">laptop_mac</span>
+<span class="font-bold text-on-surface text-sm">数码产品</span>
+</div>
+<div class="bg-surface-container-high p-6 rounded-lg flex flex-col items-center justify-center text-center space-y-2 hover:bg-primary-container/20 transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-primary text-3xl">menu_book</span>
+<span class="font-bold text-on-surface text-sm">二手书籍</span>
+</div>
+<div class="bg-surface-container-high p-6 rounded-lg flex flex-col items-center justify-center text-center space-y-2 hover:bg-primary-container/20 transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-primary text-3xl">styler</span>
+<span class="font-bold text-on-surface text-sm">生活用品</span>
+</div>
+<div class="bg-surface-container-high p-6 rounded-lg flex flex-col items-center justify-center text-center space-y-2 hover:bg-primary-container/20 transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-primary text-3xl">construction</span>
+<span class="font-bold text-on-surface text-sm">校园服务</span>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full h-20 bg-[#ffffff]/70 backdrop-blur-xl flex justify-around items-center px-6 pb-2 z-50 rounded-t-lg shadow-[0_-10px_30px_rgba(38,44,81,0.04)]">
+<a class="flex flex-col items-center justify-center bg-primary text-white rounded-full p-3 mb-2 scale-110 active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label text-[11px] font-bold uppercase tracking-wider hidden">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="font-label text-[11px] font-bold uppercase tracking-wider hidden">Explore</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+<span class="font-label text-[11px] font-bold uppercase tracking-wider hidden">Post</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label text-[11px] font-bold uppercase tracking-wider hidden">Profile</span>
+</a>
+</nav>
+</body></html>
