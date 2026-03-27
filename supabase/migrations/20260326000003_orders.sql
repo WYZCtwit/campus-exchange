@@ -95,17 +95,53 @@ CREATE TABLE IF NOT EXISTS reviews (
   UNIQUE(order_id, reviewer_id),
 
   -- 不能自己评价自己
-  CONSTRAINT no_self_review CHECK (reviewer_id != reviewee_id),
-
-  -- 只能评价已完成的订单
-  CONSTRAINT review_only_completed CHECK (
-    EXISTS (
-      SELECT 1 FROM orders
-      WHERE orders.id = order_id
-      AND orders.status = 'completed'
-    )
-  )
+  CONSTRAINT no_self_review CHECK (reviewer_id != reviewee_id)
 );
+
+-- =====================================================
+-- Reviews Trigger: 只能评价已完成的订单
+-- =====================================================
+CREATE OR REPLACE FUNCTION ensure_order_completed()
+RETURNS TRIGGER AS $$
+BEGIN
+  -- 检查订单是否已完成
+  IF NOT EXISTS (
+    SELECT 1 FROM orders
+    WHERE orders.id = NEW.order_id
+    AND orders.status = 'completed'
+  ) THEN
+    RAISE EXCEPTION '只能评价已完成的订单';
+  END IF;
+
+  -- 确保评价者是订单的买家或卖家
+  IF NOT EXISTS (
+    SELECT 1 FROM orders
+    WHERE orders.id = NEW.order_id
+    AND (orders.buyer_id = NEW.reviewer_id OR orders.seller_id = NEW.reviewer_id)
+  ) THEN
+    RAISE EXCEPTION '只有订单参与者可以评价';
+  END IF;
+
+  -- 确保被评价者是订单的另一参与者
+  IF NOT EXISTS (
+    SELECT 1 FROM orders
+    WHERE orders.id = NEW.order_id
+    AND (
+      (orders.buyer_id = NEW.reviewer_id AND orders.seller_id = NEW.reviewee_id) OR
+      (orders.seller_id = NEW.reviewer_id AND orders.buyer_id = NEW.reviewee_id)
+    )
+  ) THEN
+    RAISE EXCEPTION '被评价者必须是订单的另一参与者';
+  END IF;
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER review_validation
+BEFORE INSERT OR UPDATE ON reviews
+FOR EACH ROW
+EXECUTE FUNCTION ensure_order_completed();
 
 -- Reviews indexes
 CREATE INDEX IF NOT EXISTS idx_reviews_order_id ON reviews(order_id);

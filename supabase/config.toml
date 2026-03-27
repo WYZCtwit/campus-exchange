@@ -21,8 +21,6 @@ enabled = false
 [db]
 # Port to use for the local database URL.
 port = 54322
-# Port used by supabase bigdata service
-bigdata_port = 54323
 # The database major version to use. This has to be the same as your remote database. Run `SHOW
 # server_version;` on the remote database to check.
 major_version = 15
@@ -103,16 +101,10 @@ enable_manual_linking = false
 enable_signup = true
 # If enabled, a user will be automatically signed in after they confirm their email.
 double_confirm_changes = true
-# If enabled, you need to provide your own username/password and the resend the user with the redirect link to the redirect URL in the email.
-secure_email_change_enabled = true
-# If enabled, users will be required to re-authenticate before they can update their password.
-secure_password_change_enabled = false
 # Controls the minimum amount of time that must pass before sending another signup confirmation or password reset email. Max is 24hrs (86400sec).
 max_frequency = "1s"
 # Number of characters used in the email OTP.
 otp_length = 6
-# Number of seconds before the email OTP expires (defaults to 1hr)
-otp_expiry = 3600
 
 # Uncomment to customize email template
 # [auth.email.template.invite]
@@ -122,10 +114,6 @@ otp_expiry = 3600
 [auth.sms]
 # Allow/disallow new user signups via SMS to your project.
 enable_signup = true
-# If enabled, users will need to reauthenticate their SMS in order to change their number.
-secure_phone_change_enabled = true
-# Number of seconds before the phone OTP expires (defaults to 1hr)
-otp_expiry = 3600
 
 # Configure logged in session timeouts.
 # [auth.sessions]
@@ -160,15 +148,12 @@ redirect_uri = ""
 # Overrides the default auth provider URL. Used to support self-hosted gitlab, single-tenant Azure,
 # or any other third-party OIDC providers.
 url = ""
-# If enabled, the nonce check will be skipped. Required for local sign in with Google auth.
-skip_nonce = false
 
 [auth.external.google]
 enabled = false
 client_id = ""
 secret = "env(SUPABASE_AUTH_EXTERNAL_GOOGLE_SECRET)"
 redirect_uri = ""
-skip_nonce = false
 
 [auth.external.github]
 enabled = false
