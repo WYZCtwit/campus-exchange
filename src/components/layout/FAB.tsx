@@ -2,9 +2,10 @@ interface FABProps {
   onClick?: () => void
   icon?: string
   className?: string
+  badge?: number
 }
 
-function FAB({ onClick, icon = 'add', className = '' }: FABProps) {
+function FAB({ onClick, icon = 'add', className = '', badge }: FABProps) {
   return (
     <button
       onClick={onClick}
@@ -21,6 +22,11 @@ function FAB({ onClick, icon = 'add', className = '' }: FABProps) {
       `}
     >
       <span className="material-symbols-outlined text-3xl">{icon}</span>
+      {badge !== undefined && badge > 0 && (
+        <span className="absolute -top-1 -right-1 w-5 h-5 bg-error text-on-error text-xs font-bold rounded-full flex items-center justify-center">
+          {badge > 99 ? '99+' : badge}
+        </span>
+      )}
     </button>
   )
 }

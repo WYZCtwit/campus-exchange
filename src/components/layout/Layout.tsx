@@ -4,22 +4,26 @@ import BottomNavBar from './BottomNavBar'
 import FAB from './FAB'
 
 // Pages that should show the full shell (top bar, bottom nav, FAB)
-const shellPages = ['/', '/home', '/exchange']
+const fullShellPages = ['/', '/home', '/exchange']
+
+// Pages that should show bottom nav but no top bar or FAB
+const bottomNavOnlyPages = ['/chat', '/profile']
 
 function Layout() {
   const location = useLocation()
-  const showFullShell = shellPages.includes(location.pathname)
+  const showFullShell = fullShellPages.includes(location.pathname)
+  const showBottomNavOnly = bottomNavOnlyPages.some(path => location.pathname.startsWith(path))
 
   return (
     <div className="min-h-screen bg-surface">
       {showFullShell && <TopAppBar />}
 
-      <main className={showFullShell ? 'pt-32 pb-24' : 'pb-24'}>
+      <main className={showFullShell ? 'pt-32 pb-24' : showBottomNavOnly ? 'pb-24' : ''}>
         <Outlet />
       </main>
 
       {showFullShell && <FAB />}
-      <BottomNavBar />
+      {showBottomNavOnly && <BottomNavBar />}
     </div>
   )
 }

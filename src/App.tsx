@@ -2,8 +2,9 @@ import { Routes, Route } from 'react-router-dom'
 import Layout from './components/layout/Layout'
 import Home from './pages/Home'
 import Exchange from './pages/Exchange'
-import Chat from './pages/Chat'
 import Profile from './pages/Profile'
+import MessagesList from './pages/MessagesList'
+import ChatRoom from './pages/ChatRoom'
 
 function App() {
   return (
@@ -12,9 +13,13 @@ function App() {
         <Route index element={<Home />} />
         <Route path="home" element={<Home />} />
         <Route path="exchange" element={<Exchange />} />
-        <Route path="chat" element={<Chat />} />
         <Route path="profile" element={<Profile />} />
       </Route>
+      {/* Chat routes - separate layout without bottom nav for chat room */}
+      <Route path="/chat" element={<Layout />}>
+        <Route index element={<MessagesList />} />
+      </Route>
+      <Route path="/chat/:conversationId" element={<ChatRoom />} />
     </Routes>
   )
 }
