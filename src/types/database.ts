@@ -452,6 +452,7 @@ export interface Database {
           author: string | null
           created_at: string
         }
+        Relationships: []
       }
     }
     Functions: {

@@ -8,6 +8,7 @@ import TeamSquare from './pages/TeamSquare'
 import TeamDetail from './pages/TeamDetail'
 import MessagesList from './pages/MessagesList'
 import ChatRoom from './pages/ChatRoom'
+import Notifications from './pages/Notifications'
 
 function App() {
   return (
@@ -20,11 +21,10 @@ function App() {
         <Route path="post" element={<Post />} />
         <Route path="teams" element={<TeamSquare />} />
         <Route path="teams/:id" element={<TeamDetail />} />
+        <Route path="chat" element={<MessagesList />} />
+        <Route path="notifications" element={<Notifications />} />
       </Route>
-      {/* Chat routes - separate layout without bottom nav for chat room */}
-      <Route path="/chat" element={<Layout />}>
-        <Route index element={<MessagesList />} />
-      </Route>
+      {/* Chat room uses separate layout without bottom nav */}
       <Route path="/chat/:conversationId" element={<ChatRoom />} />
     </Routes>
   )
