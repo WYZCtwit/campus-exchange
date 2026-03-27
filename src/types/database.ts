@@ -62,6 +62,7 @@ export interface Database {
           created_at?: string
           updated_at?: string
         }
+        Relationships: []
       }
       skills: {
         Row: {
@@ -115,6 +116,7 @@ export interface Database {
           created_at?: string
           updated_at?: string
         }
+        Relationships: []
       }
       items: {
         Row: {
@@ -171,6 +173,7 @@ export interface Database {
           created_at?: string
           updated_at?: string
         }
+        Relationships: []
       }
       teams: {
         Row: {
@@ -221,6 +224,7 @@ export interface Database {
           created_at?: string
           updated_at?: string
         }
+        Relationships: []
       }
       orders: {
         Row: {
@@ -265,6 +269,7 @@ export interface Database {
           created_at?: string
           updated_at?: string
         }
+        Relationships: []
       }
       applications: {
         Row: {
@@ -297,6 +302,7 @@ export interface Database {
           created_at?: string
           updated_at?: string
         }
+        Relationships: []
       }
       reviews: {
         Row: {
@@ -326,6 +332,7 @@ export interface Database {
           comment?: string | null
           created_at?: string
         }
+        Relationships: []
       }
       conversations: {
         Row: {
@@ -358,6 +365,7 @@ export interface Database {
           last_message_at?: string | null
           created_at?: string
         }
+        Relationships: []
       }
       messages: {
         Row: {
@@ -387,6 +395,7 @@ export interface Database {
           is_read?: boolean
           created_at?: string
         }
+        Relationships: []
       }
       notifications: {
         Row: {
@@ -428,6 +437,7 @@ export interface Database {
           is_read?: boolean
           created_at?: string
         }
+        Relationships: []
       }
     }
     Views: {

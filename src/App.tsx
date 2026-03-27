@@ -3,14 +3,11 @@ import Layout from './components/layout/Layout'
 import Home from './pages/Home'
 import Exchange from './pages/Exchange'
 import Profile from './pages/Profile'
-<<<<<<< HEAD
 import Post from './pages/Post'
 import TeamSquare from './pages/TeamSquare'
 import TeamDetail from './pages/TeamDetail'
-=======
 import MessagesList from './pages/MessagesList'
 import ChatRoom from './pages/ChatRoom'
->>>>>>> worktree-feat-chat
 
 function App() {
   return (
