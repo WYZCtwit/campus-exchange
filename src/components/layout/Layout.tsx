@@ -2,6 +2,7 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import TopAppBar from './TopAppBar'
 import BottomNavBar from './BottomNavBar'
 import FAB from './FAB'
+import { useAuthStore } from '@/stores/authStore'
 
 // Pages that should show the full shell (top bar, bottom nav, FAB)
 const fullShellPages = ['/', '/home', '/exchange', '/teams']
@@ -12,12 +13,13 @@ const bottomNavOnlyPages = ['/chat', '/profile']
 function Layout() {
   const location = useLocation()
   const navigate = useNavigate()
+  const requireProfile = useAuthStore((s) => s.requireProfile)
   const showFullShell = fullShellPages.includes(location.pathname)
   const showBottomNavOnly = bottomNavOnlyPages.some(path => location.pathname.startsWith(path))
   const showBottomNav = showFullShell || showBottomNavOnly
 
   const handleFABClick = () => {
-    navigate('/post')
+    requireProfile(() => navigate('/post'))
   }
 
   return (
