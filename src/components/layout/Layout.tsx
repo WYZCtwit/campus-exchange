@@ -2,51 +2,55 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import TopAppBar from './TopAppBar'
 import BottomNavBar from './BottomNavBar'
 import FAB from './FAB'
+import { useNotificationPolling } from '../../hooks/useNotifications'
 
 // Pages that should show the full shell (top bar, bottom nav, FAB)
-<<<<<<< HEAD
-const shellPages = ['/', '/home', '/exchange', '/teams']
-
-function Layout() {
-  const location = useLocation()
-  const navigate = useNavigate()
-  const showFullShell = shellPages.includes(location.pathname)
-  const showBottomNav = !location.pathname.startsWith('/post')
-
-  const handleFABClick = () => {
-    navigate('/post')
-  }
-=======
-const fullShellPages = ['/', '/home', '/exchange']
+const fullShellPages = ['/', '/home', '/exchange', '/teams']
 
 // Pages that should show bottom nav but no top bar or FAB
 const bottomNavOnlyPages = ['/chat', '/profile']
 
+// Pages that need top bar but no tabs (back navigation instead)
+const topBarOnlyPages = ['/notifications']
+
+// TODO: Replace with actual auth user ID from auth context
+const MOCK_USER_ID = 'mock-user-id'
+
 function Layout() {
   const location = useLocation()
+  const navigate = useNavigate()
+
+  // Poll notifications for the current user (30s interval)
+  useNotificationPolling(MOCK_USER_ID, 30_000)
   const showFullShell = fullShellPages.includes(location.pathname)
   const showBottomNavOnly = bottomNavOnlyPages.some(path => location.pathname.startsWith(path))
->>>>>>> worktree-feat-chat
+  const showTopBarOnly = topBarOnlyPages.includes(location.pathname)
+  const showBottomNav = showFullShell || showBottomNavOnly
+
+  const handleFABClick = () => {
+    navigate('/post')
+  }
+
+  // Determine main padding classes
+  const mainClasses = showFullShell
+    ? 'pt-32 pb-24'
+    : showBottomNav
+      ? 'pb-24'
+      : showTopBarOnly
+        ? 'pt-20 pb-24'
+        : ''
 
   return (
     <div className="min-h-screen bg-surface">
       {showFullShell && <TopAppBar />}
+      {showTopBarOnly && <TopAppBar showTabs={false} showBack title="Notifications" onBack={() => navigate(-1)} />}
 
-<<<<<<< HEAD
-      <main className={showFullShell ? 'pt-32 pb-24' : ''}>
+      <main className={mainClasses}>
         <Outlet />
       </main>
 
       {showFullShell && <FAB onClick={handleFABClick} />}
       {showBottomNav && <BottomNavBar />}
-=======
-      <main className={showFullShell ? 'pt-32 pb-24' : showBottomNavOnly ? 'pb-24' : ''}>
-        <Outlet />
-      </main>
-
-      {showFullShell && <FAB />}
-      {showBottomNavOnly && <BottomNavBar />}
->>>>>>> worktree-feat-chat
     </div>
   )
 }

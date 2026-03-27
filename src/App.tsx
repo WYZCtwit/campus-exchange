@@ -3,14 +3,12 @@ import Layout from './components/layout/Layout'
 import Home from './pages/Home'
 import Exchange from './pages/Exchange'
 import Profile from './pages/Profile'
-<<<<<<< HEAD
 import Post from './pages/Post'
 import TeamSquare from './pages/TeamSquare'
 import TeamDetail from './pages/TeamDetail'
-=======
 import MessagesList from './pages/MessagesList'
 import ChatRoom from './pages/ChatRoom'
->>>>>>> worktree-feat-chat
+import Notifications from './pages/Notifications'
 
 function App() {
   return (
@@ -23,11 +21,10 @@ function App() {
         <Route path="post" element={<Post />} />
         <Route path="teams" element={<TeamSquare />} />
         <Route path="teams/:id" element={<TeamDetail />} />
+        <Route path="chat" element={<MessagesList />} />
+        <Route path="notifications" element={<Notifications />} />
       </Route>
-      {/* Chat routes - separate layout without bottom nav for chat room */}
-      <Route path="/chat" element={<Layout />}>
-        <Route index element={<MessagesList />} />
-      </Route>
+      {/* Chat room uses separate layout without bottom nav */}
       <Route path="/chat/:conversationId" element={<ChatRoom />} />
     </Routes>
   )

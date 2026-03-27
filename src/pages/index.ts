@@ -1,11 +1,9 @@
 export { default as Home } from './Home'
 export { default as Exchange } from './Exchange'
 export { default as Profile } from './Profile'
-<<<<<<< HEAD
 export { default as Post } from './Post'
 export { default as PostSkill } from './PostSkill'
 export { default as PostItem } from './PostItem'
-=======
 export { default as MessagesList } from './MessagesList'
 export { default as ChatRoom } from './ChatRoom'
->>>>>>> worktree-feat-chat
+export { default as Notifications } from './Notifications'
