@@ -9,6 +9,7 @@ interface TopAppBarProps {
 const defaultTabs = [
   { label: 'Skill Exchange', path: '/home' },
   { label: 'Campus Market', path: '/exchange' },
+  { label: '组队广场', path: '/teams' },
 ]
 
 function TopAppBar({ title = 'Scholar Pulse', showTabs = true, tabs = defaultTabs }: TopAppBarProps) {

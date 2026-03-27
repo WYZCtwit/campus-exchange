@@ -4,7 +4,7 @@ import BottomNavBar from './BottomNavBar'
 import FAB from './FAB'
 
 // Pages that should show the full shell (top bar, bottom nav, FAB)
-const shellPages = ['/', '/home', '/exchange']
+const shellPages = ['/', '/home', '/exchange', '/teams']
 
 function Layout() {
   const location = useLocation()

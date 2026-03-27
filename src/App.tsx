@@ -4,6 +4,8 @@ import Home from './pages/Home'
 import Exchange from './pages/Exchange'
 import Chat from './pages/Chat'
 import Profile from './pages/Profile'
+import TeamSquare from './pages/TeamSquare'
+import TeamDetail from './pages/TeamDetail'
 
 function App() {
   return (
@@ -14,6 +16,8 @@ function App() {
         <Route path="exchange" element={<Exchange />} />
         <Route path="chat" element={<Chat />} />
         <Route path="profile" element={<Profile />} />
+        <Route path="teams" element={<TeamSquare />} />
+        <Route path="teams/:id" element={<TeamDetail />} />
       </Route>
     </Routes>
   )
