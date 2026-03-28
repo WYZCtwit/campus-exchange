@@ -1,8 +1,6 @@
 import { useNotificationStore } from '../stores/notificationStore'
+import { useAuthStore } from '../stores/authStore'
 import type { Notification, NotificationType } from '../types/database'
-
-// TODO: Replace with actual auth user ID from auth context
-const MOCK_USER_ID = 'mock-user-id'
 
 /** Map notification types to visual config */
 const typeConfig: Record<NotificationType, { icon: string; color: string; group: string }> = {
@@ -105,6 +103,7 @@ function NotificationItem({ notification, onRead }: NotificationItemProps) {
  * - Empty state with friendly illustration
  */
 function Notifications() {
+  const user = useAuthStore(s => s.user)
   const notifications = useNotificationStore(s => s.notifications)
   const loading = useNotificationStore(s => s.loading)
   const error = useNotificationStore(s => s.error)
@@ -113,7 +112,7 @@ function Notifications() {
   const unreadCount = useNotificationStore(s => s.getUnreadCount())
 
   const handleMarkAllRead = () => {
-    markAllAsRead(MOCK_USER_ID)
+    if (user) markAllAsRead(user.id)
   }
 
   // Group notifications by category
