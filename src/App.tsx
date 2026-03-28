@@ -6,6 +6,7 @@ import Profile from './pages/Profile'
 import Post from './pages/Post'
 import TeamSquare from './pages/TeamSquare'
 import TeamDetail from './pages/TeamDetail'
+import PostTeam from './pages/PostTeam'
 import MessagesList from './pages/MessagesList'
 import ChatRoom from './pages/ChatRoom'
 import Notifications from './pages/Notifications'
@@ -22,6 +23,7 @@ function App() {
         <Route path="profile" element={<Profile />} />
         <Route path="post" element={<Post />} />
         <Route path="teams" element={<TeamSquare />} />
+        <Route path="post-team" element={<PostTeam />} />
         <Route path="teams/:id" element={<TeamDetail />} />
         <Route path="chat" element={<MessagesList />} />
         <Route path="notifications" element={<Notifications />} />
