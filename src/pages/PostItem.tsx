@@ -1,5 +1,8 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import type { ItemCategory, ItemCondition } from '../types/database'
+import { useAuthStore } from '../stores/authStore'
+import { supabase } from '../lib/supabase'
 import ImageUploader from '../components/publish/ImageUploader'
 import ConditionSelector from '../components/publish/ConditionSelector'
 import LocationPicker from '../components/publish/LocationPicker'
@@ -76,6 +79,8 @@ const initialFormData: ItemFormData = {
 }
 
 function PostItem() {
+  const navigate = useNavigate()
+  const user = useAuthStore(s => s.user)
   const [formData, setFormData] = useState<ItemFormData>(initialFormData)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -91,6 +96,10 @@ function PostItem() {
   }
 
   const handleSubmit = async () => {
+    if (!user) {
+      alert('请先完成登录')
+      return
+    }
     if (!formData.title.trim() || !formData.description.trim() || !formData.price) {
       alert('请填写完整信息')
       return
@@ -98,13 +107,26 @@ function PostItem() {
 
     setIsSubmitting(true)
     try {
-      // TODO: Implement API call to submit item
-      console.log('Submitting item:', formData)
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+      const { error } = await supabase.from('items').insert({
+        user_id: user.id,
+        title: formData.title.trim(),
+        category: formData.category,
+        description: formData.description.trim(),
+        condition: formData.condition,
+        price: parseFloat(formData.price),
+        original_price: formData.originalPrice ? parseFloat(formData.originalPrice) : null,
+        exchange_preference: formData.exchangePreference,
+        images: formData.images,
+        location: formData.location || null,
+      })
+
+      if (error) throw error
+
       alert('发布成功！')
       setFormData(initialFormData)
-    } catch (error) {
-      console.error('Failed to submit:', error)
+      navigate('/exchange')
+    } catch (err) {
+      console.error('Failed to submit:', err)
       alert('发布失败，请重试')
     } finally {
       setIsSubmitting(false)

@@ -9,9 +9,7 @@ import {
   type MockMessage,
   type MockConversation,
 } from '../data/mockMessages'
-
-// Current user ID (for demo)
-const CURRENT_USER_ID = 'user-current'
+import { useAuthStore } from '../stores/authStore'
 
 /**
  * MessageBubble - 消息气泡组件（内联定义）
@@ -95,6 +93,8 @@ function MessageBubble({
 function ChatRoom() {
   const { conversationId } = useParams<{ conversationId: string }>()
   const navigate = useNavigate()
+  const user = useAuthStore(s => s.user)
+  const currentUserId = user?.id ?? ''
   const [inputValue, setInputValue] = useState('')
   const [isTyping, setIsTyping] = useState(false)
   const [messages, setMessages] = useState<MockMessage[]>([])
@@ -158,7 +158,7 @@ function ChatRoom() {
     const newMessage: MockMessage = {
       id: Date.now(),
       conversation_id: Number(conversationId),
-      sender_id: CURRENT_USER_ID,
+      sender_id: currentUserId,
       content: inputValue.trim(),
       message_type: 'text',
       is_read: true,
@@ -277,7 +277,7 @@ function ChatRoom() {
           <div key={group.date} className="space-y-3">
             <DateDivider date={group.date} />
             {group.messages.map((message) => {
-              const isSelf = message.sender_id === CURRENT_USER_ID
+              const isSelf = message.sender_id === currentUserId
 
               return (
                 <MessageBubble

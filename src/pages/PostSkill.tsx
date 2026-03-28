@@ -1,5 +1,8 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import type { SkillCategory } from '../types/database'
+import { useAuthStore } from '../stores/authStore'
+import { supabase } from '../lib/supabase'
 import ImageUploader from '../components/publish/ImageUploader'
 
 interface SkillFormData {
@@ -76,6 +79,8 @@ const initialFormData: SkillFormData = {
 }
 
 function PostSkill() {
+  const navigate = useNavigate()
+  const user = useAuthStore(s => s.user)
   const [formData, setFormData] = useState<SkillFormData>(initialFormData)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -91,6 +96,10 @@ function PostSkill() {
   }
 
   const handleSubmit = async () => {
+    if (!user) {
+      alert('请先完成登录')
+      return
+    }
     if (!formData.title.trim() || !formData.description.trim()) {
       alert('请填写标题和详情')
       return
@@ -98,13 +107,25 @@ function PostSkill() {
 
     setIsSubmitting(true)
     try {
-      // TODO: Implement API call to submit skill
-      console.log('Submitting skill:', formData)
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+      const { error } = await supabase.from('skills').insert({
+        user_id: user.id,
+        title: formData.title.trim(),
+        category: formData.category,
+        description: formData.description.trim(),
+        offer_description: formData.offerDescription.trim(),
+        want_description: formData.wantDescription.trim() || null,
+        price: formData.price ? parseFloat(formData.price) : null,
+        exchange_preference: formData.exchangePreference,
+        images: formData.images,
+      })
+
+      if (error) throw error
+
       alert('发布成功！')
       setFormData(initialFormData)
-    } catch (error) {
-      console.error('Failed to submit:', error)
+      navigate('/exchange')
+    } catch (err) {
+      console.error('Failed to submit:', err)
       alert('发布失败，请重试')
     } finally {
       setIsSubmitting(false)

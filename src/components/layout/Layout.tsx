@@ -24,7 +24,7 @@ function Layout() {
   const user = useAuthStore((s) => s.user)
 
   // Poll notifications for the current user (30s interval)
-  useNotificationPolling(user?.id ?? '', 30_000)
+  useNotificationPolling(user?.id ?? null, 30_000)
 
   const showFullShell = fullShellPages.includes(location.pathname)
   const showBottomNavOnly = bottomNavOnlyPages.some(path => location.pathname.startsWith(path))
