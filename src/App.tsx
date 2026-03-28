@@ -13,6 +13,7 @@ import ChatRoom from './pages/ChatRoom'
 import Notifications from './pages/Notifications'
 import SkillDetail from './pages/SkillDetail'
 import ItemDetail from './pages/ItemDetail'
+import MyListings from './pages/profile/MyListings'
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="exchange" element={<Exchange />} />
         <Route path="profile" element={<Profile />} />
         <Route path="edit-profile" element={<EditProfile />} />
+        <Route path="my-listings" element={<MyListings />} />
         <Route path="post" element={<Post />} />
         <Route path="teams" element={<TeamSquare />} />
         <Route path="post-team" element={<PostTeam />} />

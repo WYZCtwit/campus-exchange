@@ -17,6 +17,7 @@ export interface TeamCardProps {
   imageUrl?: string | null
   onClick?: () => void
   onApply?: () => void
+  hideActions?: boolean
 }
 
 const typeConfig: Record<
@@ -54,6 +55,7 @@ function TeamCard({
   imageUrl,
   onClick,
   onApply,
+  hideActions,
 }: TeamCardProps) {
   const config = typeConfig[type]
 
@@ -167,12 +169,14 @@ function TeamCard({
           </div>
 
           {/* Apply Button */}
-          <button
-            onClick={handleApplyClick}
-            className="px-5 py-2.5 rounded-lg bg-primary text-on-primary font-bold text-sm shadow-[0_8px_20px_-6px_rgba(0,83,202,0.4)] hover:shadow-[0_12px_24px_-8px_rgba(0,83,202,0.5)] hover:-translate-y-0.5 active:scale-95 active:translate-y-0 transition-all"
-          >
-            立即加入
-          </button>
+          {!hideActions && (
+            <button
+              onClick={handleApplyClick}
+              className="px-5 py-2.5 rounded-lg bg-primary text-on-primary font-bold text-sm shadow-[0_8px_20px_-6px_rgba(0,83,202,0.4)] hover:shadow-[0_12px_24px_-8px_rgba(0,83,202,0.5)] hover:-translate-y-0.5 active:scale-95 active:translate-y-0 transition-all"
+            >
+              立即加入
+            </button>
+          )}
         </div>
       </div>
     </article>
