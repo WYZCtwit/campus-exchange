@@ -9,7 +9,7 @@ export const isSupabaseConfigured = Boolean(supabaseUrl && supabaseAnonKey)
 if (!isSupabaseConfigured) {
   console.error(
     'Missing Supabase environment variables. '
-    + 'Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in .env.local'
+    + 'Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in .env.local',
   )
 }
 
