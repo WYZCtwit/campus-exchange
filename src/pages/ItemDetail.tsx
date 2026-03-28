@@ -1,6 +1,9 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { supabase, isSupabaseConfigured } from '../lib/supabase'
+import { useAuthStore } from '@/stores/authStore'
+import { useOrdersStore } from '@/stores/orders.store'
+import OrderCreateModal from '@/components/OrderCreateModal'
 import type { Item, Profile } from '../types/database'
 
 // ── Category & condition maps ────────────────────
@@ -182,9 +185,14 @@ type ItemWithProfile = Item & { profiles: Profile }
 function ItemDetail() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
+  const userId = useAuthStore((s) => s.user?.id ?? null)
+  const profile = useAuthStore((s) => s.profile)
+  const requireProfile = useAuthStore((s) => s.requireProfile)
+  const { createOrder, isSubmitting } = useOrdersStore()
   const [item, setItem] = useState<ItemWithProfile | null>(null)
   const [loading, setLoading] = useState(true)
   const [notFound, setNotFound] = useState(false)
+  const [showOrderModal, setShowOrderModal] = useState(false)
 
   useEffect(() => {
     async function fetchItem() {
@@ -382,12 +390,47 @@ function ItemDetail() {
           >
             返回
           </button>
-          <button className="flex-1 py-4 rounded-xl bg-primary text-on-primary font-bold shadow-[0_8px_20px_-6px_rgba(0,83,202,0.4)] hover:shadow-[0_12px_24px_-8px_rgba(0,83,202,0.5)] active:scale-[0.98] transition-all flex items-center justify-center gap-2">
-            <span className="material-symbols-outlined text-xl">shopping_bag</span>
-            立即购买
-          </button>
+          {userId === seller.id ? (
+            <div className="flex-1 py-4 rounded-xl bg-surface-container text-on-surface-variant font-bold text-center text-sm">
+              这是您发布的物品
+            </div>
+          ) : (
+            <button
+              onClick={() => requireProfile(() => setShowOrderModal(true))}
+              className="flex-1 py-4 rounded-xl bg-primary text-on-primary font-bold shadow-[0_8px_20px_-6px_rgba(0,83,202,0.4)] hover:shadow-[0_12px_24px_-8px_rgba(0,83,202,0.5)] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+            >
+              <span className="material-symbols-outlined text-xl">shopping_bag</span>
+              立即购买
+            </button>
+          )}
         </div>
       </div>
+
+      {/* ── Order Creation Modal ──────────── */}
+      <OrderCreateModal
+        visible={showOrderModal}
+        onClose={() => setShowOrderModal(false)}
+        listingType="item"
+        listingTitle={item.title}
+        price={item.price}
+        exchangePreference={item.exchange_preference}
+        buyerWechat={profile?.wechat_id ?? ''}
+        isSubmitting={isSubmitting}
+        onConfirm={async (note) => {
+          const orderId = await createOrder({
+            listing_type: 'item',
+            listing_id: item.id,
+            seller_id: seller.id,
+            price: item.price,
+            note: note || null,
+            buyer_wechat: profile?.wechat_id ?? '',
+          })
+          if (orderId) {
+            setShowOrderModal(false)
+            navigate(`/order/${orderId}`)
+          }
+        }}
+      />
     </div>
   )
 }
