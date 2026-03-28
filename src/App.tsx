@@ -3,6 +3,7 @@ import Layout from './components/layout/Layout'
 import Home from './pages/Home'
 import Exchange from './pages/Exchange'
 import Profile from './pages/Profile'
+import EditProfile from './pages/EditProfile'
 import Post from './pages/Post'
 import TeamSquare from './pages/TeamSquare'
 import TeamDetail from './pages/TeamDetail'
@@ -20,6 +21,7 @@ function App() {
         <Route path="home" element={<Home />} />
         <Route path="exchange" element={<Exchange />} />
         <Route path="profile" element={<Profile />} />
+        <Route path="edit-profile" element={<EditProfile />} />
         <Route path="post" element={<Post />} />
         <Route path="teams" element={<TeamSquare />} />
         <Route path="teams/:id" element={<TeamDetail />} />

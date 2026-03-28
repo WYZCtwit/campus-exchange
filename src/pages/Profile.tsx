@@ -1,4 +1,7 @@
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useAuthStore } from '@/stores/authStore'
+import { supabase } from '@/lib/supabase'
 import {
   ProfileTopBar,
   ProfileHeader,
@@ -8,87 +11,151 @@ import {
   ParticipationsSection,
 } from './ProfileComponents'
 
-// Mock data - 后续从 API 获取
-const profileData = {
-  avatarUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCBOYcCBF98Y2F1MqSAXIS4fsAHnHlKv05DRAbbpKiRK7o4ieU7zRUKnFCdV2dXNq9P0NWxZDjjYId5x73YBjyzWWOx_HKey6Vo_MCVRD_uIXX2Lpr4cs3NVErXMt6Ff3bch9SYHsw41Vc-ECgsoGsO_SHVLjYPydvXATYfK8MPjl3UpMsSY7UW0M3k6n5-lEykJGLZx54S9kpYw3I8itljQ9QN7g79QJRmAbJmA1kscviZ2A-b8tx0TEM-GIeA0H1GOl4J8ZJ0b0l_',
-  name: 'Captain Chen',
-  bio: '一名热爱全栈开发和竞赛的程序员。',
-  major: '计算机科学',
-  concentration: '系统架构',
-  graduationYear: 2025,
-  grade: '大四',
-  stats: [
-    { value: 12, label: '项目' },
-    { value: '450+', label: 'LeetCode' },
-    { value: 3, label: '实习' },
-    { value: 18, label: '奖项' },
-  ],
-  skills: [
-    { name: 'C++ 专家', color: 'primary' as const },
-    { name: '算法策略', color: 'secondary' as const },
-    { name: '前端开发', color: 'tertiary' as const },
-    { name: '后端工程师', color: 'error' as const },
-  ],
-  participations: [
-    {
-      id: '1',
-      imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBCyKg1pVPFbqOQVVADpsfWg9JYDZX0RO_idNR0QJfvefRrQppJNfcSaKPqACvSgYzQpsHswOsiSfPWcIU9X3YwJT-v7yuByF43ZMn7FE5cDQoUaVIafsx7OfvGltL-_A-29bYS8Ig7fH-qUA5Jk7b5wKjbyZ2R4XAyOMl63mcheDWFaCprZNQZgUNcDiLR1cMVU3vgwYPLc_2eLKBXW3igMK6ainfI48h0sxjtW_1TBFy-Nf9782nlHbQB8AM8Z2X8OGQEMJGuf5P1',
-      type: '比赛',
-      typeColor: 'primary' as const,
-      title: 'ACM 国际大学生程序设计竞赛',
-      role: '队长',
-      location: '区域赛',
-    },
-    {
-      id: '2',
-      imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCmJGAzMMHLZNczwqSeCK1z2GV_hj1ZZLoEfGM93iYKCPkl3wFiNZY7Rfii9stPMsvuGltVS2WOgW4EOGbXFtte0eFpohIxS6VvVw1f3dvESrvC0XWkzmuu7niTyiAb-HIOY2Bt8GZDD9698DhWTDpmKfqeOfZxgPHPQW473muHzhaBfLx2kXk9FVki3JTnFnvSvDmzOiyKU4B0Ezlww7GFKbMFLIgjvSlYAAB2PIDSldDie-SbBcbu9Cees16Jgc6xCJivKDLhKyox',
-      type: '案例研究',
-      typeColor: 'secondary' as const,
-      title: '全球商业战略挑战赛',
-      role: '技术顾问',
-      location: '国际',
-    },
-  ],
+interface UserStats {
+  skills: number
+  items: number
+  teams: number
+  reviews: number
 }
 
 function Profile() {
   const navigate = useNavigate()
+  const { profile, isLoading: authLoading } = useAuthStore()
+  const [stats, setStats] = useState<UserStats>({ skills: 0, items: 0, teams: 0, reviews: 0 })
+  const [statsLoading, setStatsLoading] = useState(true)
 
-  const handleBack = () => {
-    navigate(-1)
-  }
+  useEffect(() => {
+    if (!profile) return
+
+    const userId = profile.id
+
+    async function fetchStats() {
+      try {
+
+        const [skillsRes, itemsRes, teamsRes, reviewsRes] = await Promise.all([
+          supabase.from('skills').select('id', { count: 'exact', head: true }).eq('user_id', userId),
+          supabase.from('items').select('id', { count: 'exact', head: true }).eq('user_id', userId),
+          supabase.from('teams').select('id', { count: 'exact', head: true }).eq('user_id', userId),
+          supabase.from('reviews').select('id', { count: 'exact', head: true }).eq('reviewee_id', userId),
+        ])
+
+        setStats({
+          skills: skillsRes.count ?? 0,
+          items: itemsRes.count ?? 0,
+          teams: teamsRes.count ?? 0,
+          reviews: reviewsRes.count ?? 0,
+        })
+      } catch (err) {
+        console.error('Failed to fetch profile stats:', err)
+      } finally {
+        setStatsLoading(false)
+      }
+    }
+
+    fetchStats()
+  }, [profile])
+
+  const handleBack = () => navigate(-1)
+
+  const handleEdit = () => navigate('/edit-profile')
 
   const handleSettings = () => {
-    // TODO: Navigate to settings page
     console.log('Navigate to settings')
   }
 
-  const handleViewCerts = () => {
-    // TODO: Navigate to certificates page
-    console.log('Navigate to certificates')
+  if (authLoading) {
+    return (
+      <>
+        <ProfileTopBar onBack={handleBack} onSettings={handleSettings} />
+        <main className="pt-24 px-6 pb-32 max-w-5xl mx-auto flex items-center justify-center min-h-[60vh]">
+          <div className="text-on-surface-variant font-body">加载中...</div>
+        </main>
+      </>
+    )
   }
+
+  const avatarUrl = profile?.avatar_url || '/default-avatar.svg'
+  const nickname = profile?.nickname || '校园访客'
+  const bio = profile?.bio ?? undefined
+  const department = profile?.department || '未填写'
+  const grade = profile?.grade || '未填写'
+  const graduationYear = grade !== '未填写' ? inferGraduationYear(grade) : new Date().getFullYear()
+
+  const displayStats = [
+    { value: stats.skills, label: '技能' },
+    { value: stats.items, label: '物品' },
+    { value: stats.teams, label: '组队' },
+    { value: stats.reviews, label: '评价' },
+  ]
 
   return (
     <>
       <ProfileTopBar onBack={handleBack} onSettings={handleSettings} />
       <main className="pt-24 px-6 pb-32 max-w-5xl mx-auto space-y-10">
         <ProfileHeader
-          avatarUrl={profileData.avatarUrl}
-          name={profileData.name}
-          bio={profileData.bio}
+          avatarUrl={avatarUrl}
+          name={nickname}
+          bio={bio}
+          onEdit={handleEdit}
         />
         <BentoGrid
-          major={profileData.major}
-          concentration={profileData.concentration}
-          graduationYear={profileData.graduationYear}
-          grade={profileData.grade}
+          major={department}
+          concentration={department}
+          graduationYear={graduationYear}
+          grade={grade}
         />
-        <StatsOverview stats={profileData.stats} />
-        <SkillsSection skills={profileData.skills} onViewCerts={handleViewCerts} />
-        <ParticipationsSection participations={profileData.participations} />
+        <StatsOverview stats={statsLoading ? [] : displayStats} />
+        <SkillsSection
+          skills={buildSkillsFromStats(stats)}
+          onViewCerts={() => console.log('View certs')}
+        />
+        {stats.teams > 0 && (
+          <ParticipationsSection participations={[]} />
+        )}
       </main>
     </>
   )
+}
+
+/** Infer graduation year from grade string like "大一", "大二", etc. */
+function inferGraduationYear(grade: string): number {
+  const now = new Date()
+  const currentYear = now.getFullYear()
+  const month = now.getMonth() + 1
+
+  const gradeMap: Record<string, number> = {
+    '大一': 3,
+    '大二': 2,
+    '大三': 1,
+    '大四': 0,
+  }
+
+  const remaining = gradeMap[grade]
+  if (remaining === undefined) return currentYear
+
+  // If we're past June, seniors have graduated
+  const offset = grade === '大四' && month > 6 ? 1 : 0
+  return currentYear + remaining + offset
+}
+
+/** Build placeholder skill tags based on listing counts. */
+function buildSkillsFromStats(stats: UserStats) {
+  const skills: { name: string; color: 'primary' | 'secondary' | 'tertiary' | 'error' }[] = []
+
+  if (stats.skills > 0) {
+    skills.push({ name: `${stats.skills} 项技能`, color: 'primary' })
+  }
+  if (stats.items > 0) {
+    skills.push({ name: `${stats.items} 件物品`, color: 'secondary' })
+  }
+  if (stats.teams > 0) {
+    skills.push({ name: `${stats.teams} 个组队`, color: 'tertiary' })
+  }
+  if (skills.length === 0) {
+    skills.push({ name: '新用户', color: 'error' })
+  }
+
+  return skills
 }
 
 export default Profile
