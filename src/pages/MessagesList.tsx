@@ -1,7 +1,8 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ConversationItem } from '../components/messaging'
-import { mockConversations } from '../data/mockMessages'
+import { useChatStore } from '../stores/chat.store'
+import { useAuthStore } from '../stores/authStore'
 import FAB from '../components/layout/FAB'
 
 type FilterType = 'all' | 'unread' | 'skill' | 'item'
@@ -22,29 +23,44 @@ const filterOptions: { value: FilterType; label: string }[] = [
  * - 会话列表
  * - FAB 新建消息按钮
  *
- * 对齐 messages.html UI 模板
+ * 数据从 Supabase conversations 表拉取
  */
 function MessagesList() {
   const navigate = useNavigate()
+  const user = useAuthStore((s) => s.user)
+  const {
+    conversations,
+    isLoadingConversations,
+    fetchConversations,
+    subscribeToConversationUpdates,
+  } = useChatStore()
+
   const [searchQuery, setSearchQuery] = useState('')
   const [activeFilter, setActiveFilter] = useState<FilterType>('all')
 
+  // Load conversations on mount
+  useEffect(() => {
+    if (user?.id) {
+      fetchConversations(user.id)
+      const cleanup = subscribeToConversationUpdates(user.id)
+      return cleanup
+    }
+  }, [user?.id])
+
   // Filter conversations based on search and active filter
   const filteredConversations = useMemo(() => {
-    let result = [...mockConversations]
+    let result = [...conversations]
 
-    // Apply search filter
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase()
       result = result.filter(
         (conv) =>
-          conv.other_user.nickname.toLowerCase().includes(query) ||
+          conv.peer.nickname.toLowerCase().includes(query) ||
           conv.listing_title?.toLowerCase().includes(query) ||
           conv.last_message?.toLowerCase().includes(query)
       )
     }
 
-    // Apply category filter
     if (activeFilter === 'unread') {
       result = result.filter((conv) => conv.unread_count > 0)
     } else if (activeFilter === 'skill') {
@@ -54,12 +70,11 @@ function MessagesList() {
     }
 
     return result
-  }, [searchQuery, activeFilter])
+  }, [conversations, searchQuery, activeFilter])
 
-  // Calculate total unread count for FAB badge
   const totalUnread = useMemo(
-    () => mockConversations.reduce((sum, conv) => sum + conv.unread_count, 0),
-    []
+    () => conversations.reduce((sum, conv) => sum + conv.unread_count, 0),
+    [conversations]
   )
 
   const handleConversationClick = (conversationId: number) => {
@@ -67,7 +82,7 @@ function MessagesList() {
   }
 
   const handleNewMessage = () => {
-    // TODO: Implement new message creation
+    // TODO: Implement new message creation flow
     console.log('Create new message')
   }
 
@@ -75,7 +90,6 @@ function MessagesList() {
     <div className="px-6 pb-32 max-w-3xl mx-auto min-h-screen">
       {/* Search & Filter Area */}
       <section className="mb-8 pt-4">
-        {/* Search input */}
         <div className="relative group">
           <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
             <span className="material-symbols-outlined text-outline">search</span>
@@ -89,7 +103,6 @@ function MessagesList() {
           />
         </div>
 
-        {/* Filter tabs */}
         <div className="flex gap-3 mt-6 overflow-x-auto pb-2 scrollbar-hide">
           {filterOptions.map((filter) => (
             <button
@@ -107,31 +120,42 @@ function MessagesList() {
         </div>
       </section>
 
-      {/* Conversation List */}
-      <section className="space-y-4">
-        {filteredConversations.length === 0 ? (
-          <div className="text-center py-12">
-            <span className="material-symbols-outlined text-outline text-5xl mb-4 block">
-              forum
-            </span>
-            <p className="text-on-surface-variant">
-              {searchQuery
-                ? 'No conversations match your search'
-                : 'No conversations yet'}
-            </p>
-          </div>
-        ) : (
-          filteredConversations.map((conversation) => (
-            <ConversationItem
-              key={conversation.id}
-              conversation={conversation}
-              onClick={() => handleConversationClick(conversation.id)}
-            />
-          ))
-        )}
-      </section>
+      {/* Loading state */}
+      {isLoadingConversations && conversations.length === 0 && (
+        <div className="text-center py-12">
+          <span className="material-symbols-outlined text-outline text-5xl mb-4 block animate-pulse">
+            hourglass
+          </span>
+          <p className="text-on-surface-variant">Loading conversations...</p>
+        </div>
+      )}
 
-      {/* Empty State / Footer Suggestion */}
+      {/* Conversation List */}
+      {!isLoadingConversations && (
+        <section className="space-y-4">
+          {filteredConversations.length === 0 ? (
+            <div className="text-center py-12">
+              <span className="material-symbols-outlined text-outline text-5xl mb-4 block">
+                forum
+              </span>
+              <p className="text-on-surface-variant">
+                {searchQuery
+                  ? 'No conversations match your search'
+                  : 'No conversations yet'}
+              </p>
+            </div>
+          ) : (
+            filteredConversations.map((conversation) => (
+              <ConversationItem
+                key={conversation.id}
+                conversation={conversation}
+                onClick={() => handleConversationClick(conversation.id)}
+              />
+            ))
+          )}
+        </section>
+      )}
+
       {filteredConversations.length > 0 && (
         <div className="mt-12 text-center">
           <p className="text-on-surface-variant text-sm italic">
@@ -140,7 +164,6 @@ function MessagesList() {
         </div>
       )}
 
-      {/* FAB for New Message */}
       <FAB
         icon="edit_square"
         onClick={handleNewMessage}

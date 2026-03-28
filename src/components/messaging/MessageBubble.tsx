@@ -1,11 +1,10 @@
-import { formatMessageTime, type MockMessage, type MockUser } from '../../data/mockMessages'
-
-// Current user ID constant (matches mock data)
-const CURRENT_USER_ID = 'user-current'
+import { formatMessageTime } from '@/lib/time'
+import type { Message, Profile } from '@/types/database'
 
 interface MessageBubbleProps {
-  message: MockMessage
-  sender: MockUser | null // null for current user (self)
+  message: Message
+  currentUserId: string
+  peer: Pick<Profile, 'id' | 'nickname' | 'avatar_url'> | null
   showAvatar?: boolean
   showTimestamp?: boolean
   isLastInGroup?: boolean
@@ -17,25 +16,18 @@ interface MessageBubbleProps {
  * 根据发送者显示不同样式的消息气泡：
  * - 自己发送的消息：右侧对齐，蓝色背景 (primary)，白色文字
  * - 对方发送的消息：左侧对齐，灰色背景，带头像
- *
- * 支持：
- * - 文本消息
- * - 图片消息
- * - 资源卡片（文件分享）
- * - 时间戳显示
- * - 已读状态图标
  */
 function MessageBubble({
   message,
-  sender,
+  currentUserId,
+  peer,
   showAvatar = true,
   showTimestamp = true,
   isLastInGroup = true,
 }: MessageBubbleProps) {
-  const isSelf = message.sender_id === CURRENT_USER_ID
+  const isSelf = message.sender_id === currentUserId
 
   if (isSelf) {
-    // Self message - right aligned, blue background
     return (
       <div className="flex flex-col items-end gap-1 ml-auto max-w-[85%]">
         <div className="bg-primary text-on-primary p-4 rounded-t-2xl rounded-bl-2xl rounded-br-sm shadow-md">
@@ -46,7 +38,6 @@ function MessageBubble({
             <span className="text-[10px] text-on-surface-variant">
               {formatMessageTime(message.created_at)}
             </span>
-            {/* Read status indicator */}
             <span
               className="material-symbols-outlined text-[12px] text-primary"
               style={{ fontVariationSettings: "'FILL' 1" }}
@@ -62,11 +53,10 @@ function MessageBubble({
   // Other user message - left aligned with avatar
   return (
     <div className="flex items-end gap-3 max-w-[85%]">
-      {/* Avatar */}
-      {showAvatar && sender?.avatar_url ? (
+      {showAvatar && peer?.avatar_url ? (
         <img
-          src={sender.avatar_url}
-          alt={sender?.nickname || 'User'}
+          src={peer.avatar_url}
+          alt={peer?.nickname || 'User'}
           className="w-8 h-8 rounded-full object-cover flex-shrink-0"
         />
       ) : showAvatar ? (
@@ -76,7 +66,6 @@ function MessageBubble({
       ) : (
         <div className="w-8 flex-shrink-0" />
       )}
-      {/* Message content */}
       <div className="space-y-1">
         <div className="bg-surface-container-high text-on-surface p-4 rounded-t-2xl rounded-br-2xl rounded-bl-sm shadow-sm">
           <p className="text-sm md:text-base leading-relaxed">{message.content}</p>

@@ -1,7 +1,8 @@
-import { formatRelativeTime, type MockConversation } from '../../data/mockMessages'
+import { formatRelativeTime } from '@/lib/time'
+import type { ConversationWithPeer } from '@/stores/chat.store'
 
 interface ConversationItemProps {
-  conversation: MockConversation
+  conversation: ConversationWithPeer
   onClick?: () => void
 }
 
@@ -9,78 +10,51 @@ interface ConversationItemProps {
  * ConversationItem - 会话列表项组件
  *
  * 显示单个会话的预览信息，包括：
- * - 对方头像（带在线状态指示器）
+ * - 对方头像
  * - 会话标题（用户名 + 关联 listing）
  * - 最后一条消息预览
  * - 时间戳
  * - 未读消息红点/计数
- *
- * 支持特殊类型的会话（如 Campus Rewards 系统通知）
  */
 function ConversationItem({ conversation, onClick }: ConversationItemProps) {
   const {
-    other_user,
+    peer,
+    listing_type,
     listing_title,
     last_message,
     last_message_at,
     unread_count,
-    is_self_last_sender,
   } = conversation
 
-  const isSystemConversation = other_user.id === 'system-rewards'
-
-  // Build display title: nickname + (listing title if exists)
+  // The "listing title" displayed alongside the peer name
   const displayTitle = listing_title
-    ? `${other_user.nickname} (${listing_title})`
-    : other_user.nickname
+    ? `${peer.nickname} (${listing_title})`
+    : peer.nickname
+
+  // True if current user sent the last message
+  // (determined by checking if last_message was from us — we don't have sender_id on conversation,
+  //  so we show it differently: if unread_count > 0, the other person sent the last message)
+  const isSelfLastSender = unread_count === 0 && !!last_message
 
   return (
     <div
       onClick={onClick}
-      className={`
-        group relative p-5 rounded-lg flex items-center gap-4
-        transition-all cursor-pointer
-        ${isSystemConversation
-          ? 'bg-surface-container-low/50 hover:shadow-[0_10px_30px_rgba(38,44,81,0.04)] overflow-hidden'
-          : 'bg-surface-container-lowest hover:shadow-[0_10px_30px_rgba(38,44,81,0.04)]'
-        }
-      `}
+      className="group relative p-5 rounded-lg flex items-center gap-4 transition-all cursor-pointer bg-surface-container-lowest hover:shadow-[0_10px_30px_rgba(38,44,81,0.04)]"
     >
-      {/* Decorative accent for system notifications */}
-      {isSystemConversation && (
-        <div className="absolute top-0 right-0 w-24 h-24 bg-tertiary-container/10 -mr-8 -mt-8 rounded-full blur-2xl" />
-      )}
-
-      {/* Avatar with online indicator */}
+      {/* Avatar */}
       <div className="relative flex-shrink-0 z-10">
-        {other_user.avatar_url ? (
+        {peer.avatar_url ? (
           <img
-            src={other_user.avatar_url}
-            alt={other_user.nickname}
+            src={peer.avatar_url}
+            alt={peer.nickname}
             className="w-14 h-14 rounded-full object-cover"
           />
         ) : (
-          <div
-            className={`
-              w-14 h-14 rounded-full flex items-center justify-center
-              ${isSystemConversation ? 'bg-tertiary-container' : 'bg-primary-container'}
-            `}
-          >
-            <span
-              className={`material-symbols-outlined text-2xl ${
-                isSystemConversation
-                  ? 'text-on-tertiary-container'
-                  : 'text-on-primary-container'
-              }`}
-              style={isSystemConversation ? { fontVariationSettings: "'FILL' 1" } : undefined}
-            >
-              {isSystemConversation ? 'stars' : 'person'}
+          <div className="w-14 h-14 rounded-full bg-primary-container flex items-center justify-center">
+            <span className="material-symbols-outlined text-2xl text-on-primary-container">
+              person
             </span>
           </div>
-        )}
-        {/* Online status indicator - not shown for system conversations */}
-        {other_user.is_online && !isSystemConversation && (
-          <div className="absolute bottom-0 right-0 w-4 h-4 bg-secondary border-2 border-white rounded-full" />
         )}
       </div>
 
@@ -103,11 +77,18 @@ function ConversationItem({ conversation, onClick }: ConversationItemProps) {
         {/* Last message preview */}
         <p
           className={`text-sm truncate pr-8 ${
-            is_self_last_sender ? 'text-on-surface font-bold' : 'text-on-surface-variant'
+            isSelfLastSender ? 'text-on-surface font-bold' : 'text-on-surface-variant'
           }`}
         >
           {last_message || 'No messages yet'}
         </p>
+
+        {/* Listing type badge */}
+        {listing_type && (
+          <span className="inline-block mt-1 text-[10px] font-semibold uppercase tracking-wider text-primary bg-primary/10 px-2 py-0.5 rounded-full">
+            {listing_type === 'skill' ? 'Skill Swap' : 'Marketplace'}
+          </span>
+        )}
       </div>
 
       {/* Unread indicator */}
