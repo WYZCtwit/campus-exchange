@@ -14,6 +14,9 @@ const bottomNavOnlyPages = ['/chat', '/profile']
 // Pages that need top bar but no tabs (back navigation instead)
 const topBarOnlyPages = ['/notifications']
 
+// Pages that hide bottom nav (detail pages with back navigation)
+const hideBottomNavPrefixes = ['/post', '/skill/', '/item/']
+
 function Layout() {
   const location = useLocation()
   const navigate = useNavigate()
@@ -26,7 +29,8 @@ function Layout() {
   const showFullShell = fullShellPages.includes(location.pathname)
   const showBottomNavOnly = bottomNavOnlyPages.some(path => location.pathname.startsWith(path))
   const showTopBarOnly = topBarOnlyPages.includes(location.pathname)
-  const showBottomNav = showFullShell || showBottomNavOnly
+  const showBottomNav = (showFullShell || showBottomNavOnly)
+    && !hideBottomNavPrefixes.some(prefix => location.pathname.startsWith(prefix))
 
   const handleFABClick = () => {
     requireProfile(() => navigate('/post'))

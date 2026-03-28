@@ -11,4 +11,6 @@ if (!supabaseUrl || !supabaseAnonKey) {
   )
 }
 
+export const isSupabaseConfigured = true
+
 export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey)

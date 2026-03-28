@@ -9,6 +9,8 @@ import TeamDetail from './pages/TeamDetail'
 import MessagesList from './pages/MessagesList'
 import ChatRoom from './pages/ChatRoom'
 import Notifications from './pages/Notifications'
+import SkillDetail from './pages/SkillDetail'
+import ItemDetail from './pages/ItemDetail'
 
 function App() {
   return (
@@ -23,6 +25,8 @@ function App() {
         <Route path="teams/:id" element={<TeamDetail />} />
         <Route path="chat" element={<MessagesList />} />
         <Route path="notifications" element={<Notifications />} />
+        <Route path="skill/:id" element={<SkillDetail />} />
+        <Route path="item/:id" element={<ItemDetail />} />
       </Route>
       {/* Chat room uses separate layout without bottom nav */}
       <Route path="/chat/:conversationId" element={<ChatRoom />} />

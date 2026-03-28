@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import SkillCard, { type SkillCardProps } from '../components/SkillCard'
 
 // Mock data based on home-exchange.html UI template
@@ -56,9 +57,10 @@ const mockSkillCards: SkillCardProps[] = [
 ]
 
 function Home() {
+  const navigate = useNavigate()
+
   const handleCardClick = (id: string) => {
-    console.log('Card clicked:', id)
-    // TODO: Navigate to skill detail page
+    navigate(`/skill/${id}`)
   }
 
   return (
