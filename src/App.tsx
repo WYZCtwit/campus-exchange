@@ -13,6 +13,8 @@ import ChatRoom from './pages/ChatRoom'
 import Notifications from './pages/Notifications'
 import SkillDetail from './pages/SkillDetail'
 import ItemDetail from './pages/ItemDetail'
+import OrderList from './pages/OrderList'
+import OrderDetail from './pages/OrderDetail'
 
 function App() {
   return (
@@ -31,6 +33,8 @@ function App() {
         <Route path="notifications" element={<Notifications />} />
         <Route path="skill/:id" element={<SkillDetail />} />
         <Route path="item/:id" element={<ItemDetail />} />
+        <Route path="orders" element={<OrderList />} />
+        <Route path="order/:id" element={<OrderDetail />} />
       </Route>
       {/* Chat room uses separate layout without bottom nav */}
       <Route path="/chat/:conversationId" element={<ChatRoom />} />

@@ -15,7 +15,7 @@ const bottomNavOnlyPages = ['/chat', '/profile']
 const topBarOnlyPages = ['/notifications']
 
 // Pages that hide bottom nav (detail pages with back navigation)
-const hideBottomNavPrefixes = ['/post', '/skill/', '/item/']
+const hideBottomNavPrefixes = ['/post', '/skill/', '/item/', '/order/']
 
 function Layout() {
   const location = useLocation()
