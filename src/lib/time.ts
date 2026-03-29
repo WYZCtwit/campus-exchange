@@ -1,5 +1,5 @@
 /**
- * Time formatting utilities for chat/messaging
+ * Time formatting utilities
  */
 
 export function formatRelativeTime(dateString: string | null): string {
@@ -19,6 +19,25 @@ export function formatRelativeTime(dateString: string | null): string {
   if (diffDays < 7) return `${diffDays} days ago`
 
   return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+}
+
+/**
+ * Chinese relative time string ("刚刚", "5分钟前", "2小时前", "3天前")
+ * Falls back to "YYYY.MM.DD" for dates older than 30 days.
+ */
+export function formatTimeAgo(dateString: string): string {
+  const date = new Date(dateString)
+  const diffMs = Date.now() - date.getTime()
+  const mins = Math.floor(diffMs / 60000)
+
+  if (mins < 1) return '刚刚'
+  if (mins < 60) return `${mins}分钟前`
+  const hours = Math.floor(mins / 60)
+  if (hours < 24) return `${hours}小时前`
+  const days = Math.floor(hours / 24)
+  if (days < 30) return `${days}天前`
+
+  return `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`
 }
 
 export function formatMessageTime(dateString: string): string {

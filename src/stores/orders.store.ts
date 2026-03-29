@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { supabase } from '@/lib/supabase'
 import type {
+  NotificationType,
   Order,
   OrderInsert,
   OrderStatus,
@@ -211,7 +212,7 @@ export const useOrdersStore = create<OrdersState>((set, get) => ({
       const isBuyer = user?.id === currentOrder.buyer_id
       const notifyUserId = isBuyer ? currentOrder.seller_id : currentOrder.buyer_id
 
-      const notificationTypeMap: Record<string, string> = {
+      const notificationTypeMap: Record<string, NotificationType> = {
         contacted: 'order_contacted',
         completed: 'order_completed',
         cancelled: 'order_cancelled',
