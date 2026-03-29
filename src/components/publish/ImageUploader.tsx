@@ -110,7 +110,7 @@ function ImageUploader({ images, onImagesChange, maxImages = 6 }: ImageUploaderP
             <span className="text-sm font-semibold text-on-surface-variant group-hover:text-primary">
               添加封面
             </span>
-            <p className="text-[10px] text-outline">第一张图将作为主图展示</p>
+            <p className="text-xs text-outline">第一张图将作为主图展示</p>
           </>
         ) : (
           <span className="material-symbols-outlined text-outline-variant">add</span>

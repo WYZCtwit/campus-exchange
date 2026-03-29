@@ -90,13 +90,13 @@ function OrderCard({
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-2 mb-1">
             <p className="font-bold text-on-surface text-sm line-clamp-1">{listingTitle}</p>
-            <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold whitespace-nowrap ${cfg.color}`}>
+            <span className={`px-2 py-0.5 rounded-full text-xs font-bold whitespace-nowrap ${cfg.color}`}>
               {cfg.label}
             </span>
           </div>
 
           <div className="flex items-center gap-2 text-xs text-on-surface-variant">
-            <span className="px-1.5 py-0.5 rounded bg-primary-container/50 text-on-primary-fixed text-[10px] font-bold">
+            <span className="px-1.5 py-0.5 rounded bg-primary-container/50 text-on-primary-fixed text-xs font-bold">
               {listingTypeLabel[order.listing_type]}
             </span>
             {order.price != null && (
@@ -123,7 +123,7 @@ function OrderCard({
                 {isBuyerView ? '卖家' : '买家'}: {counterpart.nickname}
               </span>
             </div>
-            <span className="text-[10px] text-on-surface-variant/40">
+            <span className="text-xs text-on-surface-variant/40">
               {new Date(order.created_at).toLocaleDateString('zh-CN')}
             </span>
           </div>

@@ -15,42 +15,50 @@ function BottomNavBar() {
 
   return (
     <nav className="fixed bottom-0 left-0 w-full z-50 bg-white/70 backdrop-blur-xl shadow-nav rounded-t-lg">
-      <div className="flex justify-around items-center px-6 pt-3 pb-6 safe-bottom">
-        {navItems.map((item) =>
-          item.requiresProfile ? (
-            <button
-              key={item.path}
-              onClick={() => requireProfile(() => navigate(item.path))}
-              className={`flex flex-col items-center justify-center transition-all duration-300 active:scale-90 ${
-                location.pathname.startsWith(item.path)
-                  ? 'bg-primary text-white rounded-full p-3 mb-2 scale-110'
-                  : 'text-on-surface-variant p-2 hover:text-primary'
-              }`}
-            >
-              <span className="material-symbols-outlined">{item.icon}</span>
-              <span className="font-label text-[11px] font-bold uppercase tracking-wider mt-0.5">
+      <div className="flex justify-around items-center px-4 pt-2 pb-7 safe-bottom">
+        {navItems.map((item) => {
+          const inner = (
+            <>
+              <span className="material-symbols-outlined text-[22px]">{item.icon}</span>
+              <span className="font-label text-xs font-bold tracking-wider mt-0.5">
                 {item.label}
               </span>
-            </button>
-          ) : (
+            </>
+          )
+
+          if (item.requiresProfile) {
+            const active = location.pathname.startsWith(item.path)
+            return (
+              <button
+                key={item.path}
+                onClick={() => requireProfile(() => navigate(item.path))}
+                className={`flex flex-col items-center justify-center px-4 py-2 rounded-2xl transition-colors duration-200 cursor-pointer active:scale-95 ${
+                  active
+                    ? 'bg-primary/10 text-primary'
+                    : 'text-on-surface-variant hover:text-primary'
+                }`}
+              >
+                {inner}
+              </button>
+            )
+          }
+
+          return (
             <NavLink
               key={item.path}
               to={item.path}
-              className={({ isActive }) =>
-                `flex flex-col items-center justify-center transition-all duration-300 active:scale-90 ${
-                  isActive
-                    ? 'bg-primary text-white rounded-full p-3 mb-2 scale-110'
-                    : 'text-on-surface-variant p-2 hover:text-primary'
+              className={({ isActive: active }) =>
+                `flex flex-col items-center justify-center px-4 py-2 rounded-2xl transition-colors duration-200 cursor-pointer active:scale-95 ${
+                  active
+                    ? 'bg-primary/10 text-primary'
+                    : 'text-on-surface-variant hover:text-primary'
                 }`
               }
             >
-              <span className="material-symbols-outlined">{item.icon}</span>
-              <span className="font-label text-[11px] font-bold uppercase tracking-wider mt-0.5">
-                {item.label}
-              </span>
+              {inner}
             </NavLink>
           )
-        )}
+        })}
       </div>
     </nav>
   )

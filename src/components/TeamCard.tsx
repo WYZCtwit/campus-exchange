@@ -93,7 +93,7 @@ function TeamCard({
         <div className="absolute inset-0 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.1)] pointer-events-none" />
         {/* Type Tag */}
         <div
-          className={`absolute top-4 left-4 ${config.tagBg} backdrop-blur-md text-white text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-widest shadow-lg`}
+          className={`absolute top-4 left-4 ${config.tagBg} backdrop-blur-md text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-widest shadow-lg`}
         >
           {config.label}
         </div>
@@ -117,7 +117,7 @@ function TeamCard({
 
           {/* Roles Needed */}
           <div className="mb-4">
-            <h3 className="text-[10px] font-extrabold text-on-surface-variant/60 uppercase tracking-[0.2em] mb-3">
+            <h3 className="text-xs font-extrabold text-on-surface-variant/60 uppercase tracking-[0.2em] mb-3">
               寻找队友 (LOOKING FOR)
             </h3>
             <div className="flex flex-wrap gap-2">

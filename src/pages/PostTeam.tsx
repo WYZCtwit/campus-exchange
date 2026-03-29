@@ -228,7 +228,7 @@ function PostTeam() {
                 >
                   <span className="material-symbols-outlined text-2xl">{t.icon}</span>
                   <span className="font-bold text-sm">{t.label}</span>
-                  <span className={`text-[10px] leading-tight text-center ${formData.type === t.value ? 'opacity-80' : 'text-on-surface-variant/60'}`}>
+                  <span className={`text-xs leading-tight text-center ${formData.type === t.value ? 'opacity-80' : 'text-on-surface-variant/60'}`}>
                     {t.desc}
                   </span>
                 </button>

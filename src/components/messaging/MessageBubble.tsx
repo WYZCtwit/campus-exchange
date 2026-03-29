@@ -35,7 +35,7 @@ function MessageBubble({
         </div>
         {showTimestamp && isLastInGroup && (
           <div className="flex items-center gap-1 px-1">
-            <span className="text-[10px] text-on-surface-variant">
+            <span className="text-xs text-on-surface-variant">
               {formatMessageTime(message.created_at)}
             </span>
             <span
@@ -71,7 +71,7 @@ function MessageBubble({
           <p className="text-sm md:text-base leading-relaxed">{message.content}</p>
         </div>
         {showTimestamp && isLastInGroup && (
-          <span className="text-[10px] text-on-surface-variant px-1">
+          <span className="text-xs text-on-surface-variant px-1">
             {formatMessageTime(message.created_at)}
           </span>
         )}

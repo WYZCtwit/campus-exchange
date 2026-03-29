@@ -162,7 +162,7 @@ function PostItem() {
       {/* Title & Description */}
       <section className="bg-surface-container-lowest rounded-lg p-6 shadow-card space-y-6">
         <div className="space-y-2">
-          <label className="text-[11px] font-bold text-primary uppercase tracking-widest ml-1">
+          <label className="text-xs font-bold text-primary uppercase tracking-widest ml-1">
             商品标题
           </label>
           <input
@@ -176,7 +176,7 @@ function PostItem() {
 
         {/* Category Selection */}
         <div className="space-y-2">
-          <label className="text-[11px] font-bold text-primary uppercase tracking-widest ml-1">
+          <label className="text-xs font-bold text-primary uppercase tracking-widest ml-1">
             分类选择
           </label>
           <div className="flex flex-wrap gap-2">
@@ -201,7 +201,7 @@ function PostItem() {
         </div>
 
         <div className="space-y-2">
-          <label className="text-[11px] font-bold text-primary uppercase tracking-widest ml-1">
+          <label className="text-xs font-bold text-primary uppercase tracking-widest ml-1">
             详细描述
           </label>
           <textarea

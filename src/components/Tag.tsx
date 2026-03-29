@@ -16,7 +16,7 @@ function Tag({ label, variant = 'primary', className = '' }: TagProps) {
   return (
     <span
       className={`
-        text-[10px] font-bold uppercase tracking-widest
+        text-xs font-bold uppercase tracking-widest
         px-2 py-0.5 rounded-full
         ${variantStyles[variant]}
         ${className}

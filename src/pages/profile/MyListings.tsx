@@ -1,6 +1,8 @@
 import { useEffect, useState, useCallback, type ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuthStore } from '@/stores/authStore'
+import { SKILL_CATEGORY_MAP } from '@/lib/skill'
+import { formatTimeAgo } from '@/lib/time'
 import { supabase } from '@/lib/supabase'
 import SkillCard from '@/components/SkillCard'
 import ItemCard from '@/components/ItemCard'
@@ -18,15 +20,6 @@ const TABS: { key: TabKey; label: string; icon: string }[] = [
   { key: 'teams', label: '组队', icon: 'group' },
 ]
 
-const skillCatMap: Record<string, { label: string; variant: 'primary' | 'secondary' | 'tertiary' }> = {
-  coding: { label: '编程', variant: 'primary' },
-  design: { label: '设计', variant: 'secondary' },
-  academic: { label: '学术', variant: 'tertiary' },
-  life: { label: '生活', variant: 'primary' },
-  art: { label: '艺术', variant: 'secondary' },
-  other: { label: '其他', variant: 'tertiary' },
-}
-
 const statusBadge: Record<string, { label: string; cls: string }> = {
   active: { label: '上架中', cls: 'bg-primary/80 text-white' },
   inactive: { label: '已下架', cls: 'bg-on-surface/60 text-white' },
@@ -34,19 +27,6 @@ const statusBadge: Record<string, { label: string; cls: string }> = {
   recruiting: { label: '招募中', cls: 'bg-primary/80 text-white' },
   full: { label: '已满员', cls: 'bg-secondary/80 text-white' },
   ended: { label: '已结束', cls: 'bg-on-surface/60 text-white' },
-}
-
-function timeAgo(s: string): string {
-  const d = Date.now() - new Date(s).getTime()
-  const m = Math.floor(d / 60000)
-  if (m < 1) return '刚刚'
-  if (m < 60) return `${m}分钟前`
-  const h = Math.floor(m / 60)
-  if (h < 24) return `${h}小时前`
-  const day = Math.floor(h / 24)
-  if (day < 30) return `${day}天前`
-  const dt = new Date(s)
-  return `${dt.getFullYear()}.${String(dt.getMonth() + 1).padStart(2, '0')}.${String(dt.getDate()).padStart(2, '0')}`
 }
 
 // ── Component ───────────────────────────────────────────
@@ -141,14 +121,14 @@ function MyListings() {
     const name = profile?.nickname || '我'
 
     if (tab === 'skills') return skills.map(s => {
-      const cat = skillCatMap[s.category] || skillCatMap.other
+      const cat = SKILL_CATEGORY_MAP[s.category] || SKILL_CATEGORY_MAP.other
       return (
         <CardWrap key={s.id} status={s.status} table="skills" id={s.id} isListing>
           <SkillCard
             id={s.id.toString()} image={s.images[0] || ''} imageAlt={s.title}
             tags={[{ label: cat.label, variant: cat.variant }]}
             title={s.title} offerDescription={s.offer_description} wantDescription={s.want_description || ''}
-            author={{ avatar, name }} postedAt={timeAgo(s.created_at)}
+            author={{ avatar, name }} postedAt={formatTimeAgo(s.created_at)}
             onClick={() => navigate(`/skill/${s.id}`)}
           />
         </CardWrap>
@@ -160,7 +140,7 @@ function MyListings() {
         <ItemCard
           id={i.id} image={i.images[0] || ''} imageAlt={i.title} title={i.title}
           price={i.price} originalPrice={i.original_price} condition={i.condition} location={i.location}
-          author={{ avatar, name }} postedAt={timeAgo(i.created_at)}
+          author={{ avatar, name }} postedAt={formatTimeAgo(i.created_at)}
           onClick={() => navigate(`/item/${i.id}`)}
         />
       </CardWrap>
@@ -213,7 +193,7 @@ function MyListings() {
             >
               <span className="material-symbols-outlined text-base">{t.icon}</span>
               {t.label}
-              <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${tab === t.key ? 'bg-on-primary/20' : 'bg-surface-container-high'}`}>
+              <span className={`text-xs px-1.5 py-0.5 rounded-full ${tab === t.key ? 'bg-on-primary/20' : 'bg-surface-container-high'}`}>
                 {counts[t.key]}
               </span>
             </button>

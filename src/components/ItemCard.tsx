@@ -51,11 +51,11 @@ function ItemCard({
             )}
           </div>
           <div className="flex items-center gap-2">
-            <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider ${cond.cls}`}>
+            <span className={`text-xs font-bold px-2 py-0.5 rounded-full uppercase tracking-wider ${cond.cls}`}>
               {cond.label}
             </span>
             {location && (
-              <span className="text-[10px] text-on-surface-variant flex items-center gap-0.5">
+              <span className="text-xs text-on-surface-variant flex items-center gap-0.5">
                 <span className="material-symbols-outlined text-xs">location_on</span>
                 {location}
               </span>
@@ -68,9 +68,9 @@ function ItemCard({
             <div className="w-5 h-5 rounded-full bg-surface-container-high border border-white shadow-sm overflow-hidden">
               <img className="w-full h-full object-cover" src={author.avatar} alt={author.name} />
             </div>
-            <span className="text-[11px] text-on-surface-variant">{author.name}</span>
+            <span className="text-xs text-on-surface-variant">{author.name}</span>
           </div>
-          <span className="text-[10px] text-outline">{postedAt}</span>
+          <span className="text-xs text-outline">{postedAt}</span>
         </div>
       </div>
     </div>

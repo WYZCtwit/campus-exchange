@@ -167,7 +167,7 @@ function ChatRoom() {
             <h1 className="font-headline font-bold tracking-tight text-on-surface text-lg leading-tight">
               {peer.nickname}
             </h1>
-            <span className="text-[10px] font-semibold uppercase tracking-widest text-on-surface-variant">
+            <span className="text-xs font-semibold uppercase tracking-widest text-on-surface-variant">
               {conversation.listing_type === 'skill'
                 ? 'Skill Swap'
                 : conversation.listing_type === 'item'

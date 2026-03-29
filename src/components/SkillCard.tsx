@@ -64,7 +64,7 @@ function SkillCard({
               </span>
               <span className="text-xs font-semibold text-on-surface-variant">
                 我能提供:{' '}
-                <span className="text-on-surface">{offerDescription}</span>
+                <span className="text-on-surface text-sm">{offerDescription}</span>
               </span>
             </div>
             <div className="flex items-center gap-2">
@@ -73,7 +73,7 @@ function SkillCard({
               </span>
               <span className="text-xs font-semibold text-on-surface-variant">
                 我想换取:{' '}
-                <span className="text-on-surface">{wantDescription}</span>
+                <span className="text-on-surface text-sm">{wantDescription}</span>
               </span>
             </div>
           </div>
@@ -93,7 +93,7 @@ function SkillCard({
               {author.name}
             </span>
           </div>
-          <span className="text-[10px] text-outline">{postedAt}</span>
+          <span className="text-xs text-outline">{postedAt}</span>
         </div>
       </div>
     </div>

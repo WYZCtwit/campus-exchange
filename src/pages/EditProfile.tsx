@@ -244,7 +244,7 @@ function EditProfile() {
               style={{ width: `${completeness}%` }}
             />
           </div>
-          <p className="text-[10px] text-on-surface-variant mt-3 italic">
+          <p className="text-xs text-on-surface-variant mt-3 italic">
             {completeness < 100
               ? '完善更多资料可以提升信任度'
               : '资料已完善，继续保持'}

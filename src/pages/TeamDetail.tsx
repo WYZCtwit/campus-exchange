@@ -114,7 +114,7 @@ function TeamDetail() {
 
         {/* Type Tag */}
         <div
-          className={`absolute bottom-4 left-6 ${config.tagBg} backdrop-blur-md text-white text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-widest shadow-lg`}
+          className={`absolute bottom-4 left-6 ${config.tagBg} backdrop-blur-md text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-widest shadow-lg`}
         >
           {config.label}
         </div>

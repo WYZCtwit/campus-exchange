@@ -290,14 +290,14 @@ function ItemDetail() {
         <section className="p-6 rounded-lg bg-surface-container-lowest shadow-card border border-outline-variant/5">
           {/* Tags row */}
           <div className="flex items-center gap-2 mb-3">
-            <span className="px-3 py-1 rounded-full text-[10px] font-bold text-primary bg-primary-container uppercase tracking-wider">
+            <span className="px-3 py-1 rounded-full text-xs font-bold text-primary bg-primary-container uppercase tracking-wider">
               {categoryLabels[item.category] || item.category}
             </span>
-            <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${conditionInfo.color}`}>
+            <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${conditionInfo.color}`}>
               {conditionInfo.label}
             </span>
             {discount && (
-              <span className="px-3 py-1 rounded-full text-[10px] font-bold text-on-error bg-error/80 uppercase tracking-wider">
+              <span className="px-3 py-1 rounded-full text-xs font-bold text-on-error bg-error/80 uppercase tracking-wider">
                 -{discount}%
               </span>
             )}

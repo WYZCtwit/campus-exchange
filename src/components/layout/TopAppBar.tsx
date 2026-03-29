@@ -1,4 +1,5 @@
 import { NavLink, useNavigate } from 'react-router-dom'
+import { useAuthStore } from '@/stores/authStore'
 import { useUnreadCount } from '../../hooks/useNotifications'
 
 interface TopAppBarProps {
@@ -10,8 +11,8 @@ interface TopAppBarProps {
 }
 
 const defaultTabs = [
-  { label: 'Skill Exchange', path: '/home' },
-  { label: 'Campus Market', path: '/exchange' },
+  { label: '技能交换', path: '/home' },
+  { label: '校园集市', path: '/exchange' },
   { label: '组队广场', path: '/teams' },
 ]
 
@@ -23,6 +24,7 @@ function TopAppBar({
   tabs = defaultTabs,
 }: TopAppBarProps) {
   const navigate = useNavigate()
+  const profile = useAuthStore((s) => s.profile)
   const unreadCount = useUnreadCount()
 
   return (
@@ -37,13 +39,17 @@ function TopAppBar({
             <span className="material-symbols-outlined">arrow_back</span>
           </button>
         ) : (
-          <div className="w-10 h-10 rounded-full bg-surface-container overflow-hidden ring-2 ring-white ring-offset-2 ring-offset-surface">
+          <button
+            onClick={() => navigate('/profile')}
+            className="w-10 h-10 rounded-full bg-surface-container overflow-hidden ring-2 ring-white ring-offset-2 ring-offset-surface cursor-pointer active:scale-95 transition-transform"
+            aria-label="个人主页"
+          >
             <img
               className="w-full h-full object-cover"
-              src="/placeholder-avatar.jpg"
-              alt="User avatar"
+              src={profile?.avatar_url || '/default-avatar.svg'}
+              alt="我的头像"
             />
-          </div>
+          </button>
         )}
 
         {/* Title */}

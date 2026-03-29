@@ -85,7 +85,7 @@ function ConversationItem({ conversation, onClick }: ConversationItemProps) {
 
         {/* Listing type badge */}
         {listing_type && (
-          <span className="inline-block mt-1 text-[10px] font-semibold uppercase tracking-wider text-primary bg-primary/10 px-2 py-0.5 rounded-full">
+          <span className="inline-block mt-1 text-xs font-semibold uppercase tracking-wider text-primary bg-primary/10 px-2 py-0.5 rounded-full">
             {listing_type === 'skill' ? 'Skill Swap' : 'Marketplace'}
           </span>
         )}
@@ -97,7 +97,7 @@ function ConversationItem({ conversation, onClick }: ConversationItemProps) {
           {unread_count === 1 ? (
             <div className="w-2.5 h-2.5 bg-primary rounded-full" />
           ) : (
-            <div className="bg-primary text-on-primary text-[10px] font-bold px-2 py-0.5 rounded-full">
+            <div className="bg-primary text-on-primary text-xs font-bold px-2 py-0.5 rounded-full">
               {unread_count}
             </div>
           )}
