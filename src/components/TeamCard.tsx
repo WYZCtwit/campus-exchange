@@ -1,3 +1,7 @@
+import { useState } from 'react'
+import { DefaultCover } from './DefaultCover'
+import { Avatar } from './Avatar'
+
 export interface TeamCardProps {
   id: number
   title: string
@@ -57,6 +61,7 @@ function TeamCard({
   onApply,
   hideActions,
 }: TeamCardProps) {
+  const [imgError, setImgError] = useState(false)
   const config = typeConfig[type]
 
   const formatDate = (dateStr: string) => {
@@ -74,24 +79,20 @@ function TeamCard({
       onClick={onClick}
       className="group bg-surface-container-lowest rounded-xl overflow-hidden flex flex-col md:flex-row shadow-card hover:shadow-card-hover transition-all duration-500 border border-slate-100/50 cursor-pointer"
     >
-      {/* Image Section */}
       <div className="md:w-[40%] relative overflow-hidden">
-        {imageUrl ? (
+        {imageUrl && !imgError ? (
           <img
             className="w-full h-48 md:h-full object-cover group-hover:scale-105 transition-transform duration-700"
             src={imageUrl}
             alt={title}
+            onError={() => setImgError(true)}
           />
         ) : (
-          <div className="w-full h-48 md:h-full bg-gradient-to-br from-surface-container to-surface-container-high flex items-center justify-center">
-            <span className="material-symbols-outlined text-5xl text-on-surface-variant/30">
-              {type === 'competition' ? 'emoji_events' : type === 'activity' ? 'celebration' : 'work'}
-            </span>
+          <div className="w-full h-48 md:h-full overflow-hidden flex items-center justify-center">
+            <DefaultCover title={title} type={type} className="w-full h-full" />
           </div>
         )}
-        {/* Inner glow overlay */}
         <div className="absolute inset-0 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.1)] pointer-events-none" />
-        {/* Type Tag */}
         <div
           className={`absolute top-4 left-4 ${config.tagBg} backdrop-blur-md text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-widest shadow-lg`}
         >
@@ -99,10 +100,8 @@ function TeamCard({
         </div>
       </div>
 
-      {/* Content Section */}
       <div className="p-6 flex flex-col justify-between flex-1">
         <div>
-          {/* Deadline */}
           <div className="flex items-center mb-3">
             <span className="text-secondary font-bold text-xs flex items-center gap-1.5 bg-secondary/5 px-2.5 py-1 rounded-full">
               <span className="material-symbols-outlined text-[16px]">event_available</span>
@@ -110,12 +109,10 @@ function TeamCard({
             </span>
           </div>
 
-          {/* Title */}
           <h2 className="text-xl md:text-2xl font-extrabold text-on-surface mb-4 leading-tight group-hover:text-primary transition-colors">
             {title}
           </h2>
 
-          {/* Roles Needed */}
           <div className="mb-4">
             <h3 className="text-xs font-extrabold text-on-surface-variant/60 uppercase tracking-[0.2em] mb-3">
               寻找队友 (LOOKING FOR)
@@ -132,7 +129,6 @@ function TeamCard({
             </div>
           </div>
 
-          {/* Progress */}
           <div className="flex items-center gap-2 text-xs text-on-surface-variant">
             <span className="material-symbols-outlined text-sm">group</span>
             <span>
@@ -141,23 +137,9 @@ function TeamCard({
           </div>
         </div>
 
-        {/* Footer */}
         <div className="flex items-center justify-between pt-5 mt-4 border-t border-slate-50">
-          {/* Author */}
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full ring-2 ring-primary/5 bg-surface-container overflow-hidden shadow-sm">
-              {author.avatarUrl ? (
-                <img
-                  className="w-full h-full object-cover"
-                  src={author.avatarUrl}
-                  alt={author.nickname}
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center bg-primary/10">
-                  <span className="material-symbols-outlined text-primary/50">person</span>
-                </div>
-              )}
-            </div>
+            <Avatar src={author.avatarUrl} name={author.nickname} sizeClass="w-10 h-10 ring-2 ring-primary/5 rounded-full shadow-sm bg-surface-container" />
             <div className="text-xs">
               <p className="font-bold text-on-surface">{author.nickname}</p>
               {author.department && (
@@ -168,7 +150,6 @@ function TeamCard({
             </div>
           </div>
 
-          {/* Apply Button */}
           {!hideActions && (
             <button
               onClick={handleApplyClick}

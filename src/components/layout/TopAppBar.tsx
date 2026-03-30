@@ -1,6 +1,7 @@
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useAuthStore } from '@/stores/authStore'
 import { useUnreadCount } from '../../hooks/useNotifications'
+import { Avatar } from '../Avatar'
 
 interface TopAppBarProps {
   title?: string
@@ -41,13 +42,13 @@ function TopAppBar({
         ) : (
           <button
             onClick={() => navigate('/profile')}
-            className="w-10 h-10 rounded-full bg-surface-container overflow-hidden ring-2 ring-white ring-offset-2 ring-offset-surface cursor-pointer active:scale-95 transition-transform"
+            className="rounded-full bg-surface-container overflow-hidden ring-2 ring-white ring-offset-2 ring-offset-surface cursor-pointer active:scale-95 transition-transform"
             aria-label="个人主页"
           >
-            <img
-              className="w-full h-full object-cover"
-              src={profile?.avatar_url || '/default-avatar.svg'}
-              alt="我的头像"
+            <Avatar 
+              src={profile?.avatar_url} 
+              name={profile?.nickname || '我'} 
+              sizeClass="w-10 h-10 block" 
             />
           </button>
         )}

@@ -34,3 +34,4 @@ supabase/.temp/
 
 # Screenshots (root only, not assets)
 /*.png
+.vercel

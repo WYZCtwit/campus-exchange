@@ -1,4 +1,7 @@
 import Tag from './Tag'
+import { useState } from 'react'
+import { Avatar } from './Avatar'
+import { DefaultCover } from './DefaultCover'
 
 export interface SkillCardProps {
   id: string
@@ -27,18 +30,25 @@ function SkillCard({
   postedAt,
   onClick,
 }: SkillCardProps) {
+  const [imgError, setImgError] = useState(false)
+
   return (
     <div
       onClick={onClick}
       className="group flex bg-surface-container-lowest rounded-lg p-4 gap-4 shadow-card hover:shadow-card-hover transition-all duration-300 overflow-hidden relative cursor-pointer"
     >
       {/* Image */}
-      <div className="w-32 h-32 flex-shrink-0 rounded-md overflow-hidden">
-        <img
-          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-          src={image}
-          alt={imageAlt}
-        />
+      <div className="w-32 h-32 flex-shrink-0 rounded-md overflow-hidden bg-surface-container">
+        {image && !imgError ? (
+          <img
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            src={image}
+            alt={imageAlt}
+            onError={() => setImgError(true)}
+          />
+        ) : (
+          <DefaultCover title={title} type="skill" className="w-full h-full p-2" />
+        )}
       </div>
 
       {/* Content */}
@@ -82,13 +92,7 @@ function SkillCard({
         {/* Footer */}
         <div className="flex items-center justify-between mt-2">
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-full bg-surface-container-high border-2 border-white shadow-sm overflow-hidden">
-              <img
-                className="w-full h-full object-cover"
-                src={author.avatar}
-                alt={`${author.name} avatar`}
-              />
-            </div>
+            <Avatar src={author.avatar} name={author.name} sizeClass="w-6 h-6 border-2 border-white rounded-full bg-surface-container-high shadow-sm" />
             <span className="text-xs font-medium text-on-surface-variant">
               {author.name}
             </span>

@@ -1,3 +1,7 @@
+import { useState } from 'react'
+import { Avatar } from './Avatar'
+import { DefaultCover } from './DefaultCover'
+
 export interface ItemCardProps {
   id: number
   image: string
@@ -22,6 +26,7 @@ const conditionMap: Record<string, { label: string; cls: string }> = {
 function ItemCard({
   image, imageAlt, title, price, originalPrice, condition, location, author, postedAt, onClick,
 }: ItemCardProps) {
+  const [imgError, setImgError] = useState(false)
   const cond = conditionMap[condition] ?? { label: condition, cls: 'bg-surface-variant text-on-surface-variant' }
 
   return (
@@ -30,12 +35,10 @@ function ItemCard({
       className="group flex bg-surface-container-lowest rounded-lg p-4 gap-4 shadow-card hover:shadow-card-hover transition-all duration-300 cursor-pointer"
     >
       <div className="w-28 h-28 flex-shrink-0 rounded-md overflow-hidden bg-surface-container">
-        {image ? (
-          <img className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src={image} alt={imageAlt} />
+        {image && !imgError ? (
+          <img className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src={image} alt={imageAlt} onError={() => setImgError(true)} />
         ) : (
-          <div className="w-full h-full flex items-center justify-center">
-            <span className="material-symbols-outlined text-3xl text-on-surface-variant/30">shopping_bag</span>
-          </div>
+          <DefaultCover title={title} type="item" className="w-full h-full p-2" />
         )}
       </div>
 
@@ -65,8 +68,8 @@ function ItemCard({
 
         <div className="flex items-center justify-between mt-2">
           <div className="flex items-center gap-2">
-            <div className="w-5 h-5 rounded-full bg-surface-container-high border border-white shadow-sm overflow-hidden">
-              <img className="w-full h-full object-cover" src={author.avatar} alt={author.name} />
+            <div className="flex-shrink-0 shadow-sm rounded-full overflow-hidden border border-white bg-surface-container-high relative">
+              <Avatar src={author.avatar} name={author.name} sizeClass="w-5 h-5 block" />
             </div>
             <span className="text-xs text-on-surface-variant">{author.name}</span>
           </div>
