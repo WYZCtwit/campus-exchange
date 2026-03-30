@@ -114,11 +114,12 @@ function SkillDetail() {
   const userId = useAuthStore((s) => s.user?.id ?? null)
   const profile = useAuthStore((s) => s.profile)
   const requireProfile = useAuthStore((s) => s.requireProfile)
-  const { createOrder, isSubmitting } = useOrdersStore()
+  const { createOrder, isSubmitting, error: orderError } = useOrdersStore()
   const [skill, setSkill] = useState<SkillWithProfile | null>(null)
   const [loading, setLoading] = useState(true)
   const [notFound, setNotFound] = useState(false)
   const [showOrderModal, setShowOrderModal] = useState(false)
+  const [orderFeedback, setOrderFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
 
   useEffect(() => {
     async function fetchSkill() {
@@ -389,6 +390,17 @@ function SkillDetail() {
         </div>
       </div>
 
+      {/* ── Order Feedback Toast ─────────── */}
+      {orderFeedback && (
+        <div className={`fixed top-20 left-1/2 -translate-x-1/2 z-[200] px-6 py-3 rounded-xl shadow-elevation-3 font-bold text-sm animate-fade-in ${
+          orderFeedback.type === 'error'
+            ? 'bg-error-container text-on-error-container'
+            : 'bg-secondary-container text-on-secondary-container'
+        }`}>
+          {orderFeedback.message}
+        </div>
+      )}
+
       {/* ── Order Creation Modal ──────────── */}
       <OrderCreateModal
         visible={showOrderModal}
@@ -411,6 +423,9 @@ function SkillDetail() {
           if (orderId) {
             setShowOrderModal(false)
             navigate(`/order/${orderId}`)
+          } else {
+            setOrderFeedback({ type: 'error', message: orderError || '创建订单失败，请稍后重试' })
+            setTimeout(() => setOrderFeedback(null), 3000)
           }
         }}
       />

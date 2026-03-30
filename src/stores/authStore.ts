@@ -13,6 +13,7 @@ interface AuthState {
 
   initialize: () => Promise<void>
   fetchProfile: () => Promise<void>
+  fetchProfileWithRetry: (attempts?: number) => Promise<void>
   updateProfile: (updates: { nickname?: string; wechat_id?: string; avatar_url?: string | null; bio?: string | null; department?: string | null; grade?: string | null; student_id?: string | null }) => Promise<void>
   requireProfile: (action: () => void) => void
   completeProfile: (nickname: string, wechatId: string) => Promise<void>
@@ -54,9 +55,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
         if (data.user) {
           set({ user: data.user, session: data.session })
-          // Wait for the database trigger to create the profile
-          await new Promise((resolve) => setTimeout(resolve, 500))
-          await get().fetchProfile()
+          // Retry fetching the profile (trigger-created row may take a moment)
+          await get().fetchProfileWithRetry()
         }
       }
     } catch (error) {
@@ -82,6 +82,30 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     }
 
     set({ profile: data })
+  },
+
+  fetchProfileWithRetry: async (attempts = 3) => {
+    const { user } = get()
+    if (!user) return
+
+    for (let i = 0; i < attempts; i++) {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single()
+
+      if (!error && data) {
+        set({ profile: data })
+        return
+      }
+      // Wait 150ms before retry (trigger propagation)
+      if (i < attempts - 1) {
+        await new Promise((r) => setTimeout(r, 150))
+      }
+    }
+    // Fallback: set profile to null so the UI isn't stuck
+    console.warn('fetchProfileWithRetry: profile not found after retries')
   },
 
   updateProfile: async (updates) => {

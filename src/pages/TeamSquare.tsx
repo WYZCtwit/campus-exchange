@@ -43,10 +43,11 @@ function toCardProps(team: TeamWithAuthor) {
 
 function TeamSquare() {
   const navigate = useNavigate()
-  const { isLoading, error, filters, fetchTeams, setFilters, getFilteredTeams } = useListingsStore()
+  const { isLoading, error, filters, fetchTeams, setFilters, getFilteredTeams, submitApplication } = useListingsStore()
 
   const [modalOpen, setModalOpen] = useState(false)
   const [selectedTeam, setModalTeam] = useState<ReturnType<typeof toCardProps> | null>(null)
+  const [applyFeedback, setApplyFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
 
   useEffect(() => {
     fetchTeams()
@@ -63,9 +64,24 @@ function TeamSquare() {
     setModalOpen(true)
   }
 
-  const handleApplySubmit = (data: { reason: string; role: string; wechatContact: string }) => {
-    console.log('Apply submitted:', { teamId: selectedTeam?.id, ...data })
-    setModalOpen(false)
+  const handleApplySubmit = async (data: { reason: string; role: string; wechatContact: string }) => {
+    if (!selectedTeam) return
+
+    const reasonWithRole = `[${data.role}] ${data.reason}`
+    const success = await submitApplication({
+      team_id: selectedTeam.id,
+      reason: reasonWithRole,
+      wechat_contact: data.wechatContact,
+    })
+
+    if (success) {
+      setModalOpen(false)
+      setApplyFeedback({ type: 'success', message: '申请已提交，请等待发起人审核' })
+      setTimeout(() => setApplyFeedback(null), 3000)
+    } else {
+      setApplyFeedback({ type: 'error', message: '提交申请失败，请稍后重试' })
+      setTimeout(() => setApplyFeedback(null), 3000)
+    }
   }
 
   return (
@@ -167,6 +183,17 @@ function TeamSquare() {
       >
         <span className="material-symbols-outlined text-3xl">add</span>
       </button>
+
+      {/* Apply Feedback Toast */}
+      {applyFeedback && (
+        <div className={`fixed top-20 left-1/2 -translate-x-1/2 z-[200] px-6 py-3 rounded-xl shadow-elevation-3 font-bold text-sm animate-fade-in ${
+          applyFeedback.type === 'error'
+            ? 'bg-error-container text-on-error-container'
+            : 'bg-secondary-container text-on-secondary-container'
+        }`}>
+          {applyFeedback.message}
+        </div>
+      )}
 
       {/* Apply Modal */}
       {selectedTeam && (

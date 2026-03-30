@@ -1,71 +1,16 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import SkillCard, { type SkillCardProps } from '../components/SkillCard'
+import SkillCard from '../components/SkillCard'
 import SkeletonList from '../components/SkeletonCard'
-import { SKILL_CATEGORY_MAP } from '../lib/skill'
-import { formatTimeAgo } from '../lib/time'
-import { supabase } from '../lib/supabase'
-import type { Profile, Skill } from '../types/database'
-
-type SkillFeedRow = Pick<
-  Skill,
-  'id' | 'title' | 'category' | 'offer_description' | 'want_description' | 'images' | 'created_at'
-> & {
-  profiles: Pick<Profile, 'nickname' | 'avatar_url'> | null
-}
+import { useSkillsStore } from '../stores/skills.store'
 
 function Home() {
   const navigate = useNavigate()
-  const [cards, setCards] = useState<SkillCardProps[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
+  const { cards, isLoading, error, fetchSkills } = useSkillsStore()
 
   useEffect(() => {
-    ;(async () => {
-      try {
-        const { data, error: fetchErr } = await supabase
-          .from('skills')
-          .select(`
-            id,
-            title,
-            category,
-            offer_description,
-            want_description,
-            images,
-            created_at,
-            profiles:user_id (nickname, avatar_url)
-          `)
-          .eq('status', 'active')
-          .order('created_at', { ascending: false })
-
-        if (fetchErr) throw fetchErr
-
-        const mapped = ((data ?? []) as unknown as SkillFeedRow[]).map((s) => {
-          const cat = SKILL_CATEGORY_MAP[s.category] || SKILL_CATEGORY_MAP.other
-          return {
-            id: String(s.id),
-            image: s.images?.[0] || '',
-            imageAlt: s.title,
-            tags: [{ label: cat.label, variant: cat.variant }],
-            title: s.title,
-            offerDescription: s.offer_description,
-            wantDescription: s.want_description || '可协商',
-            author: {
-              avatar: s.profiles?.avatar_url || '/default-avatar.svg',
-              name: s.profiles?.nickname || '匿名用户',
-            },
-            postedAt: formatTimeAgo(s.created_at),
-          }
-        })
-        setCards(mapped)
-      } catch (err) {
-        console.error('加载技能列表失败:', err)
-        setError('加载失败，请稍后重试')
-      } finally {
-        setLoading(false)
-      }
-    })()
-  }, [])
+    fetchSkills()
+  }, [fetchSkills])
 
   const handleCardClick = (id: string) => {
     navigate(`/skill/${id}`)
@@ -90,7 +35,7 @@ function Home() {
         <div className="bg-error-container/20 text-error px-4 py-3 rounded-lg text-sm font-medium">{error}</div>
       )}
 
-      {loading ? (
+      {isLoading ? (
         <SkeletonList count={4} />
       ) : cards.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 text-center">

@@ -1,39 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import ApplyModal from '../components/ApplyModal'
-
-// Mock team detail data (would normally be fetched from API)
-const mockTeamDetail = {
-  id: 1,
-  title: 'ACM 国际大学生程序设计竞赛',
-  type: 'competition' as const,
-  description: `参加ACM国际大学生程序设计竞赛，目标是冲击区域赛银牌。
-
-我们是一个有经验的团队，队长曾在ICPC亚洲区域赛获得过铜牌。目前已有2人：
-- 陈同学：负责图论和动态规划，熟练使用C++
-- 李同学：负责数据结构和搜索算法，熟练使用Python
-
-我们正在寻找第三位队友，最好是熟悉前端开发或者有算法竞赛经验的同学。`,
-  deadline: '2024-11-15',
-  rolesNeeded: ['C++ 高手', '算法策略师', '前端开发'],
-  currentCount: 2,
-  targetCount: 3,
-  status: 'recruiting' as const,
-  author: {
-    id: 'user-1',
-    nickname: 'Captain Chen',
-    avatarUrl:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuCpGHuMr8T-ZQSav-MLzFCYD4I0uT0ZVS7Rnbq2nQum2FX6WIL3FrFU_nilnmNw-FrBJ7NEsAT9RhwHN1DxLhS8kc7Evfll3p4KVtOn75_AWOEwzcoiIqaXwZQaM_WpqhBg-cEmg7VStJWfbC2ccs7m3JpBb_ko4xWqvd4kdLPxYg45SnHp1nq6fclZNgwFyqLsYz97640DxVCUjXZCd53Oknu7-volEvAnJGO5wJ9d3boNrpsF-6ezotn18_KvPBNrDXkGX14PYPxC',
-    department: '计算机科学',
-    grade: '2025',
-    bio: '热爱编程，喜欢挑战算法难题。ACM/ICPC爱好者。',
-  },
-  imageUrl:
-    'https://lh3.googleusercontent.com/aida-public/AB6AXuDdTU28qBBHmkhxiCFAY7JyPeF6BboRUkCiMeH6M5vuPKEDvOJQ9g0Yb-jME8t9GUvwsJfp8ho8zGpwZhtfj7lsBD9SQk4fomuPRLlOZzmDyn522eK2qJcsOIXiHuSu97w4rrPOUu4wnMoE0D5mi3tws6dsqa20n73OmanP_bk6lmwQqBXFLfP-dDlRSGJZ5ccvemngbbJRilKLrZbJ23SVOMueC4iDoi6CE2XiUp_-V6mPZeF5Dbr24Jw4V0Q58TKRLnkxZlO9hyVy',
-  wechatContact: 'captain_chen_acm',
-  viewCount: 128,
-  createdAt: '2024-10-20T10:30:00Z',
-}
+import { useListingsStore } from '../stores/listings.store'
+import type { TeamWithAuthor } from '../stores/listings.store'
 
 const typeConfig: Record<
   'competition' | 'activity' | 'project',
@@ -60,13 +29,42 @@ const typeConfig: Record<
 }
 
 function TeamDetail() {
-  const { id: _teamId } = useParams<{ id: string }>()
+  const { id: teamId } = useParams<{ id: string }>()
   const navigate = useNavigate()
-  const [modalOpen, setModalOpen] = useState(false)
+  const { submitApplication, fetchTeamById } = useListingsStore()
 
-  // In real app, fetch team data based on id
-  const team = mockTeamDetail
-  const config = typeConfig[team.type]
+  const [team, setTeam] = useState<TeamWithAuthor | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [notFound, setNotFound] = useState(false)
+  const [modalOpen, setModalOpen] = useState(false)
+  const [applyFeedback, setApplyFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
+
+  useEffect(() => {
+    async function loadTeam() {
+      if (!teamId) {
+        setNotFound(true)
+        setLoading(false)
+        return
+      }
+
+      const numericId = Number(teamId)
+      if (Number.isNaN(numericId)) {
+        setNotFound(true)
+        setLoading(false)
+        return
+      }
+
+      const data = await fetchTeamById(numericId)
+      if (data) {
+        setTeam(data)
+      } else {
+        setNotFound(true)
+      }
+      setLoading(false)
+    }
+
+    loadTeam()
+  }, [teamId, fetchTeamById])
 
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr)
@@ -78,30 +76,77 @@ function TeamDetail() {
     return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`
   }
 
-  const handleApplySubmit = (data: { reason: string; role: string; wechatContact: string }) => {
-    console.log('Apply submitted:', { teamId: team.id, ...data })
-    // TODO: Submit application to database
-    setModalOpen(false)
-    // Show success message
+  const handleApplySubmit = async (data: { reason: string; role: string; wechatContact: string }) => {
+    if (!team) return
+
+    const reasonWithRole = `[${data.role}] ${data.reason}`
+    const success = await submitApplication({
+      team_id: team.id,
+      reason: reasonWithRole,
+      wechat_contact: data.wechatContact,
+    })
+
+    if (success) {
+      setModalOpen(false)
+      setApplyFeedback({ type: 'success', message: '申请已提交，请等待发起人审核' })
+      setTimeout(() => setApplyFeedback(null), 3000)
+    } else {
+      setApplyFeedback({ type: 'error', message: '提交申请失败，请稍后重试' })
+      setTimeout(() => setApplyFeedback(null), 3000)
+    }
   }
+
+  // Loading state
+  if (loading) {
+    return (
+      <div className="pb-32">
+        <div className="h-64 md:h-80 bg-surface-container animate-pulse" />
+        <div className="px-6 -mt-6 space-y-6">
+          <div className="h-40 bg-surface-container rounded-2xl animate-pulse" />
+          <div className="h-32 bg-surface-container rounded-2xl animate-pulse" />
+          <div className="h-24 bg-surface-container rounded-2xl animate-pulse" />
+        </div>
+      </div>
+    )
+  }
+
+  // Not found
+  if (notFound || !team) {
+    return (
+      <div className="min-h-[80vh] flex flex-col items-center justify-center px-6 text-center">
+        <div className="w-28 h-28 rounded-full bg-surface-container flex items-center justify-center mb-6">
+          <span className="material-symbols-outlined text-5xl text-on-surface-variant/40">
+            search_off
+          </span>
+        </div>
+        <h2 className="text-2xl font-headline font-bold text-on-surface mb-2">
+          组队未找到
+        </h2>
+        <p className="text-on-surface-variant mb-8 max-w-xs">
+          该组队可能已截止或被删除。去广场看看其他队伍吧！
+        </p>
+        <button
+          onClick={() => navigate('/teams')}
+          className="px-8 py-3.5 bg-primary text-on-primary rounded-xl font-bold shadow-elevation-2 active:scale-95 transition-transform"
+        >
+          去组队广场
+        </button>
+      </div>
+    )
+  }
+
+  const config = typeConfig[team.type]
+  const author = team.profiles
 
   return (
     <div className="pb-32">
       {/* Hero Image */}
       <div className="relative h-64 md:h-80 overflow-hidden">
-        {team.imageUrl ? (
-          <img
-            className="w-full h-full object-cover"
-            src={team.imageUrl}
-            alt={team.title}
-          />
-        ) : (
-          <div className="w-full h-full bg-gradient-to-br from-surface-container to-surface-container-high flex items-center justify-center">
-            <span className="material-symbols-outlined text-7xl text-on-surface-variant/30">
-              {team.type === 'competition' ? 'emoji_events' : team.type === 'activity' ? 'celebration' : 'work'}
-            </span>
-          </div>
-        )}
+        <div className="w-full h-full bg-gradient-to-br from-surface-container to-surface-container-high flex items-center justify-center">
+          <span className="material-symbols-outlined text-7xl text-on-surface-variant/30">
+            {team.type === 'competition' ? 'emoji_events' : team.type === 'activity' ? 'celebration' : 'work'}
+          </span>
+        </div>
         <div className="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent" />
 
         {/* Back Button */}
@@ -137,12 +182,12 @@ function TeamDetail() {
             <div className="flex items-center gap-1.5">
               <span className="material-symbols-outlined text-base text-primary">group</span>
               <span>
-                {team.currentCount}/{team.targetCount} 人
+                {team.current_count}/{team.target_count} 人
               </span>
             </div>
             <div className="flex items-center gap-1.5">
               <span className="material-symbols-outlined text-base text-on-surface-variant">visibility</span>
-              <span>{team.viewCount} 次浏览</span>
+              <span>{team.view_count} 次浏览</span>
             </div>
           </div>
         </div>
@@ -154,11 +199,11 @@ function TeamDetail() {
           </h2>
           <div className="flex items-center gap-4">
             <div className="w-14 h-14 rounded-full ring-2 ring-primary/10 bg-surface-container overflow-hidden shadow-sm">
-              {team.author.avatarUrl ? (
+              {author.avatar_url ? (
                 <img
                   className="w-full h-full object-cover"
-                  src={team.author.avatarUrl}
-                  alt={team.author.nickname}
+                  src={author.avatar_url}
+                  alt={author.nickname}
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center bg-primary/10">
@@ -167,14 +212,11 @@ function TeamDetail() {
               )}
             </div>
             <div className="flex-1">
-              <p className="font-bold text-on-surface text-lg">{team.author.nickname}</p>
-              {team.author.department && (
+              <p className="font-bold text-on-surface text-lg">{author.nickname}</p>
+              {author.department && (
                 <p className="text-on-surface-variant text-sm">
-                  {team.author.department} {team.author.grade && `'${team.author.grade.slice(-2)}`}
+                  {author.department} {author.grade && `'${author.grade.slice(-2)}`}
                 </p>
-              )}
-              {team.author.bio && (
-                <p className="text-on-surface-variant/80 text-sm mt-1 line-clamp-2">{team.author.bio}</p>
               )}
             </div>
           </div>
@@ -186,7 +228,7 @@ function TeamDetail() {
             寻找队友 (LOOKING FOR)
           </h2>
           <div className="flex flex-wrap gap-2.5">
-            {team.rolesNeeded.map((role, index) => (
+            {(team.roles_needed || []).map((role, index) => (
               <span
                 key={index}
                 className={`${config.bgClass} ${config.colorClass} px-4 py-2 rounded-lg text-sm font-bold border border-current/10`}
@@ -212,13 +254,24 @@ function TeamDetail() {
           </h2>
           <div className="flex items-center gap-3 text-on-surface">
             <span className="material-symbols-outlined text-primary">chat</span>
-            <span className="font-medium">{team.wechatContact}</span>
+            <span className="font-medium">{team.wechat_contact || '暂未提供'}</span>
           </div>
           <p className="text-xs text-on-surface-variant/60 mt-2">
-            发布于 {formatDateTime(team.createdAt)}
+            发布于 {formatDateTime(team.created_at)}
           </p>
         </div>
       </div>
+
+      {/* Feedback Toast */}
+      {applyFeedback && (
+        <div className={`fixed top-20 left-1/2 -translate-x-1/2 z-[200] px-6 py-3 rounded-xl shadow-elevation-3 font-bold text-sm animate-fade-in ${
+          applyFeedback.type === 'error'
+            ? 'bg-error-container text-on-error-container'
+            : 'bg-secondary-container text-on-secondary-container'
+        }`}>
+          {applyFeedback.message}
+        </div>
+      )}
 
       {/* Fixed Bottom Apply Button */}
       <div className="fixed bottom-0 left-0 right-0 p-4 bg-surface/90 backdrop-blur-xl border-t border-slate-100">
@@ -237,7 +290,7 @@ function TeamDetail() {
       <ApplyModal
         isOpen={modalOpen}
         teamTitle={team.title}
-        rolesNeeded={team.rolesNeeded}
+        rolesNeeded={team.roles_needed || []}
         onClose={() => setModalOpen(false)}
         onSubmit={handleApplySubmit}
       />

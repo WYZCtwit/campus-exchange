@@ -1,53 +1,16 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import ItemCard, { type ItemCardProps } from '../components/ItemCard'
+import ItemCard from '../components/ItemCard'
 import SkeletonList from '../components/SkeletonCard'
-import { formatTimeAgo } from '../lib/time'
-import { supabase } from '../lib/supabase'
-import type { Profile, Item } from '../types/database'
-
-type ItemFeedRow = Pick<
-  Item,
-  'id' | 'title' | 'price' | 'original_price' | 'condition' | 'location' | 'images' | 'created_at'
-> & {
-  profiles: Pick<Profile, 'nickname' | 'avatar_url'> | null
-}
+import { useItemsStore } from '../stores/items.store'
 
 function Exchange() {
   const navigate = useNavigate()
-  const [cards, setCards] = useState<ItemCardProps[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
+  const { cards, isLoading, error, fetchItems } = useItemsStore()
 
   useEffect(() => {
-    ;(async () => {
-      try {
-        const { data, error: fetchErr } = await supabase
-          .from('items')
-          .select(`
-            id,
-            title,
-            price,
-            original_price,
-            condition,
-            location,
-            images,
-            created_at,
-            profiles:user_id (nickname, avatar_url)
-          `)
-          .eq('status', 'active')
-          .order('created_at', { ascending: false })
-
-        if (fetchErr) throw fetchErr
-        setCards(buildCards(data ?? []))
-      } catch (err) {
-        console.error('加载物品列表失败:', err)
-        setError('加载失败，请稍后重试')
-      } finally {
-        setLoading(false)
-      }
-    })()
-  }, [])
+    fetchItems()
+  }, [fetchItems])
 
   return (
     <div className="px-6 space-y-8 max-w-2xl mx-auto">
@@ -68,7 +31,7 @@ function Exchange() {
         <div className="bg-error-container/20 text-error px-4 py-3 rounded-lg text-sm font-medium">{error}</div>
       )}
 
-      {loading ? (
+      {isLoading ? (
         <SkeletonList count={4} />
       ) : cards.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 text-center">
@@ -94,24 +57,6 @@ function Exchange() {
       )}
     </div>
   )
-}
-
-function buildCards(rows: unknown[]): ItemCardProps[] {
-  return (rows as unknown as ItemFeedRow[]).map((i) => ({
-    id: i.id,
-    image: i.images?.[0] || '',
-    imageAlt: i.title,
-    title: i.title,
-    price: i.price,
-    originalPrice: i.original_price,
-    condition: i.condition,
-    location: i.location,
-    author: {
-      avatar: i.profiles?.avatar_url || '/default-avatar.svg',
-      name: i.profiles?.nickname || '匿名用户',
-    },
-    postedAt: formatTimeAgo(i.created_at),
-  }))
 }
 
 export default Exchange

@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { supabase } from '@/lib/supabase'
-import type { Team, TeamInsert, Profile } from '@/types/database'
+import type { Team, TeamInsert, ApplicationInsert, Profile } from '@/types/database'
 
 // Enriched team row with author profile
 export type TeamWithAuthor = Team & {
@@ -19,7 +19,9 @@ interface ListingsState {
   filters: TeamFilters
 
   fetchTeams: () => Promise<void>
+  fetchTeamById: (id: number) => Promise<TeamWithAuthor | null>
   insertTeam: (team: Omit<TeamInsert, 'user_id'>) => Promise<number | null>
+  submitApplication: (data: Omit<ApplicationInsert, 'user_id'>) => Promise<boolean>
   setFilters: (filters: Partial<TeamFilters>) => void
   getFilteredTeams: () => TeamWithAuthor[]
 }
@@ -68,6 +70,43 @@ export const useListingsStore = create<ListingsState>((set, get) => ({
     // Refresh the list after insert
     await get().fetchTeams()
     return data?.id ?? null
+  },
+
+  fetchTeamById: async (id: number) => {
+    try {
+      const { data, error } = await supabase
+        .from('teams')
+        .select(`*, profiles:user_id (id, nickname, avatar_url, department, grade)`)
+        .eq('id', id)
+        .single()
+
+      if (error || !data) return null
+      return data as unknown as TeamWithAuthor
+    } catch (err) {
+      console.error('fetchTeamById failed:', err)
+      return null
+    }
+  },
+
+  submitApplication: async (applicationData) => {
+    set({ error: null })
+    try {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) throw new Error('请先完成登录')
+
+      const { error } = await supabase
+        .from('applications')
+        .insert({ ...applicationData, user_id: user.id })
+
+      if (error) throw error
+
+      return true
+    } catch (err) {
+      const message = err instanceof Error ? err.message : '提交申请失败'
+      console.error('submitApplication failed:', err)
+      set({ error: message })
+      return false
+    }
   },
 
   setFilters: (partial) => {
