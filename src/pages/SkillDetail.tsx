@@ -422,12 +422,7 @@ function SkillDetail() {
           })
           if (result) {
             setShowOrderModal(false)
-            // Navigate to the chat with the seller
-            if (result.conversationId) {
-              navigate(`/chat/${result.conversationId}`)
-            } else {
-              navigate('/chat')
-            }
+            navigate(`/order/${result}`)
           } else {
             setOrderFeedback({ type: 'error', message: orderError || '创建订单失败，请稍后重试' })
             setTimeout(() => setOrderFeedback(null), 3000)
