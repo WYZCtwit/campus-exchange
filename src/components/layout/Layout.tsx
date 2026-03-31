@@ -3,16 +3,15 @@ import TopAppBar from './TopAppBar'
 import BottomNavBar from './BottomNavBar'
 import FAB from './FAB'
 import { useAuthStore } from '@/stores/authStore'
-import { useNotificationPolling } from '../../hooks/useNotifications'
 
 // Pages that should show the full shell (top bar, bottom nav, FAB)
 const fullShellPages = ['/', '/home', '/exchange', '/teams']
 
 // Pages that should show bottom nav but no top bar or FAB
-const bottomNavOnlyPages = ['/chat', '/profile']
+const bottomNavOnlyPages = ['/profile']
 
 // Pages that need top bar but no tabs (back navigation instead)
-const topBarOnlyPages = ['/notifications']
+const topBarOnlyPages: string[] = []
 
 // Pages that hide bottom nav (detail pages with back navigation)
 const hideBottomNavPrefixes = ['/post', '/skill/', '/item/', '/order/']
@@ -23,9 +22,7 @@ function Layout() {
   const requireProfile = useAuthStore((s) => s.requireProfile)
   const user = useAuthStore((s) => s.user)
 
-  // Poll notifications for the current user (30s interval)
-  useNotificationPolling(user?.id ?? null, 30_000)
-
+  
   const showFullShell = fullShellPages.includes(location.pathname)
   const showBottomNavOnly = bottomNavOnlyPages.some(path => location.pathname.startsWith(path))
   const showTopBarOnly = topBarOnlyPages.includes(location.pathname)
@@ -48,8 +45,7 @@ function Layout() {
   return (
     <div className="min-h-screen bg-surface">
       {showFullShell && <TopAppBar />}
-      {showTopBarOnly && <TopAppBar showTabs={false} showBack title="Notifications" onBack={() => navigate(-1)} />}
-
+  
       <main className={mainClasses}>
         <Outlet />
       </main>

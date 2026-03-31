@@ -44,7 +44,7 @@ function App() {
           <Route path="teams" element={<TeamSquare />} />
           <Route path="post-team" element={<PostTeam />} />
           <Route path="teams/:id" element={<TeamDetail />} />
-            <Route path="skill/:id" element={<SkillDetail />} />
+          <Route path="skill/:id" element={<SkillDetail />} />
           <Route path="item/:id" element={<ItemDetail />} />
           <Route path="orders" element={<OrderList />} />
           <Route path="order/:id" element={<OrderDetail />} />
