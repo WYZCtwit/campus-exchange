@@ -43,7 +43,7 @@ function toCardProps(team: TeamWithAuthor) {
 
 function TeamSquare() {
   const navigate = useNavigate()
-  const { isLoading, error, filters, fetchTeams, setFilters, getFilteredTeams, submitApplication } = useListingsStore()
+  const { isLoading, error, filters, fetchTeams, fetchMyApplications, myApplications, setFilters, getFilteredTeams, submitApplication } = useListingsStore()
 
   const [modalOpen, setModalOpen] = useState(false)
   const [selectedTeam, setModalTeam] = useState<ReturnType<typeof toCardProps> | null>(null)
@@ -51,7 +51,8 @@ function TeamSquare() {
 
   useEffect(() => {
     fetchTeams()
-  }, [fetchTeams])
+    fetchMyApplications()
+  }, [fetchTeams, fetchMyApplications])
 
   const teams = getFilteredTeams()
 
@@ -169,6 +170,7 @@ function TeamSquare() {
               <TeamCard
                 key={team.id}
                 {...cardProps}
+                applicationStatus={myApplications.get(team.id) ?? null}
                 onClick={() => handleCardClick(team.id)}
                 onApply={() => handleApplyClick(cardProps)}
               />

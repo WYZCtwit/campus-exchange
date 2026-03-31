@@ -133,7 +133,7 @@ function SkillDetail() {
       if (isSupabaseConfigured && supabase) {
         const { data, error } = await supabase
           .from('skills')
-          .select('*, profiles(*)')
+          .select('*, profiles:user_id(*)')
           .eq('id', Number(id))
           .eq('status', 'active')
           .single()
@@ -412,7 +412,7 @@ function SkillDetail() {
         buyerWechat={profile?.wechat_id ?? ''}
         isSubmitting={isSubmitting}
         onConfirm={async (note) => {
-          const orderId = await createOrder({
+          const result = await createOrder({
             listing_type: 'skill',
             listing_id: skill.id,
             seller_id: provider.id,
@@ -420,9 +420,14 @@ function SkillDetail() {
             note: note || null,
             buyer_wechat: profile?.wechat_id ?? '',
           })
-          if (orderId) {
+          if (result) {
             setShowOrderModal(false)
-            navigate(`/order/${orderId}`)
+            // Navigate to the chat with the seller
+            if (result.conversationId) {
+              navigate(`/chat/${result.conversationId}`)
+            } else {
+              navigate('/chat')
+            }
           } else {
             setOrderFeedback({ type: 'error', message: orderError || '创建订单失败，请稍后重试' })
             setTimeout(() => setOrderFeedback(null), 3000)

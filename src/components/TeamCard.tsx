@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { DefaultCover } from './DefaultCover'
 import { Avatar } from './Avatar'
+import type { ApplicationStatus } from '@/types/database'
 
 export interface TeamCardProps {
   id: number
@@ -19,6 +20,7 @@ export interface TeamCardProps {
     grade: string | null
   }
   imageUrl?: string | null
+  applicationStatus?: ApplicationStatus | null
   onClick?: () => void
   onApply?: () => void
   hideActions?: boolean
@@ -57,6 +59,7 @@ function TeamCard({
   targetCount,
   author,
   imageUrl,
+  applicationStatus,
   onClick,
   onApply,
   hideActions,
@@ -151,12 +154,24 @@ function TeamCard({
           </div>
 
           {!hideActions && (
-            <button
-              onClick={handleApplyClick}
-              className="px-5 py-2.5 rounded-lg bg-primary text-on-primary font-bold text-sm shadow-[0_8px_20px_-6px_rgba(0,83,202,0.4)] hover:shadow-[0_12px_24px_-8px_rgba(0,83,202,0.5)] hover:-translate-y-0.5 active:scale-95 active:translate-y-0 transition-all"
-            >
-              立即加入
-            </button>
+            applicationStatus ? (
+              <span className={`px-4 py-2 rounded-lg font-bold text-sm ${
+                applicationStatus === 'approved'
+                  ? 'bg-secondary-container text-on-secondary-container'
+                  : applicationStatus === 'rejected'
+                    ? 'bg-error-container text-on-error-container'
+                    : 'bg-surface-container-high text-on-surface-variant'
+              }`}>
+                {applicationStatus === 'approved' ? '已通过' : applicationStatus === 'rejected' ? '已拒绝' : '审核中'}
+              </span>
+            ) : (
+              <button
+                onClick={handleApplyClick}
+                className="px-5 py-2.5 rounded-lg bg-primary text-on-primary font-bold text-sm shadow-[0_8px_20px_-6px_rgba(0,83,202,0.4)] hover:shadow-[0_12px_24px_-8px_rgba(0,83,202,0.5)] hover:-translate-y-0.5 active:scale-95 active:translate-y-0 transition-all"
+              >
+                立即加入
+              </button>
+            )
           )}
         </div>
       </div>

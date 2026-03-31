@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { supabase } from '@/lib/supabase'
-import type { Team, TeamInsert, ApplicationInsert, Profile } from '@/types/database'
+import type { Team, TeamInsert, ApplicationInsert, ApplicationStatus, Profile } from '@/types/database'
 
 // Enriched team row with author profile
 export type TeamWithAuthor = Team & {
@@ -14,12 +14,14 @@ interface TeamFilters {
 
 interface ListingsState {
   teams: TeamWithAuthor[]
+  myApplications: Map<number, ApplicationStatus>
   isLoading: boolean
   error: string | null
   filters: TeamFilters
 
   fetchTeams: () => Promise<void>
   fetchTeamById: (id: number) => Promise<TeamWithAuthor | null>
+  fetchMyApplications: () => Promise<void>
   insertTeam: (team: Omit<TeamInsert, 'user_id'>) => Promise<number | null>
   submitApplication: (data: Omit<ApplicationInsert, 'user_id'>) => Promise<boolean>
   setFilters: (filters: Partial<TeamFilters>) => void
@@ -28,6 +30,7 @@ interface ListingsState {
 
 export const useListingsStore = create<ListingsState>((set, get) => ({
   teams: [],
+  myApplications: new Map(),
   isLoading: false,
   error: null,
   filters: {
@@ -100,12 +103,37 @@ export const useListingsStore = create<ListingsState>((set, get) => ({
 
       if (error) throw error
 
+      // Refresh applications cache
+      await get().fetchMyApplications()
+
       return true
     } catch (err) {
       const message = err instanceof Error ? err.message : '提交申请失败'
       console.error('submitApplication failed:', err)
       set({ error: message })
       return false
+    }
+  },
+
+  fetchMyApplications: async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return
+
+      const { data, error } = await supabase
+        .from('applications')
+        .select('team_id, status')
+        .eq('user_id', user.id)
+
+      if (error) throw error
+
+      const map = new Map<number, ApplicationStatus>()
+      ;(data ?? []).forEach((row: { team_id: number; status: ApplicationStatus }) => {
+        map.set(row.team_id, row.status)
+      })
+      set({ myApplications: map })
+    } catch (err) {
+      console.error('fetchMyApplications failed:', err)
     }
   },
 

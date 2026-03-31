@@ -31,7 +31,7 @@ const typeConfig: Record<
 function TeamDetail() {
   const { id: teamId } = useParams<{ id: string }>()
   const navigate = useNavigate()
-  const { submitApplication, fetchTeamById } = useListingsStore()
+  const { submitApplication, fetchTeamById, fetchMyApplications, myApplications } = useListingsStore()
 
   const [team, setTeam] = useState<TeamWithAuthor | null>(null)
   const [loading, setLoading] = useState(true)
@@ -65,6 +65,11 @@ function TeamDetail() {
 
     loadTeam()
   }, [teamId, fetchTeamById])
+
+  // Fetch user's applications to show status
+  useEffect(() => {
+    fetchMyApplications()
+  }, [fetchMyApplications])
 
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr)
@@ -276,13 +281,39 @@ function TeamDetail() {
       {/* Fixed Bottom Apply Button */}
       <div className="fixed bottom-0 left-0 right-0 p-4 bg-surface/90 backdrop-blur-xl border-t border-slate-100">
         <div className="max-w-5xl mx-auto">
-          <button
-            onClick={() => setModalOpen(true)}
-            disabled={team.status !== 'recruiting'}
-            className="w-full py-4 rounded-xl bg-primary text-on-primary font-bold shadow-[0_8px_20px_-6px_rgba(0,83,202,0.4)] hover:shadow-[0_12px_24px_-8px_rgba(0,83,202,0.5)] active:scale-[0.98] disabled:opacity-50 disabled:shadow-none disabled:cursor-not-allowed transition-all"
-          >
-            {team.status === 'recruiting' ? '申请加入' : '已停止招募'}
-          </button>
+          {(() => {
+            const myStatus = team.id ? myApplications.get(team.id) : undefined
+            if (myStatus === 'pending') {
+              return (
+                <div className="w-full py-4 rounded-xl bg-surface-container-high text-on-surface-variant font-bold text-center">
+                  审核中
+                </div>
+              )
+            }
+            if (myStatus === 'approved') {
+              return (
+                <div className="w-full py-4 rounded-xl bg-secondary-container text-on-secondary-container font-bold text-center">
+                  已通过
+                </div>
+              )
+            }
+            if (myStatus === 'rejected') {
+              return (
+                <div className="w-full py-4 rounded-xl bg-error-container text-on-error-container font-bold text-center">
+                  已拒绝
+                </div>
+              )
+            }
+            return (
+              <button
+                onClick={() => setModalOpen(true)}
+                disabled={team.status !== 'recruiting'}
+                className="w-full py-4 rounded-xl bg-primary text-on-primary font-bold shadow-[0_8px_20px_-6px_rgba(0,83,202,0.4)] hover:shadow-[0_12px_24px_-8px_rgba(0,83,202,0.5)] active:scale-[0.98] disabled:opacity-50 disabled:shadow-none disabled:cursor-not-allowed transition-all"
+              >
+                {team.status === 'recruiting' ? '申请加入' : '已停止招募'}
+              </button>
+            )
+          })()}
         </div>
       </div>
 

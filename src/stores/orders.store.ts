@@ -1,7 +1,6 @@
 import { create } from 'zustand'
 import { supabase } from '@/lib/supabase'
 import type {
-  NotificationType,
   Order,
   OrderInsert,
   OrderStatus,
@@ -48,7 +47,7 @@ interface OrdersState {
 
   fetchMyOrders: () => Promise<void>
   fetchOrderById: (id: number) => Promise<void>
-  createOrder: (data: Omit<OrderInsert, 'buyer_id'>) => Promise<number | null>
+  createOrder: (data: Omit<OrderInsert, 'buyer_id'>) => Promise<{ orderId: number; conversationId: number | null } | null>
   updateOrderStatus: (
     id: number,
     nextStatus: OrderStatus,
@@ -146,10 +145,10 @@ export const useOrdersStore = create<OrdersState>((set, get) => ({
   createOrder: async (data) => {
     set({ isSubmitting: true, error: null })
     try {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser()
-      if (!user) throw new Error('请先完成登录')
+      // Get current session — avoid refreshSession() for anonymous users,
+      // as it can invalidate the session and lose the Authorization header
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) throw new Error('登录已过期，请刷新页面后重试')
 
       const payload: OrderInsert = { ...data, buyer_id: user.id }
       const { data: order, error } = await supabase
@@ -158,24 +157,34 @@ export const useOrdersStore = create<OrdersState>((set, get) => ({
         .select('id')
         .single()
 
-      if (error) throw error
+      if (error) throw new Error(error.message || '插入订单失败')
 
-      // Notify the seller
-      await supabase.rpc('create_notification', {
-        p_user_id: data.seller_id,
-        p_type: 'new_order',
-        p_title: '新订单通知',
-        p_content: `您有一个新的${data.listing_type === 'skill' ? '技能交换' : '物品购买'}订单`,
-        p_listing_type: data.listing_type,
-        p_listing_id: data.listing_id,
-        p_order_id: order.id,
-      })
+      // Create or get conversation with the seller (non-blocking)
+      let conversationId: number | null = null
+      try {
+        const { data: convId, error: rpcErr } = await supabase.rpc(
+          'get_or_create_conversation',
+          {
+            p_user1: user.id,
+            p_user2: data.seller_id,
+            p_listing_type: data.listing_type,
+            p_listing_id: data.listing_id,
+          },
+        )
+        if (rpcErr) {
+          console.warn('[createOrder] conversation RPC failed:', rpcErr.message)
+        } else {
+          conversationId = (convId as number) ?? null
+        }
+      } catch (convErr) {
+        console.warn('[createOrder] conversation creation failed:', convErr)
+      }
 
       set({ isSubmitting: false })
-      return order.id
+      return { orderId: order.id, conversationId }
     } catch (err) {
-      const message = err instanceof Error ? err.message : '创建订单失败'
-      console.error('createOrder failed:', err)
+      const message = err instanceof Error ? err.message
+        : (err as { message?: string })?.message ?? '创建订单失败'
       set({ error: message, isSubmitting: false })
       return null
     }
@@ -204,33 +213,7 @@ export const useOrdersStore = create<OrdersState>((set, get) => ({
 
       const { error } = await supabase.from('orders').update(update).eq('id', id)
       if (error) throw error
-
-      // Send notification to the other party
-      const {
-        data: { user },
-      } = await supabase.auth.getUser()
-      const isBuyer = user?.id === currentOrder.buyer_id
-      const notifyUserId = isBuyer ? currentOrder.seller_id : currentOrder.buyer_id
-
-      const notificationTypeMap: Record<string, NotificationType> = {
-        contacted: 'order_contacted',
-        completed: 'order_completed',
-        cancelled: 'order_cancelled',
-      }
-
-      const titleMap: Record<string, string> = {
-        contacted: '订单已联系',
-        completed: '订单已完成',
-        cancelled: '订单已取消',
-      }
-
-      await supabase.rpc('create_notification', {
-        p_user_id: notifyUserId,
-        p_type: notificationTypeMap[nextStatus],
-        p_title: titleMap[nextStatus],
-        p_content: `订单 #${id} 状态已更新为${titleMap[nextStatus]}`,
-        p_order_id: id,
-      })
+      // Notification is handled by DB trigger `notify_on_order_status`
 
       // Refresh order data
       await get().fetchOrderById(id)
@@ -254,15 +237,7 @@ export const useOrdersStore = create<OrdersState>((set, get) => ({
       const payload: ReviewInsert = { ...data, reviewer_id: user.id }
       const { error } = await supabase.from('reviews').insert(payload)
       if (error) throw error
-
-      // Notify the reviewee (the DB trigger handles avg_rating update)
-      await supabase.rpc('create_notification', {
-        p_user_id: data.reviewee_id,
-        p_type: 'review_received',
-        p_title: '收到新评价',
-        p_content: `您收到了一条 ${data.rating} 星评价`,
-        p_order_id: data.order_id,
-      })
+      // Notification handled by DB trigger `notify_on_new_review`
 
       // Refresh reviews
       await get().fetchOrderById(data.order_id)

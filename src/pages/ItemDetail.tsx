@@ -206,7 +206,7 @@ function ItemDetail() {
       if (isSupabaseConfigured && supabase) {
         const { data, error } = await supabase
           .from('items')
-          .select('*, profiles(*)')
+          .select('*, profiles:user_id(*)')
           .eq('id', Number(id))
           .eq('status', 'active')
           .single()
@@ -429,7 +429,7 @@ function ItemDetail() {
         buyerWechat={profile?.wechat_id ?? ''}
         isSubmitting={isSubmitting}
         onConfirm={async (note) => {
-          const orderId = await createOrder({
+          const result = await createOrder({
             listing_type: 'item',
             listing_id: item.id,
             seller_id: seller.id,
@@ -437,9 +437,14 @@ function ItemDetail() {
             note: note || null,
             buyer_wechat: profile?.wechat_id ?? '',
           })
-          if (orderId) {
+          if (result) {
             setShowOrderModal(false)
-            navigate(`/order/${orderId}`)
+            // Navigate to the chat with the seller
+            if (result.conversationId) {
+              navigate(`/chat/${result.conversationId}`)
+            } else {
+              navigate('/chat')
+            }
           } else {
             setOrderFeedback({ type: 'error', message: orderError || '创建订单失败，请稍后重试' })
             setTimeout(() => setOrderFeedback(null), 3000)
