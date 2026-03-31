@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 .claude/skills/ui-ux-pro-max/scripts/search.py \"campus marketplace student exchange skill team education community\" --design-system -p \"Campus Exchange\")"
+    ]
+  }
+}
