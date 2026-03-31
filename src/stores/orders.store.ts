@@ -47,7 +47,7 @@ interface OrdersState {
 
   fetchMyOrders: () => Promise<void>
   fetchOrderById: (id: number) => Promise<void>
-  createOrder: (data: Omit<OrderInsert, 'buyer_id'>) => Promise<{ orderId: number; conversationId: number | null } | null>
+  createOrder: (data: Omit<OrderInsert, 'buyer_id'>) => Promise<number | null>
   updateOrderStatus: (
     id: number,
     nextStatus: OrderStatus,
@@ -159,29 +159,8 @@ export const useOrdersStore = create<OrdersState>((set, get) => ({
 
       if (error) throw new Error(error.message || '插入订单失败')
 
-      // Create or get conversation with the seller (non-blocking)
-      let conversationId: number | null = null
-      try {
-        const { data: convId, error: rpcErr } = await supabase.rpc(
-          'get_or_create_conversation',
-          {
-            p_user1: user.id,
-            p_user2: data.seller_id,
-            p_listing_type: data.listing_type,
-            p_listing_id: data.listing_id,
-          },
-        )
-        if (rpcErr) {
-          console.warn('[createOrder] conversation RPC failed:', rpcErr.message)
-        } else {
-          conversationId = (convId as number) ?? null
-        }
-      } catch (convErr) {
-        console.warn('[createOrder] conversation creation failed:', convErr)
-      }
-
       set({ isSubmitting: false })
-      return { orderId: order.id, conversationId }
+      return order.id
     } catch (err) {
       const message = err instanceof Error ? err.message
         : (err as { message?: string })?.message ?? '创建订单失败'
