@@ -106,11 +106,29 @@ function Profile() {
         />
         <StatsOverview stats={statsLoading ? [] : displayStats} />
 
-        {/* My Listings Navigation */}
-        <section className="bg-surface-container-lowest rounded-xl shadow-card overflow-hidden">
+        {/* My Orders & Listings Navigation */}
+        <section className="space-y-3">
+          <button
+            onClick={() => navigate('/orders')}
+            className="w-full flex items-center justify-between p-5 bg-surface-container-lowest rounded-xl shadow-card hover:bg-surface-container-low/80 transition-colors active:scale-[0.99]"
+          >
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center">
+                <span className="material-symbols-outlined text-secondary text-2xl">receipt_long</span>
+              </div>
+              <div className="text-left">
+                <h3 className="font-bold text-on-surface">我的订单</h3>
+                <p className="text-xs text-on-surface-variant mt-0.5">
+                  查看买入和卖出的订单
+                </p>
+              </div>
+            </div>
+            <span className="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+          </button>
+
           <button
             onClick={() => navigate('/my-listings')}
-            className="w-full flex items-center justify-between p-5 hover:bg-surface-container-low/80 transition-colors active:scale-[0.99]"
+            className="w-full flex items-center justify-between p-5 bg-surface-container-lowest rounded-xl shadow-card hover:bg-surface-container-low/80 transition-colors active:scale-[0.99]"
           >
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">

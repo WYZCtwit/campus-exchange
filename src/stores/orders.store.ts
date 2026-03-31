@@ -8,6 +8,7 @@ import type {
   Review,
   ReviewInsert,
 } from '@/types/database'
+import type { RealtimeChannel } from '@supabase/supabase-js'
 
 // ── Enriched types ────────────────────────────────
 type ProfileSnippet = Pick<
@@ -55,6 +56,8 @@ interface OrdersState {
   ) => Promise<void>
   submitReview: (data: Omit<ReviewInsert, 'reviewer_id'>) => Promise<void>
   clearCurrent: () => void
+  subscribeToOrderUpdates: (userId: string) => RealtimeChannel
+  unsubscribeFromOrderUpdates: () => void
 }
 
 export const useOrdersStore = create<OrdersState>((set, get) => ({
@@ -65,6 +68,7 @@ export const useOrdersStore = create<OrdersState>((set, get) => ({
   isLoading: false,
   isSubmitting: false,
   error: null,
+  _channel: null as RealtimeChannel | null,
 
   // ── Fetch all orders for the current user ────
   fetchMyOrders: async () => {
@@ -231,5 +235,68 @@ export const useOrdersStore = create<OrdersState>((set, get) => ({
   // ── Clear current order detail ──────────────
   clearCurrent: () => {
     set({ currentOrder: null, currentListing: null, currentReviews: [], error: null })
+  },
+
+  // ── Realtime: subscribe to order changes ──────
+  subscribeToOrderUpdates: (userId: string) => {
+    const store = get() as OrdersState & { _channel: RealtimeChannel | null }
+
+    // Unsubscribe from any existing channel
+    if (store._channel) {
+      supabase.removeChannel(store._channel)
+    }
+
+    const channel = supabase
+      .channel('orders-realtime')
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'orders',
+          filter: `seller_id=eq.${userId}`,
+        },
+        () => {
+          // Seller got a new order — refresh the list
+          get().fetchMyOrders()
+        },
+      )
+      .on(
+        'postgres_changes',
+        {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'orders',
+        },
+        (payload) => {
+          const updatedOrderId = (payload.new as { id: number }).id
+          const { currentOrder, orders } = get()
+
+          // If viewing this specific order, refresh its details
+          if (currentOrder?.id === updatedOrderId) {
+            get().fetchOrderById(updatedOrderId)
+          }
+
+          // If this order is in our list, refresh the list
+          if (orders.some((o) => o.id === updatedOrderId)) {
+            get().fetchMyOrders()
+          }
+        },
+      )
+      .subscribe()
+
+    // Store channel reference for cleanup (using internal state)
+    set({ _channel: channel } as Partial<OrdersState> & { _channel: RealtimeChannel | null })
+
+    return channel
+  },
+
+  // ── Realtime: unsubscribe ─────────────────────
+  unsubscribeFromOrderUpdates: () => {
+    const store = get() as OrdersState & { _channel: RealtimeChannel | null }
+    if (store._channel) {
+      supabase.removeChannel(store._channel)
+      set({ _channel: null } as Partial<OrdersState> & { _channel: RealtimeChannel | null })
+    }
   },
 }))

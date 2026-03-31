@@ -148,6 +148,8 @@ function OrderDetail() {
     fetchOrderById,
     updateOrderStatus,
     submitReview,
+    subscribeToOrderUpdates,
+    unsubscribeFromOrderUpdates,
   } = useOrdersStore()
 
   const [showReviewModal, setShowReviewModal] = useState(false)
@@ -155,6 +157,13 @@ function OrderDetail() {
   useEffect(() => {
     if (id) fetchOrderById(Number(id))
   }, [id, fetchOrderById])
+
+  // Subscribe to realtime updates for this order
+  useEffect(() => {
+    if (!userId) return
+    subscribeToOrderUpdates(userId)
+    return () => { unsubscribeFromOrderUpdates() }
+  }, [userId, subscribeToOrderUpdates, unsubscribeFromOrderUpdates])
 
   const isBuyer = order?.buyer_id === userId
   const isSeller = order?.seller_id === userId

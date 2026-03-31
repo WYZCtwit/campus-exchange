@@ -1,6 +1,7 @@
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useAuthStore } from '@/stores/authStore'
 import { Avatar } from '../Avatar'
+import NotificationBadge from '../NotificationBadge'
 
 interface TopAppBarProps {
   title?: string
@@ -56,8 +57,8 @@ function TopAppBar({
           {title}
         </h1>
 
-        {/* Empty spacer for right side */}
-        <div></div>
+        {/* Notification bell */}
+        <NotificationBadge />
       </div>
 
       {/* Navigation Tabs */}

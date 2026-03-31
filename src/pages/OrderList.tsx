@@ -137,7 +137,7 @@ function OrderCard({
 function OrderList() {
   const navigate = useNavigate()
   const userId = useAuthStore((s) => s.user?.id ?? null)
-  const { orders, isLoading, fetchMyOrders } = useOrdersStore()
+  const { orders, isLoading, fetchMyOrders, subscribeToOrderUpdates, unsubscribeFromOrderUpdates } = useOrdersStore()
   const [tab, setTab] = useState<TabType>('bought')
 
   // Fetch listing titles for all orders
@@ -146,6 +146,13 @@ function OrderList() {
   useEffect(() => {
     fetchMyOrders()
   }, [fetchMyOrders])
+
+  // Subscribe to realtime order updates
+  useEffect(() => {
+    if (!userId) return
+    subscribeToOrderUpdates(userId)
+    return () => { unsubscribeFromOrderUpdates() }
+  }, [userId, subscribeToOrderUpdates, unsubscribeFromOrderUpdates])
 
   // Fetch listing details for orders
   useEffect(() => {
