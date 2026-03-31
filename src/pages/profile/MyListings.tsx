@@ -128,6 +128,7 @@ function MyListings() {
             id={s.id.toString()} image={s.images[0] || ''} imageAlt={s.title}
             tags={[{ label: cat.label, variant: cat.variant }]}
             title={s.title} offerDescription={s.offer_description} wantDescription={s.want_description || ''}
+            price={s.price} exchangePreference={s.exchange_preference}
             author={{ avatar, name }} postedAt={formatTimeAgo(s.created_at)}
             onClick={() => navigate(`/skill/${s.id}`)}
           />

@@ -6,7 +6,7 @@ import type { Profile, Skill } from '@/types/database'
 
 type SkillFeedRow = Pick<
   Skill,
-  'id' | 'title' | 'category' | 'offer_description' | 'want_description' | 'images' | 'created_at'
+  'id' | 'title' | 'category' | 'offer_description' | 'want_description' | 'images' | 'created_at' | 'price' | 'exchange_preference'
 > & {
   profiles: Pick<Profile, 'nickname' | 'avatar_url'> | null
 }
@@ -19,6 +19,8 @@ export interface SkillCardData {
   title: string
   offerDescription: string
   wantDescription: string
+  price: number | null
+  exchangePreference: boolean
   author: { avatar: string; name: string }
   postedAt: string
 }
@@ -77,6 +79,8 @@ export const useSkillsStore = create<SkillsState>((set, get) => ({
           want_description,
           images,
           created_at,
+          price,
+          exchange_preference,
           profiles:user_id (nickname, avatar_url)
         `)
         .eq('status', 'active')
@@ -94,6 +98,8 @@ export const useSkillsStore = create<SkillsState>((set, get) => ({
           title: s.title,
           offerDescription: s.offer_description ?? '',
           wantDescription: s.want_description || '可协商',
+          price: s.price,
+          exchangePreference: s.exchange_preference,
           author: {
             avatar: s.profiles?.avatar_url || '/default-avatar.svg',
             name: s.profiles?.nickname || '匿名用户',

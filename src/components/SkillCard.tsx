@@ -11,6 +11,8 @@ export interface SkillCardProps {
   title: string
   offerDescription: string
   wantDescription: string
+  price: number | null
+  exchangePreference: boolean
   author: {
     avatar: string
     name: string
@@ -26,6 +28,8 @@ function SkillCard({
   title,
   offerDescription,
   wantDescription,
+  price,
+  exchangePreference,
   author,
   postedAt,
   onClick,
@@ -83,7 +87,9 @@ function SkillCard({
               </span>
               <span className="text-xs font-semibold text-on-surface-variant">
                 我想换取:{' '}
-                <span className="text-on-surface text-sm">{wantDescription}</span>
+                <span className="text-on-surface text-sm">
+                  {!exchangePreference && price != null ? `¥${price}` : wantDescription}
+                </span>
               </span>
             </div>
           </div>
