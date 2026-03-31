@@ -20,9 +20,8 @@ function Layout() {
   const location = useLocation()
   const navigate = useNavigate()
   const requireProfile = useAuthStore((s) => s.requireProfile)
-  const user = useAuthStore((s) => s.user)
 
-  
+
   const showFullShell = fullShellPages.includes(location.pathname)
   const showBottomNavOnly = bottomNavOnlyPages.some(path => location.pathname.startsWith(path))
   const showTopBarOnly = topBarOnlyPages.includes(location.pathname)
