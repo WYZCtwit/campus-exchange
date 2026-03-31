@@ -54,6 +54,8 @@ export const useSkillsStore = create<SkillsState>((set, get) => ({
     if (!forceRefresh && isCacheValid && cards.length > 0) return
 
     // If we already have data, refresh in background (don't show skeleton)
+
+    // If we already have data, refresh in background (don't show skeleton)
     const hasExistingData = cards.length > 0
     if (hasExistingData) {
       set({ isBackgroundRefresh: true })

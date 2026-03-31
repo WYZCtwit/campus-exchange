@@ -10,6 +10,9 @@ import type {
 } from '@/types/database'
 import type { RealtimeChannel } from '@supabase/supabase-js'
 
+// Cache TTL: 2 minutes (same as skills/items stores)
+const CACHE_TTL = 2 * 60 * 1000
+
 // ── Enriched types ────────────────────────────────
 type ProfileSnippet = Pick<
   Profile,
@@ -43,10 +46,12 @@ interface OrdersState {
   currentListing: ListingSummary | null
   currentReviews: Review[]
   isLoading: boolean
+  isBackgroundRefresh: boolean
   isSubmitting: boolean
   error: string | null
+  lastFetched: number | null
 
-  fetchMyOrders: () => Promise<void>
+  fetchMyOrders: (forceRefresh?: boolean) => Promise<void>
   fetchOrderById: (id: number) => Promise<void>
   createOrder: (data: Omit<OrderInsert, 'buyer_id'>) => Promise<number | null>
   updateOrderStatus: (
@@ -56,6 +61,7 @@ interface OrdersState {
   ) => Promise<void>
   submitReview: (data: Omit<ReviewInsert, 'reviewer_id'>) => Promise<void>
   clearCurrent: () => void
+  invalidateCache: () => void
   subscribeToOrderUpdates: (userId: string) => RealtimeChannel
   unsubscribeFromOrderUpdates: () => void
 }
@@ -66,13 +72,34 @@ export const useOrdersStore = create<OrdersState>((set, get) => ({
   currentListing: null,
   currentReviews: [],
   isLoading: false,
+  isBackgroundRefresh: false,
   isSubmitting: false,
   error: null,
+  lastFetched: null,
   _channel: null as RealtimeChannel | null,
 
+  // ── Invalidate cache (e.g. after order creation) ──
+  invalidateCache: () => {
+    set({ lastFetched: null })
+  },
+
   // ── Fetch all orders for the current user ────
-  fetchMyOrders: async () => {
-    set({ isLoading: true, error: null })
+  fetchMyOrders: async (forceRefresh = false) => {
+    const { lastFetched, orders } = get()
+    const now = Date.now()
+    const isCacheValid = lastFetched && now - lastFetched < CACHE_TTL
+
+    // Return cached data if fresh and not forcing refresh
+    if (!forceRefresh && isCacheValid && orders.length > 0) return
+
+    const hasExistingData = orders.length > 0
+    if (hasExistingData) {
+      set({ isBackgroundRefresh: true })
+    } else {
+      set({ isLoading: true })
+    }
+    set({ error: null })
+
     try {
       const {
         data: { user },
@@ -91,11 +118,15 @@ export const useOrdersStore = create<OrdersState>((set, get) => ({
         .order('updated_at', { ascending: false })
 
       if (error) throw error
-      set({ orders: (data ?? []) as unknown as OrderWithProfiles[], isLoading: false })
+      set({ orders: (data ?? []) as unknown as OrderWithProfiles[], lastFetched: Date.now() })
     } catch (err) {
       const message = err instanceof Error ? err.message : '加载订单失败'
       console.error('fetchMyOrders failed:', err)
-      set({ error: message, isLoading: false })
+      if (!hasExistingData) {
+        set({ error: message })
+      }
+    } finally {
+      set({ isLoading: false, isBackgroundRefresh: false })
     }
   },
 
@@ -163,6 +194,8 @@ export const useOrdersStore = create<OrdersState>((set, get) => ({
 
       if (error) throw new Error(error.message || '插入订单失败')
 
+      // Invalidate cache so the new order appears in the list
+      get().invalidateCache()
       set({ isSubmitting: false })
       return order.id
     } catch (err) {
@@ -257,8 +290,8 @@ export const useOrdersStore = create<OrdersState>((set, get) => ({
           filter: `seller_id=eq.${userId}`,
         },
         () => {
-          // Seller got a new order — refresh the list
-          get().fetchMyOrders()
+          // Seller got a new order — force refresh
+          get().fetchMyOrders(true)
         },
       )
       .on(
@@ -277,9 +310,9 @@ export const useOrdersStore = create<OrdersState>((set, get) => ({
             get().fetchOrderById(updatedOrderId)
           }
 
-          // If this order is in our list, refresh the list
+          // If this order is in our list, force refresh
           if (orders.some((o) => o.id === updatedOrderId)) {
-            get().fetchMyOrders()
+            get().fetchMyOrders(true)
           }
         },
       )
