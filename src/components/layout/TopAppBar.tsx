@@ -56,7 +56,9 @@ function TopAppBar({
           {title}
         </h1>
 
-              </div>
+        {/* Empty spacer for right side */}
+        <div></div>
+      </div>
 
       {/* Navigation Tabs */}
       {showTabs && (
