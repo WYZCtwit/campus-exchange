@@ -14,9 +14,6 @@ const Post = lazy(() => import('./pages/Post'))
 const TeamSquare = lazy(() => import('./pages/TeamSquare'))
 const TeamDetail = lazy(() => import('./pages/TeamDetail'))
 const PostTeam = lazy(() => import('./pages/PostTeam'))
-const MessagesList = lazy(() => import('./pages/MessagesList'))
-const ChatRoom = lazy(() => import('./pages/ChatRoom'))
-const Notifications = lazy(() => import('./pages/Notifications'))
 const SkillDetail = lazy(() => import('./pages/SkillDetail'))
 const ItemDetail = lazy(() => import('./pages/ItemDetail'))
 const MyListings = lazy(() => import('./pages/profile/MyListings'))
@@ -47,16 +44,12 @@ function App() {
           <Route path="teams" element={<TeamSquare />} />
           <Route path="post-team" element={<PostTeam />} />
           <Route path="teams/:id" element={<TeamDetail />} />
-          <Route path="chat" element={<MessagesList />} />
-          <Route path="notifications" element={<Notifications />} />
-          <Route path="skill/:id" element={<SkillDetail />} />
+            <Route path="skill/:id" element={<SkillDetail />} />
           <Route path="item/:id" element={<ItemDetail />} />
           <Route path="orders" element={<OrderList />} />
           <Route path="order/:id" element={<OrderDetail />} />
         </Route>
-        {/* Chat room uses separate layout without bottom nav */}
-        <Route path="/chat/:conversationId" element={<ChatRoom />} />
-      </Routes>
+        </Routes>
     </Suspense>
   )
 }

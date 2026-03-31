@@ -1,6 +1,5 @@
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useAuthStore } from '@/stores/authStore'
-import { useUnreadCount } from '../../hooks/useNotifications'
 import { Avatar } from '../Avatar'
 
 interface TopAppBarProps {
@@ -26,7 +25,6 @@ function TopAppBar({
 }: TopAppBarProps) {
   const navigate = useNavigate()
   const profile = useAuthStore((s) => s.profile)
-  const unreadCount = useUnreadCount()
 
   return (
     <header className="fixed top-0 w-full z-50 bg-white/70 backdrop-blur-xl shadow-header">
@@ -58,20 +56,7 @@ function TopAppBar({
           {title}
         </h1>
 
-        {/* Notification Bell */}
-        <button
-          onClick={() => navigate('/notifications')}
-          className="relative p-2 text-primary active:scale-95 transition-transform"
-          aria-label={`Notifications${unreadCount > 0 ? `, ${unreadCount} unread` : ''}`}
-        >
-          <span className="material-symbols-outlined">notifications</span>
-          {unreadCount > 0 && (
-            <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] bg-error text-on-error text-[10px] font-bold rounded-full flex items-center justify-center px-1">
-              {unreadCount > 99 ? '99+' : unreadCount}
-            </span>
-          )}
-        </button>
-      </div>
+              </div>
 
       {/* Navigation Tabs */}
       {showTabs && (
