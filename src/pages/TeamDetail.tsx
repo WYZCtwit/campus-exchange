@@ -1,8 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import ApplyModal from '../components/ApplyModal'
 import { useListingsStore } from '../stores/listings.store'
-import type { TeamWithAuthor } from '../stores/listings.store'
+import { useAuthStore } from '@/stores/authStore'
+import type { TeamWithAuthor, ApplicationWithApplicant } from '../stores/listings.store'
+import type { ApplicationStatus } from '@/types/database'
 
 const typeConfig: Record<
   'competition' | 'activity' | 'project',
@@ -31,13 +33,17 @@ const typeConfig: Record<
 function TeamDetail() {
   const { id: teamId } = useParams<{ id: string }>()
   const navigate = useNavigate()
-  const { submitApplication, fetchTeamById, fetchMyApplications, myApplications } = useListingsStore()
+  const { submitApplication, fetchTeamById, fetchMyApplications, myApplications, fetchApplicationsForTeam, updateApplicationStatus } = useListingsStore()
+  const userId = useAuthStore((s) => s.user?.id ?? null)
 
   const [team, setTeam] = useState<TeamWithAuthor | null>(null)
   const [loading, setLoading] = useState(true)
   const [notFound, setNotFound] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
   const [applyFeedback, setApplyFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
+  const [applications, setApplications] = useState<ApplicationWithApplicant[]>([])
+  const [appsLoading, setAppsLoading] = useState(false)
+  const [processingId, setProcessingId] = useState<number | null>(null)
 
   useEffect(() => {
     async function loadTeam() {
@@ -65,6 +71,19 @@ function TeamDetail() {
 
     loadTeam()
   }, [teamId, fetchTeamById])
+
+  // Fetch applications if current user is the team owner
+  const loadApplications = useCallback(async () => {
+    if (!teamId || !team || team.user_id !== userId) return
+    setAppsLoading(true)
+    const apps = await fetchApplicationsForTeam(Number(teamId))
+    setApplications(apps)
+    setAppsLoading(false)
+  }, [teamId, team, userId, fetchApplicationsForTeam])
+
+  useEffect(() => {
+    loadApplications()
+  }, [loadApplications])
 
   // Fetch user's applications to show status
   useEffect(() => {
@@ -100,6 +119,26 @@ function TeamDetail() {
       setTimeout(() => setApplyFeedback(null), 3000)
     }
   }
+
+  const handleAppStatusUpdate = useCallback(async (appId: number, status: ApplicationStatus) => {
+    setProcessingId(appId)
+    const success = await updateApplicationStatus(appId, status)
+    if (success) {
+      // Refresh applications list
+      const apps = await fetchApplicationsForTeam(Number(teamId))
+      setApplications(apps)
+      setApplyFeedback({
+        type: 'success',
+        message: status === 'approved' ? '已通过申请' : '已拒绝申请',
+      })
+    } else {
+      setApplyFeedback({ type: 'error', message: '操作失败，请重试' })
+    }
+    setProcessingId(null)
+    setTimeout(() => setApplyFeedback(null), 2500)
+  }, [teamId, fetchApplicationsForTeam, updateApplicationStatus])
+
+  const isOwner = team?.user_id === userId
 
   // Loading state
   if (loading) {
@@ -265,6 +304,110 @@ function TeamDetail() {
             发布于 {formatDateTime(team.created_at)}
           </p>
         </div>
+
+        {/* Applications Management (team owner only) */}
+        {isOwner && (
+          <div className="bg-surface-container-lowest rounded-2xl p-5 shadow-card mb-6">
+            <h2 className="text-xs font-bold text-on-surface-variant/60 uppercase tracking-[0.15em] mb-4 flex items-center gap-2">
+              <span className="material-symbols-outlined text-sm text-primary">group_add</span>
+              收到的申请 ({applications.length})
+            </h2>
+
+            {appsLoading ? (
+              <div className="flex items-center justify-center py-8">
+                <div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+              </div>
+            ) : applications.length === 0 ? (
+              <div className="text-center py-8">
+                <span className="material-symbols-outlined text-4xl text-on-surface-variant/20 mb-2 block">
+                  inbox
+                </span>
+                <p className="text-sm text-on-surface-variant/50">暂无申请</p>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {applications.map((app) => {
+                  const applicant = app.profiles
+                  const isProcessing = processingId === app.id
+                  const statusCfg: Record<ApplicationStatus, { label: string; color: string; bg: string }> = {
+                    pending: { label: '待审核', color: 'text-amber-700', bg: 'bg-amber-50 border-amber-200' },
+                    approved: { label: '已通过', color: 'text-green-700', bg: 'bg-green-50 border-green-200' },
+                    rejected: { label: '已拒绝', color: 'text-gray-500', bg: 'bg-gray-50 border-gray-200' },
+                  }
+                  const sc = statusCfg[app.status]
+
+                  return (
+                    <div key={app.id} className={`p-4 rounded-xl border ${sc.bg} transition-colors`}>
+                      {/* Applicant info */}
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="w-10 h-10 rounded-full bg-surface-container overflow-hidden ring-1 ring-primary/10">
+                          {applicant.avatar_url ? (
+                            <img src={applicant.avatar_url} alt={applicant.nickname} className="w-full h-full object-cover" />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center bg-primary/10">
+                              <span className="material-symbols-outlined text-primary/50">person</span>
+                            </div>
+                          )}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="font-bold text-on-surface text-sm">{applicant.nickname}</p>
+                          <p className="text-xs text-on-surface-variant">
+                            {applicant.department && applicant.department}
+                            {applicant.grade && ` · ${applicant.grade}`}
+                          </p>
+                        </div>
+                        <span className={`text-xs font-bold px-2 py-1 rounded-full ${sc.color} ${sc.bg}`}>
+                          {sc.label}
+                        </span>
+                      </div>
+
+                      {/* Reason */}
+                      <div className="mb-2">
+                        <p className="text-xs text-on-surface-variant/60 mb-1">申请理由</p>
+                        <p className="text-sm text-on-surface whitespace-pre-line">{app.reason}</p>
+                      </div>
+
+                      {/* WeChat */}
+                      {app.wechat_contact && (
+                        <div className="flex items-center gap-2 text-sm text-on-surface-variant mb-3">
+                          <span className="material-symbols-outlined text-base text-green-600">chat</span>
+                          微信：{app.wechat_contact}
+                        </div>
+                      )}
+
+                      {/* Action buttons for pending */}
+                      {app.status === 'pending' && (
+                        <div className="flex gap-2 mt-2">
+                          <button
+                            onClick={() => handleAppStatusUpdate(app.id, 'approved')}
+                            disabled={isProcessing}
+                            className="flex-1 py-2 rounded-lg bg-green-600 text-white text-sm font-bold flex items-center justify-center gap-1 active:scale-95 transition-transform disabled:opacity-50"
+                          >
+                            <span className="material-symbols-outlined text-base">check</span>
+                            通过
+                          </button>
+                          <button
+                            onClick={() => handleAppStatusUpdate(app.id, 'rejected')}
+                            disabled={isProcessing}
+                            className="flex-1 py-2 rounded-lg bg-surface-container-high text-on-surface-variant text-sm font-bold flex items-center justify-center gap-1 active:scale-95 transition-transform disabled:opacity-50"
+                          >
+                            <span className="material-symbols-outlined text-base">close</span>
+                            拒绝
+                          </button>
+                        </div>
+                      )}
+
+                      {/* Timestamp */}
+                      <p className="text-[10px] text-on-surface-variant/30 mt-2">
+                        {formatDateTime(app.created_at)}
+                      </p>
+                    </div>
+                  )
+                })}
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Feedback Toast */}
@@ -278,7 +421,8 @@ function TeamDetail() {
         </div>
       )}
 
-      {/* Fixed Bottom Apply Button */}
+      {/* Fixed Bottom: Apply Button (non-owners only) */}
+      {!isOwner && (
       <div className="fixed bottom-0 left-0 right-0 p-4 bg-surface/90 backdrop-blur-xl border-t border-slate-100">
         <div className="max-w-5xl mx-auto">
           {(() => {
@@ -316,6 +460,7 @@ function TeamDetail() {
           })()}
         </div>
       </div>
+      )}
 
       {/* Apply Modal */}
       <ApplyModal

@@ -500,6 +500,7 @@ export interface Database {
           related_listing_id: number | null
           related_order_id: number | null
           related_application_id: number | null
+          related_team_id: number | null
           is_read: boolean
           created_at: string
         }
@@ -513,6 +514,7 @@ export interface Database {
           related_listing_id?: number | null
           related_order_id?: number | null
           related_application_id?: number | null
+          related_team_id?: number | null
           is_read?: boolean
           created_at?: string
         }
@@ -526,6 +528,7 @@ export interface Database {
           related_listing_id?: number | null
           related_order_id?: number | null
           related_application_id?: number | null
+          related_team_id?: number | null
           is_read?: boolean
           created_at?: string
         }
@@ -586,6 +589,7 @@ export interface Database {
           p_listing_id?: number | null
           p_order_id?: number | null
           p_application_id?: number | null
+          p_team_id?: number | null
         }
         Returns: void
       }

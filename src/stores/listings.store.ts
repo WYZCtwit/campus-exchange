@@ -1,10 +1,20 @@
 import { create } from 'zustand'
 import { supabase } from '@/lib/supabase'
-import type { Team, TeamInsert, ApplicationInsert, ApplicationStatus, Profile } from '@/types/database'
+import type { Team, TeamInsert, ApplicationInsert, ApplicationStatus, Profile, Application } from '@/types/database'
 
 // Enriched team row with author profile
 export type TeamWithAuthor = Team & {
   profiles: Pick<Profile, 'id' | 'nickname' | 'avatar_url' | 'department' | 'grade'>
+}
+
+// Application with applicant profile
+export type ApplicationWithApplicant = Application & {
+  profiles: Pick<Profile, 'id' | 'nickname' | 'avatar_url' | 'department' | 'grade'>
+}
+
+// Application with team details (for applicant's view)
+export type ApplicationWithTeam = Application & {
+  teams: Pick<Team, 'id' | 'title' | 'type' | 'status' | 'deadline' | 'current_count' | 'target_count'>
 }
 
 interface TeamFilters {
@@ -26,6 +36,9 @@ interface ListingsState {
   submitApplication: (data: Omit<ApplicationInsert, 'user_id'>) => Promise<boolean>
   setFilters: (filters: Partial<TeamFilters>) => void
   getFilteredTeams: () => TeamWithAuthor[]
+  fetchApplicationsForTeam: (teamId: number) => Promise<ApplicationWithApplicant[]>
+  updateApplicationStatus: (applicationId: number, status: ApplicationStatus) => Promise<boolean>
+  fetchMyApplicationsDetailed: () => Promise<ApplicationWithTeam[]>
 }
 
 export const useListingsStore = create<ListingsState>((set, get) => ({
@@ -139,6 +152,56 @@ export const useListingsStore = create<ListingsState>((set, get) => ({
 
   setFilters: (partial) => {
     set((s) => ({ filters: { ...s.filters, ...partial } }))
+  },
+
+  fetchApplicationsForTeam: async (teamId: number) => {
+    try {
+      const { data, error } = await supabase
+        .from('applications')
+        .select('*, profiles:user_id (id, nickname, avatar_url, department, grade)')
+        .eq('team_id', teamId)
+        .order('created_at', { ascending: false })
+
+      if (error) throw error
+      return (data ?? []) as unknown as ApplicationWithApplicant[]
+    } catch (err) {
+      console.error('fetchApplicationsForTeam failed:', err)
+      return []
+    }
+  },
+
+  updateApplicationStatus: async (applicationId: number, status: ApplicationStatus) => {
+    try {
+      const { error } = await supabase
+        .from('applications')
+        .update({ status })
+        .eq('id', applicationId)
+
+      if (error) throw error
+      return true
+    } catch (err) {
+      console.error('updateApplicationStatus failed:', err)
+      return false
+    }
+  },
+
+  fetchMyApplicationsDetailed: async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return []
+
+      const { data, error } = await supabase
+        .from('applications')
+        .select('*, teams (id, title, type, status, deadline, current_count, target_count)')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false })
+
+      if (error) throw error
+      return (data ?? []) as unknown as ApplicationWithTeam[]
+    } catch (err) {
+      console.error('fetchMyApplicationsDetailed failed:', err)
+      return []
+    }
   },
 
   getFilteredTeams: () => {

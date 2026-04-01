@@ -82,9 +82,9 @@ function Profile() {
   const graduationYear = grade !== '未填写' ? inferGraduationYear(grade) : new Date().getFullYear()
 
   const displayStats = [
-    { value: stats.skills, label: '技能' },
-    { value: stats.items, label: '物品' },
-    { value: stats.teams, label: '组队' },
+    { value: stats.skills, label: '技能', onClick: () => navigate('/my-listings?tab=skills') },
+    { value: stats.items, label: '物品', onClick: () => navigate('/my-listings?tab=items') },
+    { value: stats.teams, label: '组队', onClick: () => navigate('/my-listings?tab=teams') },
     { value: stats.reviews, label: '评价' },
   ]
 
@@ -138,6 +138,24 @@ function Profile() {
                 <h3 className="font-bold text-on-surface">我的发布</h3>
                 <p className="text-xs text-on-surface-variant mt-0.5">
                   共 {stats.skills + stats.items + stats.teams} 项
+                </p>
+              </div>
+            </div>
+            <span className="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+          </button>
+
+          <button
+            onClick={() => navigate('/my-applications')}
+            className="w-full flex items-center justify-between p-5 bg-surface-container-lowest rounded-xl shadow-card hover:bg-surface-container-low/80 transition-colors active:scale-[0.99]"
+          >
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-xl bg-tertiary/10 flex items-center justify-center">
+                <span className="material-symbols-outlined text-tertiary text-2xl">group_add</span>
+              </div>
+              <div className="text-left">
+                <h3 className="font-bold text-on-surface">我的申请</h3>
+                <p className="text-xs text-on-surface-variant mt-0.5">
+                  查看组队申请状态
                 </p>
               </div>
             </div>

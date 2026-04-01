@@ -20,6 +20,7 @@ const MyListings = lazy(() => import('./pages/profile/MyListings'))
 const OrderList = lazy(() => import('./pages/OrderList'))
 const OrderDetail = lazy(() => import('./pages/OrderDetail'))
 const Notifications = lazy(() => import('./pages/Notifications'))
+const MyApplications = lazy(() => import('./pages/MyApplications'))
 
 /** Minimal spinner shown while a lazy route chunk loads */
 function RouteFallback() {
@@ -50,6 +51,7 @@ function App() {
           <Route path="orders" element={<OrderList />} />
           <Route path="order/:id" element={<OrderDetail />} />
           <Route path="notifications" element={<Notifications />} />
+          <Route path="my-applications" element={<MyApplications />} />
         </Route>
         </Routes>
     </Suspense>

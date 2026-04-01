@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback, type ReactNode } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuthStore } from '@/stores/authStore'
 import { SKILL_CATEGORY_MAP } from '@/lib/skill'
 import { formatTimeAgo } from '@/lib/time'
@@ -33,9 +33,12 @@ const statusBadge: Record<string, { label: string; cls: string }> = {
 
 function MyListings() {
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
   const { user, profile } = useAuthStore()
 
-  const [tab, setTab] = useState<TabKey>('skills')
+  const validTabs: TabKey[] = ['skills', 'items', 'teams']
+  const initialTab = validTabs.includes(searchParams.get('tab') as TabKey) ? (searchParams.get('tab') as TabKey) : 'skills'
+  const [tab, setTab] = useState<TabKey>(initialTab)
   const [skills, setSkills] = useState<Skill[]>([])
   const [items, setItems] = useState<Item[]>([])
   const [teams, setTeams] = useState<Team[]>([])

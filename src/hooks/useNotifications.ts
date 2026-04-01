@@ -24,7 +24,8 @@ export function getTypeIcon(type: NotificationType) {
 // ── Notification destination based on type ────────
 export function getNotificationPath(n: Notification): string {
   if (n.related_order_id) return `/order/${n.related_order_id}`
-  if (n.related_application_id) return '/teams'
+  if (n.related_team_id) return `/teams/${n.related_team_id}`
+  if (n.related_application_id) return '/my-applications'
   return '/orders'
 }
 
